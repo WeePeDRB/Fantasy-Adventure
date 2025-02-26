@@ -37,4 +37,15 @@ public class Sword : MonoBehaviour, IWeapon
     {
         
     }
+
+    public void MoveToLeft(int parentPos)
+    {
+        
+    }
+
+    public void MoveToRight(int parentPos)
+    {
+        
+    }
+
 }

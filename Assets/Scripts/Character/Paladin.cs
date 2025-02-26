@@ -17,7 +17,10 @@ public class Paladin : CharacterBase
     private Vector3 dashTarget;
     private bool    specialEffect   =   false;
     private float   specialEffectCooldown = 3f;
-    //
+
+    //Event
+    public event EventHandler OnWeaponMoveToLeft;
+    public event EventHandler OnWeaponMoveToRight;
     
     
     private void Start()
@@ -104,14 +107,16 @@ public class Paladin : CharacterBase
         switch (keyPressed)
         {
             case "q" :  
-                        
+                        OnWeaponMoveToLeft?.Invoke(this, EventArgs.Empty);
                         break;
             case "e" :  
-
+                        OnWeaponMoveToRight?.Invoke(this, EventArgs.Empty);
                         break;
 
         }
     }
+
+
 
     protected override void HandleSpecialSkill(object sender, EventArgs e)
     {
