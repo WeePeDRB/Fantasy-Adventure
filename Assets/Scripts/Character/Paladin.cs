@@ -26,7 +26,7 @@ public class Paladin : CharacterBase
     private void Start()
     {
         //Initial stats for character
-        InitialCharacter();
+        InstantiateCharacter();
 
         //Set a subscriber for the dash action event
         gameInput.OnDashAction += HandleDashSkill;
@@ -64,7 +64,7 @@ public class Paladin : CharacterBase
     }
 
 
-    protected override void InitialCharacter()
+    protected override void InstantiateCharacter()
     {
         //primaryWeapon = gameObject.AddComponent<Sword>();
         weapons = new List<IWeapon>();
