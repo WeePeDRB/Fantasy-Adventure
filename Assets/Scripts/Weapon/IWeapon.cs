@@ -7,4 +7,6 @@ public interface IWeapon
     void EquipWeapon();
     void UpgradeWeapon();
     void Attack();
+    void MoveToLeft(int parentPos);
+    void MoveToRight(int parentPos);
 }
