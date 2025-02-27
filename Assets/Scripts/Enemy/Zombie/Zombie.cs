@@ -14,13 +14,17 @@ public class Zombie : EnemyBase
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
+        if (isReady)
+        {
+            HandleMovement();
+        }
     }
 
     protected override void InstantiateCharacter()
     {
         maxHealth = 100f;
         health = maxHealth;
-        speed = 2f;
+        speed = 1.3f;
+        isReady = false;
     }
 }

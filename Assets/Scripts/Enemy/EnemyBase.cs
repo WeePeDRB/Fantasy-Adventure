@@ -9,6 +9,14 @@ public abstract class EnemyBase : MonoBehaviour
     protected float health;
     protected float speed;
 
+    //
+    protected bool isReady;
+    
+    //Return true fo isReady bool
+    public void EnemyReady()
+    {
+        isReady = true;
+    }
 
     //Enemy movement control
     protected virtual void HandleMovement()
@@ -28,6 +36,5 @@ public abstract class EnemyBase : MonoBehaviour
     //Instantiate enemy 
     protected abstract void InstantiateCharacter();
 
-    //
 
 }
