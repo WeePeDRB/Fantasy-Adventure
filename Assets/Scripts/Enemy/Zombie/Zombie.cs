@@ -25,6 +25,17 @@ public class Zombie : EnemyBase
         maxHealth = 100f;
         health = maxHealth;
         speed = 1.3f;
+        attackSpeed = 2f;
         isReady = false;
+    }
+
+    protected override void IsReadyToAttack()
+    {
+        isReadyToAttack = true;
+    }
+
+    protected override void Attack()
+    {
+        throw new System.NotImplementedException();
     }
 }

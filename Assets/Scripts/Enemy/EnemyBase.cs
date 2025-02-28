@@ -8,17 +8,23 @@ public abstract class EnemyBase : MonoBehaviour
     protected float maxHealth;
     protected float health;
     protected float speed;
+    protected float attackSpeed;
 
     //
-    protected bool isReady;
+    protected bool isReady; //Ready to move
+    protected bool isReadyToAttack; //Ready to attack
     
-    //Return true fo isReady bool
+
+    //Return the isReady bool to true
+    //This function will run in the end of the stand up animation
     public void EnemyReady()
     {
         isReady = true;
     }
 
+
     //Enemy movement control
+    //This function will check the direction to move to player and make player move
     protected virtual void HandleMovement()
     {
         //Specify direction
@@ -34,7 +40,10 @@ public abstract class EnemyBase : MonoBehaviour
     }
 
     //Instantiate enemy 
+    //Instantiate the stats for enemy
     protected abstract void InstantiateCharacter();
 
-
+    //Attack function
+    protected abstract void IsReadyToAttack();
+    protected abstract void Attack();
 }
