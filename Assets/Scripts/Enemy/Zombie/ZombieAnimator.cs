@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ZombieAnimator : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //Animator
+    private Animator animator;
+
+    //
+    [SerializeField] private Zombie zombie;
+
+    private void Awake()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+
+    private void EnemyReady()
+    {
+        zombie.EnemyReady();
     }
 }
