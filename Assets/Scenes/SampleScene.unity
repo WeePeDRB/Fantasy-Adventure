@@ -2564,6 +2564,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1899959075, guid: 55f122ffbca41db4083a0231b02ab68f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 56445877455194742, guid: 55f122ffbca41db4083a0231b02ab68f, type: 3}
       propertyPath: m_Name
       value: Zombie
@@ -2612,5 +2616,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9185170262999575815, guid: 55f122ffbca41db4083a0231b02ab68f, type: 3}
+      propertyPath: zombieHitBox
+      value: 
+      objectReference: {fileID: 9185170262999575813}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55f122ffbca41db4083a0231b02ab68f, type: 3}
+--- !u!114 &9185170262999575813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5860726987935347298, guid: 55f122ffbca41db4083a0231b02ab68f, type: 3}
+  m_PrefabInstance: {fileID: 9185170262999575812}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac13d3cd2db8f654dbbab2df0b2b0cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

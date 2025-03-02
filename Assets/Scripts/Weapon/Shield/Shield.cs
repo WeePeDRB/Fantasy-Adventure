@@ -5,37 +5,46 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour, IWeapon
 {
-    //Weapon colliders
-    [SerializeField] private GameObject weaponHitBox;
-    [SerializeField] private GameObject weaponParryBox;
-
-
-    
     //
-    [SerializeField] private Paladin player;
+    //  Weapon colliders
+    //
+    [SerializeField] private GameObject weaponHitBox;   //  The hit box collider
+    [SerializeField] private GameObject weaponParryBox; //  The parry hit box collider
 
-    //Weapon stats
-    private     float   weaponAttackSpeed;
-    private     float   weaponAttackDamage;
-    private     int     weaponLevel;
+    //
+    //  References
+    //
+    [SerializeField] private Paladin player;    //  Player reference
 
+    //
+    //  Weapon stats
+    //
+    private float   weaponAttackSpeed;  
+    private float   weaponAttackDamage;
+    private int     weaponLevel;
+
+    //
+    //  Flag for the moving function
     //
     public bool weaponMove;
 
-    // Start is called before the first frame update
-    void Start()
+
+
+    private void Start()
     {
         transform.SetParent(player.backwardPosition.transform);
         transform.localPosition = Vector3.zero;
 
 
         //
+        //  Set up for the event
+        //
         player.OnWeaponMoveToLeft += HandleMoveToLeft;
         player.OnWeaponMoveToRight += HandleMoveToRight;
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    private void Update()
     {
         Attack();
 
@@ -76,6 +85,7 @@ public class Shield : MonoBehaviour, IWeapon
 
     public void MoveToLeft(int parentPos)
     {
+        
         if (parentPos == 1)
         {
             SetParent(player.leftPosition.transform);

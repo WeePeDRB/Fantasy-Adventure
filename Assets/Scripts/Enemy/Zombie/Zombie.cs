@@ -1,18 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Zombie : EnemyBase
 {
+    //
+    [SerializeField] private ZombieHitBox zombieHitBox;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         InstantiateCharacter();
+        zombieHitBox.OnEnterZombieHitBox += IsReadyToAttack;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (isReady)
         {
@@ -20,6 +22,9 @@ public class Zombie : EnemyBase
         }
     }
 
+    ///////////////////
+    //Override funciton
+    ///////////////////
     protected override void InstantiateCharacter()
     {
         maxHealth = 100f;
@@ -29,13 +34,15 @@ public class Zombie : EnemyBase
         isReady = false;
     }
 
+
     protected override void IsReadyToAttack()
     {
-        isReadyToAttack = true;
+        isReady = false;
+        Invoke(nameof(Attack), 1.3f);
     }
 
     protected override void Attack()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("The enemy is attack !");
     }
 }
