@@ -101,7 +101,6 @@ public class Paladin : CharacterBase
 
     protected override void HandleWeaponMovement(object sender, GameInput.HandleWeaponMovementEventArgs e)
     {
-        Debug.Log("This is the keyword: "+e.weaponMovementEventArgs); 
         string keyPressed = e.weaponMovementEventArgs;
 
         switch (keyPressed)
