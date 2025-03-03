@@ -10,18 +10,21 @@ public interface IWeapon
     //
     void EquipWeapon();
     
+
     //
     //  Summary:
     //      Upgrade the weapon level (Increase weapon stats) 
     //      
     void UpgradeWeapon();
     
+
     //
     //  Summary:
     //      Weapon attack
     //
     void Attack();
     
+
     //
     //  Summary:
     //      Move weapon to the left
@@ -29,6 +32,7 @@ public interface IWeapon
     //  Parameters:
     //      parentPos: the parent object position 
     void MoveToLeft(int parentPos);
+    
     
     //
     //  Summary:

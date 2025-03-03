@@ -7,19 +7,31 @@ using UnityEngine;
 public class GameInput : MonoBehaviour
 {
     //
+    //  Summary:
+    //      A custom eventargs for the handle weapon movement event 
     public class HandleWeaponMovementEventArgs : EventArgs
     {
         public string weaponMovementEventArgs;
     }
-    //
-    private InputManager inputManager;
 
-    //Event for the skill
+
+    //
+    //  Refernce to the input actions assets
+    //
+    private InputManager inputManager;   // Input actions reference
+
+    //
+    //  Event for the skill
+    //
     public event EventHandler OnDashAction;     //For the dash skill
     public event EventHandler OnSpecialAction;  //For the speacial skill
     public event EventHandler OnUltimateAction; //For the ultimate skill
     public event EventHandler<HandleWeaponMovementEventArgs> OnHandleWeaponMovement; //For the weapon movement
 
+
+    //
+    //
+    //
     private void Awake()
     {
         inputManager = new InputManager();
@@ -32,6 +44,11 @@ public class GameInput : MonoBehaviour
         inputManager.Player.HandleWeapon.performed += HandleWeaponMovement;
     }
 
+
+    //
+    //  Summary:
+    //      Read, normalized and return the  value from player input  
+    //
     public Vector2 GetMovementVectorNormalized()
     {
         Vector2 inputVector = inputManager.Player.Move.ReadValue<Vector2>();
@@ -39,22 +56,41 @@ public class GameInput : MonoBehaviour
         return inputVector;
     }
 
-    //Functions for the performed input action
+
+    //
+    // Summary: 
+    //     Handle the performed event in the input actions
+    //
     private void DashSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnDashAction?.Invoke(this,EventArgs.Empty);
     }
 
+
+    //
+    // Summary: 
+    //     Handle the performed event in the input actions
+    //
     private void SpecialSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnSpecialAction?.Invoke(this,EventArgs.Empty);
     }
 
+
+    //
+    // Summary: 
+    //     Handle the performed event in the input actions
+    //
     private void UltimateSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnUltimateAction?.Invoke(this,EventArgs.Empty);
     }
 
+
+    //
+    // Summary: 
+    //     Handle the performed event in the input actions
+    //
     public void HandleWeaponMovement(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnHandleWeaponMovement?.Invoke(this, new HandleWeaponMovementEventArgs {weaponMovementEventArgs = obj.control.name});

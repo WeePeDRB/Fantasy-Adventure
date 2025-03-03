@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class ZombieAnimator : MonoBehaviour
 {
-    //Animator
-    private Animator animator;
+    //
+    //  Animator
+    //
+    private Animator animator;  // Animator reference
 
     //
-    [SerializeField] private Zombie zombie;
+    //  Reference to the original game object
+    //
+    [SerializeField] private Zombie zombie; //  Zombie control reference
 
+
+    //
+    //
+    //
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -22,6 +30,10 @@ public class ZombieAnimator : MonoBehaviour
     }
 
 
+    //
+    //  Summary:
+    //      This function will run in the end of the stand up animation 
+    //
     private void EnemyReady()
     {
         zombie.EnemyReady();
