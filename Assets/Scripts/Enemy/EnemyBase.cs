@@ -5,19 +5,22 @@ using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    //
-    //  Summary:     
-    //      Enemy basic stats
+    //  
+    //  Enemy basic stats
     //
     protected float maxHealth;
     protected float health;
     protected float speed;
     protected float attackSpeed;
           
+
+    //
+    //  
     //
     protected bool isReady; //Ready to move
     protected bool isReadyToAttack; //Ready to attack
     
+
     //
     //  Summary: 
     //      Return the isReady bool to true
@@ -45,14 +48,13 @@ public abstract class EnemyBase : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
     }
 
+
     //
     //  Summary:
     //      Instantiate the stats for enemy
     //
     protected abstract void InstantiateCharacter();
 
- 
- 
     
     //  ATTACK FUNTIONs
     
@@ -62,11 +64,12 @@ public abstract class EnemyBase : MonoBehaviour
     //
     protected abstract void IsReadyToAttack();
     
+
     //
     //  Summary: 
     //      This is the monster attack function 
     //
     protected abstract void Attack();
 
-    //
+    
 }

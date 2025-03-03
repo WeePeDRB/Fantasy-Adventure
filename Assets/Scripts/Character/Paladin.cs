@@ -5,24 +5,33 @@ using UnityEngine;
 
 public class Paladin : CharacterBase
 {
-    //Character unique stats
-    private float resistance = 50f;
+    //
+    //  Character unique stats
+    //
+    private float resistance = 50f; 
 
-    //Character dash
-    private float   dashDistance    =   5f;
-    private float   dashSpeed       =   13f;
-    private float   dashCooldown    =   5f;
-    private bool    canDash         =   true;
-    private bool    isDashing       =   false;
-    private Vector3 dashTarget;
-    private bool    specialEffect   =   false;
-    private float   specialEffectCooldown = 3f;
+    //
+    //  Character dash skill
+    //
+    private float   dashDistance    =   5f; //  How far is the dash
+    private float   dashSpeed       =   13f;  //  How fast the dash is
+    private float   dashCooldown    =   5f;  //  Dash skill cooldown
+    private bool    canDash         =   true;  //  Flag
+    private bool    isDashing       =   false;  // Flag
+    private Vector3 dashTarget;  //  The actual position that player will dash to
+    private bool    specialEffect   =   false;  //  Flag
+    private float   specialEffectDuration = 3f;  // Special effect duration
 
-    //Event
+    //
+    //  Event
+    //
     public event EventHandler OnWeaponMoveToLeft;
     public event EventHandler OnWeaponMoveToRight;
     
     
+    //
+    //
+    //
     private void Start()
     {
         //Initial stats for character
@@ -53,17 +62,9 @@ public class Paladin : CharacterBase
     }
 
 
-    private void ResetDash()
-    {
-        canDash = true;
-    }
-
-    private void ResetSkill()
-    {
-        specialEffect = false;
-    }
-
-
+    //
+    //
+    //
     protected override void InstantiateCharacter()
     {
         //primaryWeapon = gameObject.AddComponent<Sword>();
@@ -81,6 +82,7 @@ public class Paladin : CharacterBase
         level       =   1;
     }
     
+
     protected override void HandleDashSkill(object sender, EventArgs e)
     {
         if(!isDashing && canDash)
@@ -94,10 +96,11 @@ public class Paladin : CharacterBase
             specialEffect = true;
 
             //Invoke the cooldown reset for skill and special effect 
-            Invoke(nameof(ResetSkill), specialEffectCooldown); //Special effect
+            Invoke(nameof(ResetSkill), specialEffectDuration); //Special effect
             Invoke(nameof(ResetDash), dashCooldown); //Skill cooldown
         }
     }
+
 
     protected override void HandleWeaponMovement(object sender, GameInput.HandleWeaponMovementEventArgs e)
     {
@@ -116,7 +119,6 @@ public class Paladin : CharacterBase
     }
 
 
-
     protected override void HandleSpecialSkill(object sender, EventArgs e)
     {
         throw new System.NotImplementedException();
@@ -124,6 +126,20 @@ public class Paladin : CharacterBase
     protected override void HandleUltimateSkill(object sender, EventArgs e)
     {
         throw new System.NotImplementedException();
+    }
+
+
+    //
+    //
+    //
+    private void ResetDash()
+    {
+        canDash = true;
+    }
+
+    private void ResetSkill()
+    {
+        specialEffect = false;
     }
 
 

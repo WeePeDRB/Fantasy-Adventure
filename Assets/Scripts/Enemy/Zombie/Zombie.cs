@@ -6,8 +6,14 @@ using UnityEngine;
 public class Zombie : EnemyBase
 {
     //
-    [SerializeField] private ZombieHitBox zombieHitBox;
+    //  
+    //
+    [SerializeField] private ZombieHitBox zombieHitBox; //  Reference wto the zombie hit box
 
+
+    //
+    //
+    //
     private void Start()
     {
         InstantiateCharacter();
@@ -22,9 +28,10 @@ public class Zombie : EnemyBase
         }
     }
 
-    ///////////////////
-    //Override funciton
-    ///////////////////
+    //
+    //  Override funciton
+    //
+    
     protected override void InstantiateCharacter()
     {
         maxHealth = 100f;
@@ -40,6 +47,7 @@ public class Zombie : EnemyBase
         isReady = false;
         Invoke(nameof(Attack), 1.3f);
     }
+
 
     protected override void Attack()
     {

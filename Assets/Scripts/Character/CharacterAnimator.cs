@@ -6,14 +6,24 @@ public class CharacterAnimator : MonoBehaviour
 {
     private Animator animator;
 
-    [SerializeField] private GameInput gameInput;
-    [SerializeField] private CharacterBase character;
+    //
+    //  Reference
+    //
+    [SerializeField] private GameInput gameInput;   //  Reference to game actions
+    [SerializeField] private CharacterBase character;   //  Reference to player
 
-    //Animator parameters
-    //Movement
-    private const string VELOCITY = "Velocity";
-    private float velocityFloat;
+    //
+    //  Animator parameters
+    //
+    
+    //  Movement
+    private const string VELOCITY = "Velocity";  //  Parameter name
+    private float velocityFloat;  //  Paramter value
 
+
+    //
+    //
+    //
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -24,6 +34,11 @@ public class CharacterAnimator : MonoBehaviour
         MovementAnimation();
     }
 
+
+    //
+    //  Summary:
+    //      Control the player movement animation
+    //
     private void MovementAnimation()
     {   
         //Handle Input
@@ -40,7 +55,6 @@ public class CharacterAnimator : MonoBehaviour
             {
                 velocityFloat = 1f;
             }
-
         }
         else
         {

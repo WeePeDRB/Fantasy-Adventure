@@ -5,7 +5,9 @@ using UnityEngine;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    //Character basic stats
+    //
+    //  Character basic stats
+    //
     protected string playerName;
     protected float maxHealth;
     protected float health;
@@ -14,28 +16,39 @@ public abstract class CharacterBase : MonoBehaviour
     protected float amor;
     protected int level;
 
-
-    //Character inventory system
+    //
+    //  Character inventory system
+    //
     protected IWeapon primaryWeapon;
     protected List<IWeapon> weapons;
     protected int maxWeapon;
     protected List<IItem> items;
     protected int maxItem;
 
-
-    //Reference to game input
+    //
+    //  Reference to game input
+    //
     [SerializeField] protected GameInput gameInput;
 
-
-    //Weapon position
+    //
+    //  Summary:
+    //      Positions around player which will allow the weapon to move around,
+    //      each weapon will have special effect 
+    //
     public GameObject forwardPosition;
     public GameObject leftPosition;
     public GameObject rightPosition;
     public GameObject backwardPosition;
 
     //
+    //  Player instance
+    //
     public static CharacterBase Instance { get; private set; }
 
+
+    //
+    //
+    //
     private void Awake()
     {
         if (Instance != null)
@@ -45,9 +58,11 @@ public abstract class CharacterBase : MonoBehaviour
         Instance = this;
     }
     
-    /// FUNCTION THAT SHARES ACROSS CLASSES
-    
 
+
+    //
+    //  Summary:
+    //      Take the player input and move the character
     //
     protected virtual void HandleMovement()
     {
@@ -62,12 +77,55 @@ public abstract class CharacterBase : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
     }
 
-    //Initial stats and weapon
-    protected abstract void InstantiateCharacter();
 
     //
+    //  Summary: 
+    //      Initial stats and base weapon for character
+    //
+    protected abstract void InstantiateCharacter();
+
+
+    //
+    //  These functions used to handle the GameInput event
+    //
+
+
+    //
+    //  Summary:
+    //      Control the weapon movement
+    //
+    //  Parameters:
+    //      sender: 
+    //      e: the information that passed down from the event
     protected abstract void HandleWeaponMovement(object sender, GameInput.HandleWeaponMovementEventArgs e);
+  
+
+    //
+    //  Summary:
+    //      Handle the dash skill 
+    //
+    //  Parameters:
+    //      sender: 
+    //      e: 
     protected abstract void HandleDashSkill(object sender, EventArgs e);
+
+
+    //
+    //  Summary:
+    //      Handle the special skill
+    //
+    //  Parameters:
+    //      sender: 
+    //      e: 
     protected abstract void HandleSpecialSkill(object sender, EventArgs e);
+
+
+    //
+    //  Summary:
+    //      Handle the ultimate skill
+    //
+    //  Parameters:
+    //      sender: 
+    //      e: 
     protected abstract void HandleUltimateSkill(object sender, EventArgs e);
 }
