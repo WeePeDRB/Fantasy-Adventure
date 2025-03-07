@@ -42,7 +42,7 @@ public class CharacterAnimator : MonoBehaviour
     private void MovementAnimation()
     {   
         //Handle Input
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.GetMovementVectorNormalized();
 
         //
         float inputLength;

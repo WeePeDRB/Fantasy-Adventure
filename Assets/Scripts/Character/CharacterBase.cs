@@ -25,10 +25,6 @@ public abstract class CharacterBase : MonoBehaviour
     protected List<IItem> items;
     protected int maxItem;
 
-    //
-    //  Reference to game input
-    //
-    [SerializeField] protected GameInput gameInput;
 
     //
     //  Summary:
@@ -67,7 +63,7 @@ public abstract class CharacterBase : MonoBehaviour
     protected virtual void HandleMovement()
     {
         //Handle Input
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.GetMovementVectorNormalized();
         Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
         //Move
         transform.position += moveDirVector * speed * Time.deltaTime;
@@ -77,6 +73,14 @@ public abstract class CharacterBase : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
     }
 
+    //
+    //  Summary:
+    //      Take place when player get hit
+    //
+    protected virtual void Hurt()
+    {
+        Debug.Log("Player get hit !");
+    }
 
     //
     //  Summary: 

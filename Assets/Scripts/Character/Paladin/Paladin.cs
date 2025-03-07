@@ -38,8 +38,8 @@ public class Paladin : CharacterBase
         InstantiateCharacter();
 
         //Set a subscriber for the dash action event
-        gameInput.OnDashAction += HandleDashSkill;
-        gameInput.OnHandleWeaponMovement += HandleWeaponMovement;
+        GameInput.OnDashAction += HandleDashSkill;
+        GameInput.OnHandleWeaponMovement += HandleWeaponMovement;
     }
 
 

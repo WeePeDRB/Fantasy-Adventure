@@ -21,6 +21,7 @@ public class ZombieAnimator : MonoBehaviour
     //
     private void Awake()
     {
+        
         animator = GetComponent<Animator>();
     }
 

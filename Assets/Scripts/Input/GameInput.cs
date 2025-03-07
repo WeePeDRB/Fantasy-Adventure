@@ -18,15 +18,15 @@ public class GameInput : MonoBehaviour
     //
     //  Refernce to the input actions assets
     //
-    private InputManager inputManager;   // Input actions reference
+    private static InputManager inputManager;   // Input actions reference
 
     //
     //  Event for the skill
     //
-    public event EventHandler OnDashAction;     //For the dash skill
-    public event EventHandler OnSpecialAction;  //For the speacial skill
-    public event EventHandler OnUltimateAction; //For the ultimate skill
-    public event EventHandler<HandleWeaponMovementEventArgs> OnHandleWeaponMovement; //For the weapon movement
+    public static event EventHandler OnDashAction;     //For the dash skill
+    public static event EventHandler OnSpecialAction;  //For the speacial skill
+    public static event EventHandler OnUltimateAction; //For the ultimate skill
+    public static event EventHandler<HandleWeaponMovementEventArgs> OnHandleWeaponMovement; //For the weapon movement
 
 
     //
@@ -49,7 +49,7 @@ public class GameInput : MonoBehaviour
     //  Summary:
     //      Read, normalized and return the  value from player input  
     //
-    public Vector2 GetMovementVectorNormalized()
+    public static Vector2 GetMovementVectorNormalized()
     {
         Vector2 inputVector = inputManager.Player.Move.ReadValue<Vector2>();
         inputVector = inputVector.normalized;

@@ -62,29 +62,23 @@ public class Shield : MonoBehaviour, IWeapon
     //
     //  
     //
-    public void Attack()
-    {
-
-    }
     public void EquipWeapon()
     {
 
     }
+    
+    
     public void UpgradeWeapon()
     {
         
     }
-
-
-    public void HandleMoveToLeft(object sender, EventArgs e)
+    
+    
+    public void Attack()
     {
-        MoveToLeft(CheckParent());
+
     }
 
-    public void HandleMoveToRight(object sender, EventArgs e)
-    {
-        MoveToRight(CheckParent());
-    }
 
     public void MoveToLeft(int parentPos)
     {
@@ -109,7 +103,7 @@ public class Shield : MonoBehaviour, IWeapon
             SetParent(player.forwardPosition.transform);
         }
     }
-
+    
     public void MoveToRight(int parentPos)
     {
         if (parentPos == 1)
@@ -132,9 +126,26 @@ public class Shield : MonoBehaviour, IWeapon
             SetParent(player.backwardPosition.transform);
         }
     }
+    
+    //
+    //  
+    //
+    public void HandleMoveToLeft(object sender, EventArgs e)
+    {
+        MoveToLeft(CheckParent());
+    }
 
 
-    //Check the current weapon's parent
+    public void HandleMoveToRight(object sender, EventArgs e)
+    {
+        MoveToRight(CheckParent());
+    }
+
+
+
+    //
+    //  Check the current weapon's parent
+    //
     public int CheckParent()
     {
         if (transform.parent == null)
@@ -165,7 +176,10 @@ public class Shield : MonoBehaviour, IWeapon
         return 0;
     }
 
-    //Set the parent object for weapon
+
+    //
+    //  Set the parent object for weapon
+    //
     public void SetParent(Transform nextParentTransform)
     {
         transform.SetParent(nextParentTransform.transform);
