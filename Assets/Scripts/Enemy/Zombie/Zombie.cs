@@ -6,23 +6,21 @@ using UnityEngine;
 public class Zombie : EnemyBase
 {
     //
-    //  
     //
-    [SerializeField] private ZombieHitBox zombieHitBox; //  Reference wto the zombie hit box
+    [SerializeField] private ZombieHitBox zombieHitBox;
+    
 
-
-    //
-    //
-    //
     private void Start()
     {
         InstantiateCharacter();
         zombieHitBox.OnEnterZombieHitBox += IsReadyToAttack;
+        zombieHitBox.OnStayZombieHitBox += IsReadyToAttack;
+        zombieHitBox.OnExitZombieHitBox += IsOutOfRange;
     }
 
     private void Update()
     {
-        if (isReady)
+        if (isReadyToMove)
         {
             HandleMovement();
         }
@@ -38,19 +36,44 @@ public class Zombie : EnemyBase
         health = maxHealth;
         speed = 1.3f;
         attackSpeed = 2f;
-        isReady = false;
+        isReadyToMove = false;
     }
 
 
     protected override void IsReadyToAttack()
     {
-        isReady = false;
-        Invoke(nameof(Attack), 1.3f);
-    }
+        if (isReadyToAttack) return;
+        
+        isReadyToAttack = true;
 
+        if (instantAttack)
+        {
+            Debug.Log("Instant attack !");
+            Attack();
+        }
+
+        else if (attackCoroutine == null)
+        {
+            attackCoroutine = StartCoroutine(AttackCoroutine());
+        }
+    }
 
     protected override void Attack()
     {
-        Debug.Log("The enemy is attack !");
+        Debug.Log("Enemy Attacks!");
+        zombieHitBox.PlayerTakeDamage();
+        isReadyToAttack = false;    
+    }
+
+    protected override void IsOutOfRange()
+    {
+        isReadyToAttack = false;
+        instantAttack = true;
+
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
     }
 }
