@@ -19,12 +19,7 @@ public abstract class EnemyBase : MonoBehaviour
     //
     protected bool isReadyToMove;  // Ready to move
     protected bool isReadyToAttack;  // Ready to attack
-    protected bool instantAttack;  // Used to make enemy attack imediately
     
-
-    //
-    protected Coroutine attackCoroutine;  // Attack coroutine 
-
 
     //
     //  Summary: 
@@ -65,7 +60,8 @@ public abstract class EnemyBase : MonoBehaviour
     
     //
     //  Summary: 
-    //      Check if player is in the attack range of monster
+    //      Check if player is in the attack range of monster and not in special effect
+    //      will set value "isReadyToAttack" if condition matched
     //
     protected abstract void IsReadyToAttack();
     
@@ -85,15 +81,18 @@ public abstract class EnemyBase : MonoBehaviour
 
     //
     //  Summary:
-    //      Coroutine for the attack function
-    protected IEnumerator AttackCoroutine()
+    //      
+    protected virtual void Hurt()
     {
 
-        yield return new WaitForSeconds(attackSpeed);
-        if (isReadyToAttack)
-        {
-            Attack();
-        }
-        
+    }
+
+    
+    //
+    //
+    //
+    protected virtual void Dead()
+    {
+
     }
 }

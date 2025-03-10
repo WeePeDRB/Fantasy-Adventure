@@ -9,17 +9,24 @@ public class ZombieHitBox : MonoBehaviour
     //
     private bool isPlayerInside = false;  // Check if player is still inside the hit box
     private Coroutine stayCoroutine;  // Coroutine checking for perforamance optimazation
-    private float coroutineInterval = 0.5f;  
+    private float coroutineInterval = 0.1f;  // 
 
 
 
     //
     //  Events for the zombie attack funtion
     //
-    public event Action OnEnterZombieHitBox;  // This event occur when Player or the Player Shield enter the zombie hit box
-    public event Action OnStayZombieHitBox;  // This event occur when Player or Player Shield stay in the zombie hit box 
-    public event Action OnExitZombieHitBox;  // This event occur when Player or the Player Shield exit the zombie hit box
-    public event Action OnPlayerTakeDamage;  // This event occur when Player or Player Shield get hit
+    public event Action OnPlayerInZombieHitBox;  // This event occur when Player or the Player Shield is in the zombie hit box
+    public event Action OnPlayerExitZombieHitBox;  // This event occur when Player or the Player Shield exit the zombie hit box
+
+
+    //
+    //
+    private void Update()
+    {
+        InvokeEventControl();
+    }
+
 
     //
     //  Summary:
@@ -31,18 +38,8 @@ public class ZombieHitBox : MonoBehaviour
         {
             Debug.Log("Enter hit box check");
             isPlayerInside = true;
-            OnEnterZombieHitBox?.Invoke();
-
-            // Check if the coroutine is null 
-            if (stayCoroutine == null)
-            {
-                // Start the new coroutine
-                stayCoroutine = StartCoroutine(StayRoutine());
-            }
         }
     }
-
-
 
 
     //
@@ -55,36 +52,46 @@ public class ZombieHitBox : MonoBehaviour
         {
             Debug.Log("Exit hit box check");
             isPlayerInside = false;
-            OnExitZombieHitBox?.Invoke();
         }
     }
 
 
     //
     //  Summary:
-    //      
+    //      Control the event due to the "isPlayerInside" 
+    //      This function will be update in every frame
+    private void InvokeEventControl()
+    {
+        // Check if player is inside the hit box
+        if (isPlayerInside)
+        {
+            // Check if the coroutine 
+            if (stayCoroutine == null)
+            {
+                // Start the new coroutine
+                stayCoroutine = StartCoroutine(StayRoutine());
+            }
+        }
+        else
+        {
+            StopCoroutine(stayCoroutine);
+            stayCoroutine = null;
+            OnPlayerExitZombieHitBox?.Invoke();
+        }
+    }
+
+
+    //
+    //  Summary:
+    //      Coroutine to invoke the event
     //      
     private IEnumerator StayRoutine()
     {
-        while (isPlayerInside)
-        {
-            yield return new WaitForSeconds(coroutineInterval);
-            OnStayZombieHitBox?.Invoke();
-            Debug.Log("Stay hit box check !");
-        }
-        stayCoroutine = null; // Reset the coroutine when player exit the hit box
+        yield return new WaitForSeconds(coroutineInterval);
+        OnPlayerInZombieHitBox?.Invoke();
+        Debug.Log("Stay hit box check !");
+        stayCoroutine = null; // Set the coroutine to null when the event invoke
     }
 
 
-    //
-    //  Summary:
-    //      Trigger envent when player is inside the hit box
-    //
-    public void PlayerTakeDamage()
-    {
-        if (isPlayerInside)
-        {
-            OnPlayerTakeDamage?.Invoke();
-        }
-    }
 }

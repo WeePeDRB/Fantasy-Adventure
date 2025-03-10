@@ -151,4 +151,10 @@ public class Paladin : CharacterBase
             isDashing = false;
         }
     }
+
+
+    public void listenToenemy()
+    {
+        Debug.Log("player is listen !");
+    }
 }
