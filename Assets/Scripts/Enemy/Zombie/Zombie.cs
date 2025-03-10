@@ -8,15 +8,13 @@ public class Zombie : EnemyBase
     //
     //
     [SerializeField] private ZombieHitBox zombieHitBox;
-    
 
     private void Start()
     {
         InstantiateCharacter();
-        zombieHitBox.OnEnterZombieHitBox += IsReadyToAttack;
-        zombieHitBox.OnStayZombieHitBox += IsReadyToAttack;
-        zombieHitBox.OnExitZombieHitBox += IsOutOfRange;
+
     }
+
 
     private void Update()
     {
@@ -26,54 +24,46 @@ public class Zombie : EnemyBase
         }
     }
 
+
     //
     //  Override funciton
     //
-    
+
     protected override void InstantiateCharacter()
     {
+        // Set up original stats
         maxHealth = 100f;
         health = maxHealth;
         speed = 1.3f;
         attackSpeed = 2f;
         isReadyToMove = false;
+        
+        //
     }
 
 
     protected override void IsReadyToAttack()
     {
-        if (isReadyToAttack) return;
-        
+        //
+        //  Check special effect 
+        //
+
+
         isReadyToAttack = true;
-
-        if (instantAttack)
-        {
-            Debug.Log("Instant attack !");
-            Attack();
-        }
-
-        else if (attackCoroutine == null)
-        {
-            attackCoroutine = StartCoroutine(AttackCoroutine());
-        }
+        Attack();
     }
 
     protected override void Attack()
     {
-        Debug.Log("Enemy Attacks!");
-        zombieHitBox.PlayerTakeDamage();
-        isReadyToAttack = false;    
+        if (isReadyToAttack)
+        {
+            Debug.Log("Enemy Attacks!");
+            isReadyToAttack = false;    
+        }
     }
 
     protected override void IsOutOfRange()
     {
-        isReadyToAttack = false;
-        instantAttack = true;
-
-        if (attackCoroutine != null)
-        {
-            StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
-        }
+        isReadyToAttack = false;    
     }
 }
