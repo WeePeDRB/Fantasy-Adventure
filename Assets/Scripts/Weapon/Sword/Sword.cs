@@ -5,9 +5,9 @@ using UnityEngine;
 public class Sword : MonoBehaviour, IWeapon
 {
     //Weapon stats
-    private     float   weaponAttackSpeed;
-    private     float   weaponAttackDamage;
-    private     int     weaponLevel;
+    private float weaponAttackSpeed;
+    private float weaponAttackDamage;
+    private int weaponLevel;
     
 
 
@@ -34,16 +34,6 @@ public class Sword : MonoBehaviour, IWeapon
     }
 
     public void UpgradeWeapon()
-    {
-        
-    }
-
-    public void MoveToLeft(int parentPos)
-    {
-        
-    }
-
-    public void MoveToRight(int parentPos)
     {
         
     }

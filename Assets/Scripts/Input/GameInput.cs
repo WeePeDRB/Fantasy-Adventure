@@ -7,8 +7,8 @@ using UnityEngine;
 public class GameInput : MonoBehaviour
 {
     //
-    //  Summary:
-    //      A custom eventargs for the handle weapon movement event 
+    // A custom eventargs for the handle weapon movement event 
+    // 
     public class HandleWeaponMovementEventArgs : EventArgs
     {
         public string weaponMovementEventArgs;
@@ -16,12 +16,12 @@ public class GameInput : MonoBehaviour
 
 
     //
-    //  Refernce to the input actions assets
+    // Refernce to the input actions assets
     //
     private static InputManager inputManager;   // Input actions reference
 
     //
-    //  Event for the skill
+    // Event for the skill
     //
     public static event EventHandler OnDashAction;     //For the dash skill
     public static event EventHandler OnSpecialAction;  //For the speacial skill
@@ -46,8 +46,7 @@ public class GameInput : MonoBehaviour
 
 
     //
-    //  Summary:
-    //      Read, normalized and return the  value from player input  
+    // Read, normalized and return the  value from player input  
     //
     public static Vector2 GetMovementVectorNormalized()
     {
@@ -57,9 +56,8 @@ public class GameInput : MonoBehaviour
     }
 
 
-    //
-    // Summary: 
-    //     Handle the performed event in the input actions
+    // 
+    // Handle the performed event in the input actions
     //
     private void DashSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -68,8 +66,7 @@ public class GameInput : MonoBehaviour
 
 
     //
-    // Summary: 
-    //     Handle the performed event in the input actions
+    // Handle the performed event in the input actions
     //
     private void SpecialSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -78,8 +75,7 @@ public class GameInput : MonoBehaviour
 
 
     //
-    // Summary: 
-    //     Handle the performed event in the input actions
+    // Handle the performed event in the input actions
     //
     private void UltimateSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -88,8 +84,7 @@ public class GameInput : MonoBehaviour
 
 
     //
-    // Summary: 
-    //     Handle the performed event in the input actions
+    // Handle the performed event in the input actions
     //
     public void HandleWeaponMovement(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

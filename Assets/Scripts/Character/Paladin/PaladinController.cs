@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paladin : CharacterBase
+public class Paladin : CharacterBaseController
 {
     //
     //  Character unique stats
@@ -39,7 +39,6 @@ public class Paladin : CharacterBase
 
         //Set a subscriber for the dash action event
         GameInput.OnDashAction += HandleDashSkill;
-        GameInput.OnHandleWeaponMovement += HandleWeaponMovement;
     }
 
 
@@ -101,22 +100,6 @@ public class Paladin : CharacterBase
         }
     }
 
-
-    protected override void HandleWeaponMovement(object sender, GameInput.HandleWeaponMovementEventArgs e)
-    {
-        string keyPressed = e.weaponMovementEventArgs;
-
-        switch (keyPressed)
-        {
-            case "q" :  
-                        OnWeaponMoveToLeft?.Invoke(this, EventArgs.Empty);
-                        break;
-            case "e" :  
-                        OnWeaponMoveToRight?.Invoke(this, EventArgs.Empty);
-                        break;
-
-        }
-    }
 
 
     protected override void HandleSpecialSkill(object sender, EventArgs e)

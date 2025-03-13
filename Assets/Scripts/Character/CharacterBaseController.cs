@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterBase : MonoBehaviour
+public abstract class CharacterBaseController : MonoBehaviour
 {
     //
-    //  Character basic stats
+    // Character basic stats
     //
-    protected string playerName;
     protected float maxHealth;
     protected float health;
     protected float speed;
@@ -16,8 +15,9 @@ public abstract class CharacterBase : MonoBehaviour
     protected float amor;
     protected int level;
 
+
     //
-    //  Character inventory system
+    // Character inventory system
     //
     protected IWeapon primaryWeapon;
     protected List<IWeapon> weapons;
@@ -27,22 +27,11 @@ public abstract class CharacterBase : MonoBehaviour
 
 
     //
-    //  Summary:
-    //      Positions around player which will allow the weapon to move around,
-    //      each weapon will have special effect 
+    // Player instance
     //
-    public GameObject forwardPosition;
-    public GameObject leftPosition;
-    public GameObject rightPosition;
-    public GameObject backwardPosition;
-
-    //
-    //  Player instance
-    //
-    public static CharacterBase Instance { get; private set; }
+    public static CharacterBaseController Instance { get; private set; }
 
 
-    //
     //
     //
     private void Awake()
@@ -55,10 +44,24 @@ public abstract class CharacterBase : MonoBehaviour
     }
     
 
+    //
+    // Initial stats and base weapon for character
+    //
+    protected virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed
+                                                    , float instantiateMaxAmor, int instantiateLevel    )
+    {
+        //
+        maxHealth = instantiateMaxHealth;
+        health = maxHealth;
+        speed = instantiateSpeed;
+        maxAmor = instantiateMaxAmor;
+        amor = maxAmor;
+        level = instantiateLevel;
+    }
+
 
     //
-    //  Summary:
-    //      Take the player input and move the character
+    // Take the player input and move the character
     //
     protected virtual void HandleMovement()
     {
@@ -82,27 +85,9 @@ public abstract class CharacterBase : MonoBehaviour
         Debug.Log("Player get hit !");
     }
 
-    //
-    //  Summary: 
-    //      Initial stats and base weapon for character
-    //
-    protected abstract void InstantiateCharacter();
 
 
-    //
-    //  These functions used to handle the GameInput event
-    //
 
-
-    //
-    //  Summary:
-    //      Control the weapon movement
-    //
-    //  Parameters:
-    //      sender: 
-    //      e: the information that passed down from the event
-    protected abstract void HandleWeaponMovement(object sender, GameInput.HandleWeaponMovementEventArgs e);
-  
 
     //
     //  Summary:

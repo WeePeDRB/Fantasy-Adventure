@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterAnimator : MonoBehaviour
+public class CharacterBaseAnimator : MonoBehaviour
 {
     private Animator animator;
 
@@ -10,7 +10,7 @@ public class CharacterAnimator : MonoBehaviour
     //  Reference
     //
     [SerializeField] private GameInput gameInput;   //  Reference to game actions
-    [SerializeField] private CharacterBase character;   //  Reference to player
+    [SerializeField] private CharacterBaseController character;   //  Reference to player
 
     //
     //  Animator parameters

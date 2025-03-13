@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyWaveController : MonoBehaviour
 {
     //
     //  Set up for a round
     //
     private int enemyNumber;    //Number of enemy in one round
-    private EnemyBase enemy;
+    private EnemyBaseController enemy;
 
     
     void Start()
