@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterBase : MonoBehaviour
+public abstract class CharacterBaseController : MonoBehaviour
 {
     //
-    //  Character basic stats
+    // Character basic stats
     //
     protected string playerName;
     protected float maxHealth;
@@ -17,7 +17,7 @@ public abstract class CharacterBase : MonoBehaviour
     protected int level;
 
     //
-    //  Character inventory system
+    // Character inventory system
     //
     protected IWeapon primaryWeapon;
     protected List<IWeapon> weapons;
@@ -26,20 +26,11 @@ public abstract class CharacterBase : MonoBehaviour
     protected int maxItem;
 
 
-    //
-    //  Summary:
-    //      Positions around player which will allow the weapon to move around,
-    //      each weapon will have special effect 
-    //
-    public GameObject forwardPosition;
-    public GameObject leftPosition;
-    public GameObject rightPosition;
-    public GameObject backwardPosition;
 
     //
-    //  Player instance
+    // Player instance
     //
-    public static CharacterBase Instance { get; private set; }
+    public static CharacterBaseController Instance { get; private set; }
 
 
     //
@@ -57,8 +48,7 @@ public abstract class CharacterBase : MonoBehaviour
 
 
     //
-    //  Summary:
-    //      Take the player input and move the character
+    // Take the player input and move the character
     //
     protected virtual void HandleMovement()
     {
@@ -89,20 +79,7 @@ public abstract class CharacterBase : MonoBehaviour
     protected abstract void InstantiateCharacter();
 
 
-    //
-    //  These functions used to handle the GameInput event
-    //
 
-
-    //
-    //  Summary:
-    //      Control the weapon movement
-    //
-    //  Parameters:
-    //      sender: 
-    //      e: the information that passed down from the event
-    protected abstract void HandleWeaponMovement(object sender, GameInput.HandleWeaponMovementEventArgs e);
-  
 
     //
     //  Summary:

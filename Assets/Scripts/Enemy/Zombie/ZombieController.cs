@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAnimator : EnemyBaseAnimator
+public class ZombieController : EnemyBaseController
 {
     private void Awake()
     {
-        base.InstantiateAnimator();
+        base.InstantiateCharacter(100,2,2);
     }
 
     private void Update()
     {
-        base.Moving();
+        base.HandleMovement();
     }
 }
