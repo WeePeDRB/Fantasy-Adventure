@@ -5,17 +5,6 @@ using UnityEngine;
 
 public abstract class EnemyBaseHitBox : MonoBehaviour
 {
-    //
-    // Flag to check if player is inside the enemy attack range thereby adjusting
-    // the enemy's behavior 
-    //
-    // private bool isPlayerInsideAttackRange;
-    // public bool IsPlayerInsideAttackRange
-    // {
-    //     get { return isPlayerInsideAttackRange; }
-    // }
-
-
     // Events for enemy behavior
     
     //

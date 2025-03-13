@@ -8,13 +8,13 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     // Character basic stats
     //
-    protected string playerName;
     protected float maxHealth;
     protected float health;
     protected float speed;
     protected float maxAmor;
     protected float amor;
     protected int level;
+
 
     //
     // Character inventory system
@@ -26,14 +26,12 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected int maxItem;
 
 
-
     //
     // Player instance
     //
     public static CharacterBaseController Instance { get; private set; }
 
 
-    //
     //
     //
     private void Awake()
@@ -45,6 +43,21 @@ public abstract class CharacterBaseController : MonoBehaviour
         Instance = this;
     }
     
+
+    //
+    // Initial stats and base weapon for character
+    //
+    protected virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed
+                                                    , float instantiateMaxAmor, int instantiateLevel    )
+    {
+        //
+        maxHealth = instantiateMaxHealth;
+        health = maxHealth;
+        speed = instantiateSpeed;
+        maxAmor = instantiateMaxAmor;
+        amor = maxAmor;
+        level = instantiateLevel;
+    }
 
 
     //
@@ -72,11 +85,6 @@ public abstract class CharacterBaseController : MonoBehaviour
         Debug.Log("Player get hit !");
     }
 
-    //
-    //  Summary: 
-    //      Initial stats and base weapon for character
-    //
-    protected abstract void InstantiateCharacter();
 
 
 

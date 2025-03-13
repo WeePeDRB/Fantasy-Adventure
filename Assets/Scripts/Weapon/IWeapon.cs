@@ -21,15 +21,4 @@ public interface IWeapon
     //
     void Attack();
     
-
-    //
-    // Move weapon to the left
-    //  
-    void MoveToLeft(int parentPos);
-    
-    
-    //
-    // Move weapon to the right
-    //  
-    void MoveToRight(int parentPos);
 }
