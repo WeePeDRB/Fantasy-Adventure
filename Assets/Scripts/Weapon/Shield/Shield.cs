@@ -14,7 +14,7 @@ public class Shield : MonoBehaviour, IWeapon
     //
     //  References
     //
-    [SerializeField] private Paladin player;    //  Player reference
+    [SerializeField] private PaladinController player;    //  Player reference
 
     //
     //  Weapon stats
