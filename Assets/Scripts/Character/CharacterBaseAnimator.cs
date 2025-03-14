@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,17 +8,16 @@ public class CharacterBaseAnimator : MonoBehaviour
     private Animator animator;
 
     //
-    //  Reference
+    // Reference
     //
-    [SerializeField] private GameInput gameInput;   //  Reference to game actions
-    [SerializeField] private CharacterBaseController character;   //  Reference to player
+    [SerializeField] private CharacterBaseController character; // Reference to player
 
     //
-    //  Animator parameters
+    // Animator parameters
     //
     
-    //  Movement
-    private const string VELOCITY = "Velocity";  //  Parameter name
+    //
+    private const string VELOCITY = "Velocity"; // Parameter name
     private float velocityFloat;  //  Paramter value
 
 
@@ -27,6 +27,7 @@ public class CharacterBaseAnimator : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        GameInput.OnDashAction += DashAnimation;
     }
 
     private void Update()
@@ -36,8 +37,7 @@ public class CharacterBaseAnimator : MonoBehaviour
 
 
     //
-    //  Summary:
-    //      Control the player movement animation
+    // Control the player movement animation
     //
     private void MovementAnimation()
     {   
@@ -61,8 +61,12 @@ public class CharacterBaseAnimator : MonoBehaviour
             velocityFloat = 0;
         }
         animator.SetFloat(VELOCITY, velocityFloat);
-
     }
 
-
+    //
+    //
+    private void DashAnimation(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Dash");
+    }
 }

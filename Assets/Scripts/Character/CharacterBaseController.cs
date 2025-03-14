@@ -19,15 +19,28 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     // Character inventory system
     //
-    protected IWeapon primaryWeapon;
-    protected List<IWeapon> weapons;
-    protected int maxWeapon;
-    protected List<IItem> items;
-    protected int maxItem;
+    protected IWeapon primaryWeapon; // Primary weapon for each character
+    protected List<IWeapon> weapons; // Character weapon list
+    protected int maxWeapon; // Ammount of weapon
+    protected List<IItem> items; // Character item list
+    protected int maxItem; // Ammount of item
 
 
     //
-    // Player instance
+    // Fields for the dash skill 
+    //
+    protected bool canDash;  
+    protected bool isDashing;
+    protected float dashDistance; // How far is the dash
+    protected float dashSpeed; // How fast is the dash
+    protected float dashCooldown; // Dash skill cool down
+    protected Vector3 dashTarget; // The position that player will dash to
+    protected bool specialEffect;
+    protected float specialEffectDuration;
+
+
+    //
+    // Character instance
     //
     public static CharacterBaseController Instance { get; private set; }
 
@@ -45,12 +58,11 @@ public abstract class CharacterBaseController : MonoBehaviour
     
 
     //
-    // Initial stats and base weapon for character
+    // Initial stats for character
     //
-    protected virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed
-                                                    , float instantiateMaxAmor, int instantiateLevel    )
+    protected virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed, 
+                                                    float instantiateMaxAmor, int instantiateLevel          )
     {
-        //
         maxHealth = instantiateMaxHealth;
         health = maxHealth;
         speed = instantiateSpeed;
@@ -59,26 +71,91 @@ public abstract class CharacterBaseController : MonoBehaviour
         level = instantiateLevel;
     }
 
+    //
+    //
+    //
+    protected virtual void InstantiateCharacterWeapon()
+    {
+
+    }
+
+    //
+    // Initial for character dash skill
+    //
+    protected virtual void InstantiateDash(     float instantiateDashDistance, float instantiateDashSpeed, 
+                                                float instantiateDashCooldown, float instantiateSpecialEffectDuration   )
+    {
+        dashDistance = instantiateDashDistance;
+        dashSpeed = instantiateDashSpeed;
+        dashCooldown = instantiateDashCooldown;
+        canDash = true;
+        isDashing = false; 
+        specialEffect = false;
+        specialEffectDuration = instantiateSpecialEffectDuration;
+    }
 
     //
     // Take the player input and move the character
     //
     protected virtual void HandleMovement()
     {
-        //Handle Input
-        Vector2 inputVector = GameInput.GetMovementVectorNormalized();
-        Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
-        //Move
-        transform.position += moveDirVector * speed * Time.deltaTime;
-        
-        //Rotation
-        float rotateSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
+        if (!isDashing)
+        {
+            //Handle Input
+            Vector2 inputVector = GameInput.GetMovementVectorNormalized();
+            Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
+            //Move
+            transform.position += moveDirVector * speed * Time.deltaTime;
+            
+            //Rotation
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, dashTarget) < 0.1f)        
+            {
+                isDashing = false;
+            }
+        }
     }
 
+
     //
-    //  Summary:
-    //      Take place when player get hit
+    // Handle the dash skill 
+    //
+    protected virtual void HandleDashSkill(object sender, EventArgs e)
+    {
+        if (!isDashing && canDash)
+        {
+            //Set the destination for the dash skill
+            dashTarget = transform.position + transform.forward * dashDistance;
+            //Set the dashing flag
+            isDashing       = true;
+            canDash = false;
+            //Set the special effect flag
+            specialEffect = true;
+
+            //Reset the skill and special effect
+            Invoke(nameof(ResetDashSkill), dashCooldown); 
+            Invoke(nameof(ResetSpecicalEffect), specialEffectDuration);
+        }
+    }
+    //
+    // Handle the special skill
+    //
+    protected abstract void HandleSpecialSkill(object sender, EventArgs e);
+
+
+    //
+    // Handle the ultimate skill
+    //
+    protected abstract void HandleUltimateSkill(object sender, EventArgs e);
+
+
+    //
+    // Take place when player get hit
     //
     protected virtual void Hurt()
     {
@@ -86,35 +163,19 @@ public abstract class CharacterBaseController : MonoBehaviour
     }
 
 
+    //
+    //
+    //
+    protected virtual void Dead()
+    {
 
+    }
 
 
     //
-    //  Summary:
-    //      Handle the dash skill 
+    // Support functions
     //
-    //  Parameters:
-    //      sender: 
-    //      e: 
-    protected abstract void HandleDashSkill(object sender, EventArgs e);
+    protected void ResetDashSkill() => canDash = true;
+    protected void ResetSpecicalEffect() => specialEffect = false;
 
-
-    //
-    //  Summary:
-    //      Handle the special skill
-    //
-    //  Parameters:
-    //      sender: 
-    //      e: 
-    protected abstract void HandleSpecialSkill(object sender, EventArgs e);
-
-
-    //
-    //  Summary:
-    //      Handle the ultimate skill
-    //
-    //  Parameters:
-    //      sender: 
-    //      e: 
-    protected abstract void HandleUltimateSkill(object sender, EventArgs e);
 }
