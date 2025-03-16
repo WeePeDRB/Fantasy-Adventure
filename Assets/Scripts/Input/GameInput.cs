@@ -6,23 +6,18 @@ using UnityEngine;
 
 public class GameInput : MonoBehaviour
 {
-    //
+    
     // A custom eventargs for the handle weapon movement event 
-    // 
     public class HandleWeaponMovementEventArgs : EventArgs
     {
         public string weaponMovementEventArgs;
     }
 
 
-    //
     // Refernce to the input actions assets
-    //
     private static InputManager inputManager;   // Input actions reference
 
-    //
     // Event for the skill
-    //
     public static event EventHandler OnDashAction;     //For the dash skill
     public static event EventHandler OnSpecialAction;  //For the speacial skill
     public static event EventHandler OnUltimateAction; //For the ultimate skill
@@ -45,9 +40,7 @@ public class GameInput : MonoBehaviour
     }
 
 
-    //
     // Read, normalized and return the  value from player input  
-    //
     public static Vector2 GetMovementVectorNormalized()
     {
         Vector2 inputVector = inputManager.Player.Move.ReadValue<Vector2>();
@@ -56,36 +49,28 @@ public class GameInput : MonoBehaviour
     }
 
 
-    // 
     // Handle the performed event in the input actions
-    //
     private void DashSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnDashAction?.Invoke(this,EventArgs.Empty);
     }
 
 
-    //
     // Handle the performed event in the input actions
-    //
     private void SpecialSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnSpecialAction?.Invoke(this,EventArgs.Empty);
     }
 
 
-    //
     // Handle the performed event in the input actions
-    //
     private void UltimateSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnUltimateAction?.Invoke(this,EventArgs.Empty);
     }
 
 
-    //
     // Handle the performed event in the input actions
-    //
     public void HandleWeaponMovement(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnHandleWeaponMovement?.Invoke(this, new HandleWeaponMovementEventArgs {weaponMovementEventArgs = obj.control.name});

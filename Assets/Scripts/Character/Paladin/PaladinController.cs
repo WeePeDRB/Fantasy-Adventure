@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class PaladinController : CharacterBaseController
 {
-    //
     //  Character unique stats
-    //
     private float resistance = 50f; 
 
 
@@ -18,10 +16,10 @@ public class PaladinController : CharacterBaseController
     private void Start()
     {
         //Initial stats for character
-        InstantiateCharacter(150f, 7f, 100f, 1);
+        //InstantiateCharacter(150f, 7f, 100f, 1);
         
         //Initial for dash skill
-        InstantiateDash(5f, 13f, 5f, 3f);
+        //InstantiateDash(5f, 13f, 5f, 3f);
 
         //Set a subscriber for the dash action event
         GameInput.OnDashAction += HandleDashSkill;
