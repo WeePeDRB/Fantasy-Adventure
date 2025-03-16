@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EnemyBaseController : MonoBehaviour
-{
-    //  
+{ 
     // Enemy basic stats
-    //
     protected float maxHealth;
     protected float health;
     protected float speed;
@@ -24,15 +22,11 @@ public abstract class EnemyBaseController : MonoBehaviour
     }
 
 
-    //
     // References  
-    //
     protected EnemyBaseHitBox enemyBaseHitBox;
 
 
-    //
     // Instantiate the stats for enemy
-    //
     protected virtual void InstantiateCharacter(float instantiateMaxHealth, float instantiateSpeed, float instantiateAttackSpeed)
     {
         //
@@ -54,9 +48,7 @@ public abstract class EnemyBaseController : MonoBehaviour
     }
 
 
-    //
     // This function will check the position of player and move to there
-    //
     protected virtual void HandleMovement()
     {
         if (isPlayerInside == false)
@@ -77,8 +69,6 @@ public abstract class EnemyBaseController : MonoBehaviour
 
     
     //
-    // 
-    //
     protected virtual void Attack()
     {
         isPlayerInside = true;
@@ -86,9 +76,7 @@ public abstract class EnemyBaseController : MonoBehaviour
     }
     
     
-    //
     // Check if player is out of attack range
-    //
     protected virtual void IsOutOfRange()
     {
         isPlayerInside = false;

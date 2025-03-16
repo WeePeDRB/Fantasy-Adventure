@@ -7,16 +7,10 @@ public class CharacterBaseAnimator : MonoBehaviour
 {
     private Animator animator;
 
-    //
     // Reference
-    //
     [SerializeField] private CharacterBaseController character; // Reference to player
 
-    //
     // Animator parameters
-    //
-    
-    //
     private const string VELOCITY = "Velocity"; // Parameter name
     private float velocityFloat;  //  Paramter value
 
@@ -36,9 +30,7 @@ public class CharacterBaseAnimator : MonoBehaviour
     }
 
 
-    //
     // Control the player movement animation
-    //
     private void MovementAnimation()
     {   
         //Handle Input
@@ -63,7 +55,7 @@ public class CharacterBaseAnimator : MonoBehaviour
         animator.SetFloat(VELOCITY, velocityFloat);
     }
 
-    //
+
     //
     private void DashAnimation(object sender, EventArgs e)
     {

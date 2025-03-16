@@ -15,9 +15,7 @@ public class EnemyBaseAnimator : MonoBehaviour
     protected EnemyBaseHitBox enemyBaseHitBox;
     protected EnemyBaseController enemyBaseController;
 
-    //
     // Instantiate 
-    //
     protected virtual void InstantiateAnimator()
     {
         //
@@ -30,8 +28,6 @@ public class EnemyBaseAnimator : MonoBehaviour
     }
 
 
-    //
-    //
     //
     protected virtual void Moving()
     {
