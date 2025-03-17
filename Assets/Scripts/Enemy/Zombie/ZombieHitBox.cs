@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieHitBox : EnemyBaseHitBox
+public class ZombieHitBox : MonsterBaseHitBox
 {
     
 

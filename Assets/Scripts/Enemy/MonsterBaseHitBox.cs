@@ -3,25 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyBaseHitBox : MonoBehaviour
+public abstract class MonsterBaseHitBox : MonoBehaviour
 {
-    // Events for enemy behavior
+    // Events for monster behavior
     
     // Event occurs when player enter the attack range, all the logic
     // related to the attack function will listen to this event
-    public event Action OnPlayerEnterEnemyAttackRange;
+    public event Action OnPlayerEnterMonsterAttackRange;
 
     // Event occurs when player exit the attack range, all the logic 
     // related to the attack function will listen to this event
-    public event Action OnPlayerExitEnemyAttackRange;
+    public event Action OnPlayerExitMonsterAttackRange;
 
 
-    // Check if player enter the enemy attack range
+    // Check if player enter the monster attack range
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            OnPlayerEnterEnemyAttackRange?.Invoke();
+            OnPlayerEnterMonsterAttackRange?.Invoke();
         }
     }
 
@@ -31,7 +31,7 @@ public abstract class EnemyBaseHitBox : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            OnPlayerExitEnemyAttackRange?.Invoke();
+            OnPlayerExitMonsterAttackRange?.Invoke();
         }
     }
 }
