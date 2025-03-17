@@ -20,7 +20,7 @@ public class SO_Character : ScriptableObject
     public int maxWeapon;
     public int maxItem;
 
-    // Skill cooldown
+    // Skill cooldown for the 
     public float dashSkillCooldown;
     public float specialSkillCooldown;
     public float ultimateSkillCooldown;

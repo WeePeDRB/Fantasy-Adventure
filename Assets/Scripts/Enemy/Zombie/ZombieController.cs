@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieController : EnemyBaseController
+public class ZombieController : MonsterBaseController
 {
     private void Awake()
     {

@@ -36,6 +36,8 @@ public class GameplaySceneManager : MonoBehaviour
         }
     }
 
-    private GameObject gameObject;
     //
+    // Enemy spawn instantiate
+    //
+    
 }

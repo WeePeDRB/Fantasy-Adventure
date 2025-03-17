@@ -52,8 +52,12 @@ public abstract class CharacterBaseController : MonoBehaviour
         if (Instance != null)
         {
             Debug.LogError("There are more than one player instance !");
+            Destroy(this);
         }
-        Instance = this;
+        else
+        {
+            Instance = this;
+        }
     }
     
 

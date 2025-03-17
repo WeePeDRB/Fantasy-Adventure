@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyBaseController : MonoBehaviour
+public abstract class MonsterBaseController : MonoBehaviour
 { 
-    // Enemy basic stats
+    // Monster basic stats
     protected float maxHealth;
     protected float health;
     protected float speed;
@@ -23,21 +23,21 @@ public abstract class EnemyBaseController : MonoBehaviour
 
 
     // References  
-    protected EnemyBaseHitBox enemyBaseHitBox;
+    protected MonsterBaseHitBox monsterBaseHitBox;
 
 
-    // Instantiate the stats for enemy
+    // Instantiate the stats for monster
     protected virtual void InstantiateCharacter(float instantiateMaxHealth, float instantiateSpeed, float instantiateAttackSpeed)
     {
         //
         isPlayerInside = false;
         
         //
-        enemyBaseHitBox = GetComponentInChildren<ZombieHitBox>();
+        monsterBaseHitBox = GetComponentInChildren<ZombieHitBox>();
 
         //
-        enemyBaseHitBox.OnPlayerEnterEnemyAttackRange += Attack;
-        enemyBaseHitBox.OnPlayerExitEnemyAttackRange += IsOutOfRange;
+        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += Attack;
+        monsterBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
 
         //
         maxHealth = instantiateMaxHealth;
