@@ -24,22 +24,6 @@ public class GameInput : MonoBehaviour
     public static event EventHandler<HandleWeaponMovementEventArgs> OnHandleWeaponMovement; //For the weapon movement
 
 
-    //
-    //
-    //
-    private void Awake()
-    {
-        inputManager = new InputManager();
-        inputManager.Player.Enable();
-
-        //Assign function for event
-        inputManager.Player.DashSkill.performed +=  DashSkill_Performed;        
-        inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;   
-        inputManager.Player.UltimateSkill.performed += UltimateSkill_Performed;
-        inputManager.Player.HandleWeapon.performed += HandleWeaponMovement;
-    }
-
-
     // Read, normalized and return the  value from player input  
     public static Vector2 GetMovementVectorNormalized()
     {
@@ -74,5 +58,21 @@ public class GameInput : MonoBehaviour
     public void HandleWeaponMovement(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnHandleWeaponMovement?.Invoke(this, new HandleWeaponMovementEventArgs {weaponMovementEventArgs = obj.control.name});
+    }
+
+
+    //
+    //
+    //
+    private void Awake()
+    {
+        inputManager = new InputManager();
+        inputManager.Player.Enable();
+
+        //Assign function for event
+        inputManager.Player.DashSkill.performed +=  DashSkill_Performed;        
+        inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;   
+        inputManager.Player.UltimateSkill.performed += UltimateSkill_Performed;
+        inputManager.Player.HandleWeapon.performed += HandleWeaponMovement;
     }
 }

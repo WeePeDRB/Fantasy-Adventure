@@ -15,21 +15,6 @@ public class CharacterBaseAnimator : MonoBehaviour
     private float velocityFloat;  //  Paramter value
 
 
-    //
-    //
-    //
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        GameInput.OnDashAction += DashAnimation;
-    }
-
-    private void Update()
-    {
-        MovementAnimation();
-    }
-
-
     // Control the player movement animation
     private void MovementAnimation()
     {   
@@ -61,4 +46,20 @@ public class CharacterBaseAnimator : MonoBehaviour
     {
         animator.SetTrigger("Dash");
     }
+
+
+    //
+    //
+    //
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        GameInput.OnDashAction += DashAnimation;
+    }
+
+    private void Update()
+    {
+        MovementAnimation();
+    }
+
 }
