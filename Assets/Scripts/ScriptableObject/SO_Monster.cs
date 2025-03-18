@@ -9,7 +9,7 @@ public class SO_Monster : ScriptableObject
     public int id;
 
     // Enemy prefab for the instantiate
-    public GameObject characterPrefab;
+    public GameObject monsterPrefab;
 
     // Enemy stats
     public float maxHealth;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,12 +15,13 @@ public class GameplaySceneManager : MonoBehaviour
     // Set up to instantiate the character gameobject
     private int characterId;
     private SO_Character characterData;
-    private SO_CharacterList characterDataList;
+    
+    [SerializeField] private SO_CharacterList characterDataList;
 
     // Get and set value for the character data
     private void GetCharacterData()
     {
-        characterId = PlayerPrefs.GetInt("SelectedCharacterID");
+        characterId = PlayerPrefs.GetInt("SelectedCharacterID", 1);
         characterData = characterDataList.GetCharacterById(characterId);
     }
 
@@ -36,8 +38,30 @@ public class GameplaySceneManager : MonoBehaviour
         }
     }
 
+
     //
-    // Enemy spawn instantiate
+    // Timer instantiate function
     //
-    
+    [SerializeField] private GameObject gameplayerTimeManager;
+    private void InstantiateGameplayTimeManager()
+    {
+
+    }
+
+
+    //
+    // MonsterSpawn  instantiate function
+    //
+    [SerializeField] private GameObject monsterSpawnManager;
+    private void InstantiateMonsterSpawnManager()
+    {
+
+    }
+
+
+    //
+    private void Start()
+    {
+
+    }
 }

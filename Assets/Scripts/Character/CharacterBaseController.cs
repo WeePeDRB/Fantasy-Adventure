@@ -43,22 +43,6 @@ public abstract class CharacterBaseController : MonoBehaviour
     // Character instance
     //
     public static CharacterBaseController Instance { get; private set; }
-
-
-    //
-    //
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Debug.LogError("There are more than one player instance !");
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
     
 
     //
@@ -131,6 +115,7 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     protected virtual void HandleDashSkill(object sender, EventArgs e)
     {
+        Debug.Log("This is the sender: " + sender.GetType());
         if (!isDashing && canDash)
         {
             //Set the destination for the dash skill
@@ -182,4 +167,20 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected void ResetDashSkill() => canDash = true;
     protected void ResetSpecicalEffect() => specialEffect = false;
 
+
+    //
+    //
+    //
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There are more than one player instance !");
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 }

@@ -6,8 +6,15 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class SO_Weapon : ScriptableObject
 {
-    public Transform weaponPrefab;
+    // Weapon private  id
+    public int id;
+
+    // Weapon projectile prefab for the instantiate
+    public Transform projectilePrefab;
+
+    // Weapon stats
     public int weaponLevel;
     public float weaponAttackSpeed;
     public float weaponDamage;
+    
 }

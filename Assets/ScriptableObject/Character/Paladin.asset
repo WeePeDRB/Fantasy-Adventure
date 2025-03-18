@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Paladin
   m_EditorClassIdentifier: 
   id: 1
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 3526798517849069357, guid: be7797d40c2f4b848b47d2dc6cb1d7ff, type: 3}
   maxHealth: 100
   speed: 6
   maxAmor: 50
