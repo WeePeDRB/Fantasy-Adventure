@@ -7,17 +7,13 @@ public class MonsterObjectPool : MonoBehaviour
     // Pool instance
     public static MonsterObjectPool Instance;
 
-    // This monster pool will have multiple monster in it
+    //
     private Dictionary<int, Queue<GameObject>> monsterPool;
-
-    // Monster data list
     [SerializeField] private SO_MonsterList monsterDataList;
-
-    // Monster data
     private SO_Monster monsterData;
-    
-    // Max monster quantity each wave
     private int maxMonsterQuantity;
+
+
 
     // Instantiate monster pool
     private void InstantiateMonsterPool()
@@ -25,6 +21,8 @@ public class MonsterObjectPool : MonoBehaviour
         for(int i = 0; i < maxMonsterQuantity; i ++)
         {
             GameObject monster = Instantiate(monsterData.monsterPrefab);
+            MonsterBaseController monsterController = monster.GetComponent<MonsterBaseController>();
+            monsterController.InstantiateCharacter(monsterData.maxHealth, monsterData.speed, monsterData.attackSpeed);
             monster.SetActive(false);
         }
     }
