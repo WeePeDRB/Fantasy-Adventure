@@ -27,7 +27,8 @@ public abstract class MonsterBaseController : MonoBehaviour
 
 
     // Instantiate the stats for monster
-    protected virtual void InstantiateCharacter(float instantiateMaxHealth, float instantiateSpeed, float instantiateAttackSpeed)
+    // This function will be called when monster instantiate in the monster object pool class
+    public virtual void InstantiateCharacter(float instantiateMaxHealth, float instantiateSpeed, float instantiateAttackSpeed)
     {
         //
         isPlayerInside = false;

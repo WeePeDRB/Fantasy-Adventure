@@ -7,10 +7,11 @@ public class GameplayTimeManager : MonoBehaviour
 {
     // Combat timing event
     public static event Action OnStartCombat;
-    public static event EventHandler<EndCombatEventArgs> OnEndCombat;
-    public class EndCombatEventArgs : EventArgs
+    public static event Action OnEndCombat;
+    public static event EventHandler<NextLevelEventArgs> OnNextLevel;
+    public class NextLevelEventArgs : EventArgs
     {
-        public int nextRoundLevel;
+        public int roundLevel;
     }
 
 
@@ -51,10 +52,11 @@ public class GameplayTimeManager : MonoBehaviour
     // Invoke evnt and send next round level
     private void EndCombat()
     {
-        OnEndCombat?.Invoke(this, new EndCombatEventArgs{ nextRoundLevel = this.roundLevel ++});
+        OnEndCombat?.Invoke();
+        OnNextLevel?.Invoke(this, new NextLevelEventArgs{ roundLevel = this.roundLevel ++});
     }
 
-    private void Awak()
+    private void Awake()
     {
         InstantiateTimer();
     }

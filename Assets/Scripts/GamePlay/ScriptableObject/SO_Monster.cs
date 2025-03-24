@@ -14,7 +14,7 @@ public class SO_Monster : ScriptableObject
     // Enemy stats
     public float maxHealth;
     public float speed;
-    public float maxAmor;
+    public float attackSpeed;
     public float level;
 
     // Enemy rank

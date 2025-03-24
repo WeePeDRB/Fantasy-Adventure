@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32f15e5ec5d929e4581e72d6197c2bdb, type: 3}
-  m_Name: Zombie
+  m_Name: Necromancer
   m_EditorClassIdentifier: 
-  id: 1
+  id: 2
   monsterPrefab: {fileID: 0}
-  maxHealth: 20
+  maxHealth: 40
   speed: 2
   attackSpeed: 2
-  level: 1
+  level: 2
   eliteMonster: 0
   bossMonster: 0
