@@ -9,14 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32f15e5ec5d929e4581e72d6197c2bdb, type: 3}
-  m_Name: Zombie
+  m_Script: {fileID: 11500000, guid: 2db6d44e0267ad0468976485b9e477d5, type: 3}
+  m_Name: DefaultMonsterList
   m_EditorClassIdentifier: 
-  id: 1
-  monsterPrefab: {fileID: 0}
-  maxHealth: 20
-  speed: 2
-  attackSpeed: 2
-  level: 1
-  eliteMonster: 0
-  bossMonster: 0
+  monsterDataList:
+  - {fileID: 11400000, guid: 4eb08aba91d659445894b0f4f65d2d70, type: 2}
+  - {fileID: 11400000, guid: a69c42369a0cfd547b2362aeb1b48f86, type: 2}
