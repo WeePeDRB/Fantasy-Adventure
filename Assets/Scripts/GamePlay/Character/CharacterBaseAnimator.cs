@@ -8,7 +8,7 @@ public class CharacterBaseAnimator : MonoBehaviour
     private Animator animator;
 
     // Reference
-    [SerializeField] private CharacterBaseController character; // Reference to player
+    //[SerializeField] private CharacterBaseController character; // Reference to player
 
     // Animator parameters
     private const string VELOCITY = "Velocity"; // Parameter name

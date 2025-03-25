@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Zombie
   m_EditorClassIdentifier: 
   id: 1
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 6296286955969420686, guid: ae40eda532f4fcf43907b7ae2475aa21, type: 3}
   maxHealth: 20
   speed: 2
   attackSpeed: 2

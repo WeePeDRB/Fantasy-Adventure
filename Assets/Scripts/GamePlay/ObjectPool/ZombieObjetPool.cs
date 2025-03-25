@@ -5,10 +5,11 @@ using UnityEngine;
 public class ZombieObjetPool : ObjectPool
 {
     // Class instance
-    public ZombieObjetPool Instance;
+    public static ZombieObjetPool Instance;
 
     // Monster data
-    [SerializeField] private SO_Monster monsterData;
+    [SerializeField] private SO_Monster zombieData;
+    [SerializeField] private int zombieQuantity;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class ZombieObjetPool : ObjectPool
 
     private void Start()
     {
-        InstantiatePoolValue(monsterData, 20);
+        InstantiatePoolValue(zombieData.monsterPrefab, zombieQuantity);
         CreatePool();
     }
 }
