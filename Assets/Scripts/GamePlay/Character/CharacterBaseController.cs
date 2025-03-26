@@ -48,7 +48,7 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     // Initial stats for character
     //
-    protected virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed, 
+    public virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed, 
                                                     float instantiateMaxAmor, int instantiateLevel          )
     {
         maxHealth = instantiateMaxHealth;
@@ -62,7 +62,7 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     //
     //
-    protected virtual void InstantiateCharacterWeapon()
+    public virtual void InstantiateCharacterWeapon()
     {
 
     }
@@ -70,7 +70,7 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     // Initial for character dash skill
     //
-    protected virtual void InstantiateDash(     float instantiateDashDistance, float instantiateDashSpeed, 
+    public virtual void InstantiateDash(     float instantiateDashDistance, float instantiateDashSpeed, 
                                                 float instantiateDashCooldown, float instantiateSpecialEffectDuration   )
     {
         dashDistance = instantiateDashDistance;

@@ -18,15 +18,15 @@ public abstract class ObjectPool : MonoBehaviour
 
 
     // Instantiate monster pool values
-    protected void InstantiatePoolValue(SO_Monster monsterData, int poolSize)
+    public void InstantiatePoolValue(GameObject objectPrefab, int poolSize)
     {   
         objectPool = new Queue<GameObject>();
         objectPoolSize = poolSize;
-        objectPrefab = monsterData.monsterPrefab;
+        this.objectPrefab = objectPrefab;
     }
 
     // Create object pool
-    protected void CreatePool()
+    public void CreatePool()
     {
         for (int i = 0; i < objectPoolSize; i ++)
         {
@@ -37,11 +37,12 @@ public abstract class ObjectPool : MonoBehaviour
     } 
 
     // Get object from pool
-    protected GameObject GetObject()
+    public GameObject GetObject(Transform objectTransform)
     {
         if (objectPool.Count > 0)
         {
             GameObject obj = objectPool.Dequeue();
+            obj.transform.position = objectTransform.position;
             obj.SetActive(true);
             return obj;
         }
@@ -49,7 +50,7 @@ public abstract class ObjectPool : MonoBehaviour
     }
 
     // Return object to pool;
-    protected void ReturnObject(GameObject obj)
+    public void ReturnObject(GameObject obj)
     {   
         obj.SetActive(false);
         objectPool.Enqueue(obj);

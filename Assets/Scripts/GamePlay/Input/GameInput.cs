@@ -21,7 +21,6 @@ public class GameInput : MonoBehaviour
     public static event EventHandler OnDashAction;     //For the dash skill
     public static event EventHandler OnSpecialAction;  //For the speacial skill
     public static event EventHandler OnUltimateAction; //For the ultimate skill
-    public static event EventHandler<HandleWeaponMovementEventArgs> OnHandleWeaponMovement; //For the weapon movement
 
 
     // Read, normalized and return the  value from player input  
@@ -54,13 +53,6 @@ public class GameInput : MonoBehaviour
     }
 
 
-    // Handle the performed event in the input actions
-    public void HandleWeaponMovement(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnHandleWeaponMovement?.Invoke(this, new HandleWeaponMovementEventArgs {weaponMovementEventArgs = obj.control.name});
-    }
-
-
     //
     //
     //
@@ -73,6 +65,5 @@ public class GameInput : MonoBehaviour
         inputManager.Player.DashSkill.performed +=  DashSkill_Performed;        
         inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;   
         inputManager.Player.UltimateSkill.performed += UltimateSkill_Performed;
-        inputManager.Player.HandleWeapon.performed += HandleWeaponMovement;
     }
 }

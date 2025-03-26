@@ -15,7 +15,7 @@ public class SO_Character : ScriptableObject
     public float maxHealth;
     public float speed;
     public float maxAmor;
-    public float level;
+    public int level;
     public IWeapon primaryWeapon;
     public int maxWeapon;
     public int maxItem;

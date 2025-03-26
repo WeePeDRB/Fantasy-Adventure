@@ -11,7 +11,6 @@ public class GameplaySceneManager : MonoBehaviour
     //
     // Character instantiate funtions 
     //
-
     // Set up to instantiate the character gameobject
     private int characterId;
     private SO_Character characterData;
@@ -30,7 +29,14 @@ public class GameplaySceneManager : MonoBehaviour
     {
         if (characterData != null)
         {
-            Instantiate(characterData.characterPrefab, Vector3.zero, Quaternion.identity);
+            // Instantiate game object
+            GameObject player = Instantiate(characterData.characterPrefab, Vector3.zero, Quaternion.identity);
+            // Get character controller
+            CharacterBaseController characterBaseController = player.GetComponent<CharacterBaseController>();
+            // Instantiate character
+            characterBaseController.InstantiateCharacter(   characterData.maxHealth, characterData.speed
+                                                            , characterData.maxAmor, characterData.level    );
+            characterBaseController.InstantiateDash( 5f, 13f, 5f, 3f );
         }
         else
         {
