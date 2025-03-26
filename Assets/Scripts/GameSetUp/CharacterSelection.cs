@@ -3,40 +3,62 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class CharacterSelection : MonoBehaviour
 {
     //
     private SO_CharacterList characterDataList;
 
-    // Event for character data
-    public static event EventHandler OnSelectCharacterData;
-    public class CharacterData : EventArgs
-    {
-        public SO_Character characterData;
-    }
-
     //
     private int currentCharacterId;
 
 
+    //
+    [SerializeField] private List<GameObject> characterSelectionList;
+
     // Select character
-    private void SelectNextCharacter()
+    public void SelectNextCharacter()
     {
+        Debug.Log(characterSelectionList.Count);
+        DisableCharacter();
         currentCharacterId ++;
-        if (currentCharacterId > characterDataList.characterDataList.Count) currentCharacterId = 1;
+        if (currentCharacterId >= characterSelectionList.Count) currentCharacterId = 0;
+        ShowCharacter();
     }
-    private void SelectPreviousCharacter()
+    public void SelectPreviousCharacter()
     {
+        DisableCharacter();
         currentCharacterId --;
-        if (currentCharacterId < 1) currentCharacterId = characterDataList.characterDataList.Count;
+        if (currentCharacterId <= 0) currentCharacterId = characterSelectionList.Count;
+        ShowCharacter();
     }
 
 
     // Show character
     private void ShowCharacter()
     {
-        
+        characterSelectionList[currentCharacterId].SetActive(true);
+    }
+
+    // Disable character
+    private void DisableAllCharacter()
+    {
+        foreach (GameObject character in characterSelectionList)
+        {
+            character.SetActive(false);
+        }
+    }
+    private void DisableCharacter()
+    {
+        characterSelectionList[currentCharacterId].SetActive(false);
+    }
+
+    private void Start()
+    {
+        DisableAllCharacter();
+        currentCharacterId = 0;
+        ShowCharacter();
     }
 
 }
