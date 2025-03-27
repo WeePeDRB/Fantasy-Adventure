@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8babafab9eb03ed41b4fd7c54acb68d6, type: 3}
+  m_Name: Acher
+  m_EditorClassIdentifier: 
+  id: 2
+  characterClass: Acher
+  characterPrefab: {fileID: 6559865403148868622, guid: 22630735692fd434ca5f036b18b7aa15, type: 3}
+  maxHealth: 70
+  speed: 9
+  maxAmor: 50
+  level: 1
+  maxWeapon: 3
+  maxItem: 3
+  dashSkill: {fileID: 11400000, guid: baa593265690ab4449bd497f738b0b61, type: 2}
+  specialSkill: {fileID: 11400000, guid: 8fff25ec73427cf4f9fea100b2937d7f, type: 2}
+  ultimateSkill: {fileID: 11400000, guid: 2c1bcfe6f536e0a4c81b88d7b1f0dc42, type: 2}

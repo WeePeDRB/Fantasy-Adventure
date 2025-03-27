@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8babafab9eb03ed41b4fd7c54acb68d6, type: 3}
-  m_Name: Paladin
+  m_Name: Knight
   m_EditorClassIdentifier: 
-  id: 1
-  characterPrefab: {fileID: 3526798517849069357, guid: be7797d40c2f4b848b47d2dc6cb1d7ff, type: 3}
+  id: 3
+  characterClass: 
+  characterPrefab: {fileID: 0}
   maxHealth: 100
-  speed: 6
-  maxAmor: 50
+  speed: 7
+  maxAmor: 40
   level: 1
-  maxWeapon: 3
+  maxWeapon: 4
   maxItem: 3
-  dashSkillCooldown: 5
-  specialSkillCooldown: 10
-  ultimateSkillCooldown: 25
+  dashSkill: {fileID: 0}
+  specialSkill: {fileID: 0}
+  ultimateSkill: {fileID: 0}
