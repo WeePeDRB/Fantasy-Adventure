@@ -8,11 +8,14 @@ using UnityEngine.TextCore.Text;
 public class CharacterSelection : MonoBehaviour
 {
     //
-    private SO_CharacterList characterDataList;
+    public static event EventHandler<CharacterInfo> OnChangeCharacter;
+    public class CharacterInfo : EventArgs
+    {
+        public SO_Character characterData;
+    }
 
     //
     private int currentCharacterId;
-
 
     //
     [SerializeField] private List<GameObject> characterSelectionList;

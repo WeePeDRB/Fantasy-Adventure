@@ -8,6 +8,9 @@ public class SO_Character : ScriptableObject
     // Character private id
     public int id;
 
+    // Character class
+    public string characterClass;
+
     // Character prefab for the instantiate
     public GameObject characterPrefab;
 
@@ -20,8 +23,8 @@ public class SO_Character : ScriptableObject
     public int maxWeapon;
     public int maxItem;
 
-    // Skill cooldown for the 
-    public float dashSkillCooldown;
-    public float specialSkillCooldown;
-    public float ultimateSkillCooldown;
+    // Skill information
+    public SO_CharacterSkill dashSkill;
+    public SO_CharacterSkill specialSkill;
+    public SO_CharacterSkill ultimateSkill;
 }
