@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babafab9eb03ed41b4fd7c54acb68d6, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: 
-  id: 3
+  id: 2
   characterClass: 
   characterPrefab: {fileID: 0}
   maxHealth: 100
