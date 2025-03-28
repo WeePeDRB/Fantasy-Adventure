@@ -7,34 +7,61 @@ using UnityEngine.TextCore.Text;
 
 public class CharacterSelection : MonoBehaviour
 {
-    //
-    public static event EventHandler<CharacterInfo> OnChangeCharacter;
-    public class CharacterInfo : EventArgs
+    // Event for the select character UI
+    // This event will notify and send CharacterData to DisplayUI, 
+    // allowing it to update the displayed information.
+    public static event EventHandler<CharacterData> OnChangeCharacter;
+    public class CharacterData : EventArgs
     {
         public SO_Character characterData;
     }
+    [SerializeField] private SO_CharacterList characterDataList;
+    private SO_Character characterData;
 
     //
     private int currentCharacterId;
 
     //
-    [SerializeField] private List<GameObject> characterSelectionList;
+    private List<GameObject> characterSelectionList;
+
+
+    // Instantiate character model from the character list scriptable object
+    private void InstantiateCharacterList()
+    {
+        characterSelectionList = new List<GameObject>();
+        foreach (SO_Character characterData in characterDataList.characterDataList)
+        {
+            GameObject characterModel = Instantiate(characterData.characterPrefab);
+            characterModel.transform.position = Vector3.zero;
+            characterSelectionList.Add(characterModel);
+        }
+    }
+
+    // This function will update CharacterData whenever the user selects a different 
+    // character and send this data to DisplayUI through the OnChangeCharacter event.
+    private void OnChangeCharacterHandler()
+    {
+        characterData = characterDataList.GetCharacterById(currentCharacterId);
+        OnChangeCharacter?.Invoke(this, new CharacterData{characterData = characterData});
+    }
+
 
     // Select character
     public void SelectNextCharacter()
     {
-        Debug.Log(characterSelectionList.Count);
         DisableCharacter();
         currentCharacterId ++;
-        if (currentCharacterId >= characterSelectionList.Count) currentCharacterId = 0;
+        if (currentCharacterId > characterSelectionList.Count - 1) currentCharacterId = 0;
         ShowCharacter();
+        OnChangeCharacterHandler();
     }
     public void SelectPreviousCharacter()
     {
         DisableCharacter();
         currentCharacterId --;
-        if (currentCharacterId <= 0) currentCharacterId = characterSelectionList.Count;
+        if (currentCharacterId < 0) currentCharacterId = characterSelectionList.Count - 1;
         ShowCharacter();
+        OnChangeCharacterHandler();
     }
 
 
@@ -43,6 +70,7 @@ public class CharacterSelection : MonoBehaviour
     {
         characterSelectionList[currentCharacterId].SetActive(true);
     }
+
 
     // Disable character
     private void DisableAllCharacter()
@@ -54,11 +82,15 @@ public class CharacterSelection : MonoBehaviour
     }
     private void DisableCharacter()
     {
+        Debug.Log("Disable character");
         characterSelectionList[currentCharacterId].SetActive(false);
     }
 
+    //
     private void Start()
     {
+        InstantiateCharacterList();
+        OnChangeCharacterHandler();
         DisableAllCharacter();
         currentCharacterId = 0;
         ShowCharacter();

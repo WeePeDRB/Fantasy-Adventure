@@ -62,15 +62,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""HandleWeapon"",
-                    ""type"": ""Button"",
-                    ""id"": ""4f4541eb-fefd-4ba8-aad5-80794680ceb5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -172,28 +163,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""action"": ""UltimateSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""70431fc6-2bf3-4ac8-a506-a09c1f796dd4"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""HandleWeapon"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bfc4b7bb-764b-4d00-9e34-a6842a94b78e"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""HandleWeapon"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,7 +175,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         m_Player_DashSkill = m_Player.FindAction("DashSkill", throwIfNotFound: true);
         m_Player_SpecialSkill = m_Player.FindAction("SpecialSkill", throwIfNotFound: true);
         m_Player_UltimateSkill = m_Player.FindAction("UltimateSkill", throwIfNotFound: true);
-        m_Player_HandleWeapon = m_Player.FindAction("HandleWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -272,7 +240,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_DashSkill;
     private readonly InputAction m_Player_SpecialSkill;
     private readonly InputAction m_Player_UltimateSkill;
-    private readonly InputAction m_Player_HandleWeapon;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -281,7 +248,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         public InputAction @DashSkill => m_Wrapper.m_Player_DashSkill;
         public InputAction @SpecialSkill => m_Wrapper.m_Player_SpecialSkill;
         public InputAction @UltimateSkill => m_Wrapper.m_Player_UltimateSkill;
-        public InputAction @HandleWeapon => m_Wrapper.m_Player_HandleWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -303,9 +269,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @UltimateSkill.started += instance.OnUltimateSkill;
             @UltimateSkill.performed += instance.OnUltimateSkill;
             @UltimateSkill.canceled += instance.OnUltimateSkill;
-            @HandleWeapon.started += instance.OnHandleWeapon;
-            @HandleWeapon.performed += instance.OnHandleWeapon;
-            @HandleWeapon.canceled += instance.OnHandleWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -322,9 +285,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @UltimateSkill.started -= instance.OnUltimateSkill;
             @UltimateSkill.performed -= instance.OnUltimateSkill;
             @UltimateSkill.canceled -= instance.OnUltimateSkill;
-            @HandleWeapon.started -= instance.OnHandleWeapon;
-            @HandleWeapon.performed -= instance.OnHandleWeapon;
-            @HandleWeapon.canceled -= instance.OnHandleWeapon;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -348,6 +308,5 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         void OnDashSkill(InputAction.CallbackContext context);
         void OnSpecialSkill(InputAction.CallbackContext context);
         void OnUltimateSkill(InputAction.CallbackContext context);
-        void OnHandleWeapon(InputAction.CallbackContext context);
     }
 }

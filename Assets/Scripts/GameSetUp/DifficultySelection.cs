@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DifficultySelection : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static event EventHandler<Difficulty> OnSelectGameDifficulty;
+    public class Difficulty : EventArgs
     {
-        
+        public int gameDifficulty;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void HandleInput(int val)
     {
-        
+        if (val == 0)
+        {
+            OnSelectGameDifficulty?.Invoke(this, new Difficulty{gameDifficulty = 0});
+        }
+        if (val == 1)
+        {
+            OnSelectGameDifficulty?.Invoke(this, new Difficulty{gameDifficulty = 1});
+        }
+        if (val == 2)
+        {
+            OnSelectGameDifficulty?.Invoke(this, new Difficulty{gameDifficulty = 2});
+        }
     }
 }

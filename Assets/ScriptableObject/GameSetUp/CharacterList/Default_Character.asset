@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Default_Character
   m_EditorClassIdentifier: 
   characterDataList:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 03eb0fd9b8631e940bc481fe60502405, type: 2}
+  - {fileID: 11400000, guid: 107cbab83cce5c243b496ea0d944bddb, type: 2}

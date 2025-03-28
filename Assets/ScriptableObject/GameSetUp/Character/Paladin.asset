@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babafab9eb03ed41b4fd7c54acb68d6, type: 3}
   m_Name: Paladin
   m_EditorClassIdentifier: 
-  id: 1
+  id: 0
   characterClass: Paladin
   characterPrefab: {fileID: 3409148907873472729, guid: 082799ce445a2634387b24bda59e5465, type: 3}
   maxHealth: 100

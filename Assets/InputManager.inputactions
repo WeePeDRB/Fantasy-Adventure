@@ -40,15 +40,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "HandleWeapon",
-                    "type": "Button",
-                    "id": "4f4541eb-fefd-4ba8-aad5-80794680ceb5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -148,28 +139,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "UltimateSkill",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "70431fc6-2bf3-4ac8-a506-a09c1f796dd4",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HandleWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bfc4b7bb-764b-4d00-9e34-a6842a94b78e",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HandleWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

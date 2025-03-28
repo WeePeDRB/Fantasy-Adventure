@@ -7,13 +7,22 @@ using UnityEngine.UI;
 public class DisplayUI : MonoBehaviour
 {
     // Character stats
-    private SO_Character characterInfo;
+    private SO_Character characterData;
   
 
     // Skill panel
+    // Buttons
     [SerializeField] private Button dashSkill;
     [SerializeField] private Button specialSkill;
     [SerializeField] private Button ultimateSkill;
+    // Color outline
+    [SerializeField] private Image dashSkillImage;
+    [SerializeField] private Image specialSkillImage;
+    [SerializeField] private Image ultimateSkillImage;
+    // Skill key
+    [SerializeField] private TextMeshProUGUI dashSkillKey;
+    [SerializeField] private TextMeshProUGUI specialSkillKey;
+    [SerializeField] private TextMeshProUGUI ultimatetSkillKey;
 
     // Skill description
     [SerializeField] private TextMeshProUGUI skillName;
@@ -25,46 +34,83 @@ public class DisplayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI characterSpeed;
     [SerializeField] private TextMeshProUGUI characterAmor;
 
+    // Color
+    private Color unselectedColor = new Color(73,73,73);
+    private Color selectedColor = new Color(212, 174, 0);
     
     // Display suitable UI when change character 
     private void ChangeSkillImage()
     {
-        dashSkill.image.sprite = characterInfo.dashSkill.skillSprite;
-        specialSkill.image.sprite = characterInfo.specialSkill.skillSprite;
-        ultimateSkill.image.sprite = characterInfo.ultimateSkill.skillSprite; 
+        dashSkill.image.sprite = characterData.dashSkill.skillSprite;
+        specialSkill.image.sprite = characterData.specialSkill.skillSprite;
+        ultimateSkill.image.sprite = characterData.ultimateSkill.skillSprite; 
     }
     private void ChangeCharacterStat()
     {
 
-        characterClass.text = characterInfo.characterClass;
-        characterHealth.text = characterInfo.maxHealth.ToString();
-        characterSpeed.text = characterInfo.speed.ToString();
-        characterAmor.text = characterInfo.maxAmor.ToString();
+        characterClass.text = characterData.characterClass;
+        characterHealth.text = characterData.maxHealth.ToString();
+        characterSpeed.text = characterData.speed.ToString();
+        characterAmor.text = characterData.maxAmor.ToString();
     }
 
     // Display skill information on click
-    private void OnClickDashSkill()
+    public void OnClickDashSkill()
     {
-        skillName.text = characterInfo.dashSkill.skillName;
-        skillDescription.text = characterInfo.dashSkill.skillDescription;
+        // Display Skill Information
+        skillName.text = characterData.dashSkill.skillName;
+        skillDescription.text = characterData.dashSkill.skillDescription;
+
+        // Display Color for Skills
+        dashSkillImage.color = selectedColor;
+        specialSkillImage.color = unselectedColor;
+        ultimateSkillImage.color = unselectedColor;
+
+        // Display color for key
+        dashSkillKey.color = selectedColor;
+        specialSkillKey.color = unselectedColor;
+        ultimatetSkillKey.color = unselectedColor;
     }
-    private void OnClickSpecialSkill()
+    public void OnClickSpecialSkill()
     {
-        skillName.text = characterInfo.specialSkill.skillName;
-        skillDescription.text = characterInfo.specialSkill.skillDescription;
+        // Display Skill Information
+        skillName.text = characterData.specialSkill.skillName;
+        skillDescription.text = characterData.specialSkill.skillDescription;
+        
+        // Display Color for Skills
+        dashSkillImage.color = unselectedColor;
+        specialSkillImage.color = selectedColor;
+        ultimateSkillImage.color = unselectedColor;
+
+        // Display color for key
+        dashSkillKey.color = unselectedColor;
+        specialSkillKey.color = selectedColor;
+        ultimatetSkillKey.color = unselectedColor;
     }
-    private void OnClickUltimateSkill()
+    public void OnClickUltimateSkill()
     {
-        skillName.text = characterInfo.ultimateSkill.skillName;
-        skillDescription.text = characterInfo.ultimateSkill.skillDescription;
+        // Display Skill Information
+        skillName.text = characterData.ultimateSkill.skillName;
+        skillDescription.text = characterData.ultimateSkill.skillDescription;
+
+        // Display Color for Skills
+        dashSkillImage.color = unselectedColor;
+        specialSkillImage.color = unselectedColor;
+        ultimateSkillImage.color = selectedColor;
+        
+        // Display color for key
+        dashSkillKey.color = unselectedColor;
+        specialSkillKey.color = unselectedColor;
+        ultimatetSkillKey.color = selectedColor;
     }
 
     // Handler for event
-    private void OnChangeCharacterHandler(object sender, CharacterSelection.CharacterInfo info)
+    private void OnChangeCharacterHandler(object sender, CharacterSelection.CharacterData data)
     {
-        characterInfo = info.characterData;
+        characterData = data.characterData;
         ChangeSkillImage();
         ChangeCharacterStat();
+        OnClickDashSkill();
     }
 
     //
