@@ -20,7 +20,7 @@ public class GameplaySceneManager : MonoBehaviour
     // Get and set value for the character data
     private void GetCharacterData()
     {
-        characterId = PlayerPrefs.GetInt("SelectedCharacterID", 1);
+        characterId = PlayerPrefs.GetInt("CharacterID");
         characterData = characterDataList.GetCharacterById(characterId);
     }
 
@@ -68,6 +68,7 @@ public class GameplaySceneManager : MonoBehaviour
     //
     private void Start()
     {
-
+        GetCharacterData();
+        InstantiateCharacter();
     }
 }

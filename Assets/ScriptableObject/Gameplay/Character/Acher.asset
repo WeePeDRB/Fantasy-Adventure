@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   characterClass: Acher
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 2990716267823741060, guid: 61a611c2796e16e46b00cd0f697a8a84, type: 3}
   maxHealth: 70
   speed: 9
   maxAmor: 50

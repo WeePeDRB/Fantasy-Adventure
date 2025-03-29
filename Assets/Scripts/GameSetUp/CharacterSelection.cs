@@ -82,7 +82,6 @@ public class CharacterSelection : MonoBehaviour
     }
     private void DisableCharacter()
     {
-        Debug.Log("Disable character");
         characterSelectionList[currentCharacterId].SetActive(false);
     }
 
