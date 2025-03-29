@@ -24,4 +24,10 @@ public class GameStartHandler : MonoBehaviour
         PlayerPrefs.SetInt("GameDifficulty",gameDifficulty);
         SceneManager.LoadScene("GameplayScene");
     }
+
+    private void Awake()
+    {
+        CharacterSelection.OnChangeCharacter += OnChangeCharacterHandler;
+        DifficultySelection.OnSelectGameDifficulty += OnChaneDifficultyHandler;
+    }
 }

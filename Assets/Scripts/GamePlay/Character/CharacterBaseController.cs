@@ -6,8 +6,9 @@ using UnityEngine;
 public abstract class CharacterBaseController : MonoBehaviour
 {
     //
-    // Character basic stats
+    // Character stats
     //
+    // Basic stats
     protected float maxHealth;
     protected float health;
     protected float speed;
@@ -15,6 +16,18 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected float amor;
     protected int level;
 
+    // Special stats
+    
+    // This stat will block a percentage of the damage received 
+    // by the player, with a value ranging from 1 to 100.
+    protected float resistance; 
+    
+    //This stat represents the percentage of time reduced for 
+    // skill cooldowns.
+    protected float abilityHaste;
+
+    // This stat increases the damage dealt by weapons.
+    protected float damageAmplifier;
 
     //
     // Character inventory system
@@ -35,8 +48,6 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected float dashSpeed; // How fast is the dash
     protected float dashCooldown; // Dash skill cool down
     protected Vector3 dashTarget; // The position that player will dash to
-    protected bool specialEffect;
-    protected float specialEffectDuration;
 
 
     //
@@ -78,8 +89,7 @@ public abstract class CharacterBaseController : MonoBehaviour
         dashCooldown = instantiateDashCooldown;
         canDash = true;
         isDashing = false; 
-        specialEffect = false;
-        specialEffectDuration = instantiateSpecialEffectDuration;
+
     }
 
     //
@@ -123,12 +133,9 @@ public abstract class CharacterBaseController : MonoBehaviour
             //Set the dashing flag
             isDashing       = true;
             canDash = false;
-            //Set the special effect flag
-            specialEffect = true;
 
             //Reset the skill and special effect
             Invoke(nameof(ResetDashSkill), dashCooldown); 
-            Invoke(nameof(ResetSpecicalEffect), specialEffectDuration);
         }
     }
     //
@@ -148,7 +155,7 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     protected virtual void Hurt()
     {
-        Debug.Log("Player get hit !");
+
     }
 
 
@@ -160,12 +167,22 @@ public abstract class CharacterBaseController : MonoBehaviour
 
     }
 
+    //
+    //
+    //
+    protected virtual void AmorRegen()
+    {
+
+    }
+
+    //
+    //
+    //
 
     //
     // Support functions
     //
     protected void ResetDashSkill() => canDash = true;
-    protected void ResetSpecicalEffect() => specialEffect = false;
 
 
     //
