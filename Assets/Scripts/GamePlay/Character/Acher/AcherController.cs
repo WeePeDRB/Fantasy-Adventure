@@ -6,14 +6,14 @@ using UnityEngine;
 public class AcherController : CharacterBaseController
 {
 
-
-    protected override void HandleSpecialSkill(object sender, EventArgs e)
+    protected override void HandleDashSkill()
     {
-        throw new System.NotImplementedException();
     }
-    protected override void HandleUltimateSkill(object sender, EventArgs e)
+    protected override void HandleSpecialSkill()
     {
-        throw new System.NotImplementedException();
+    }
+    protected override void HandleUltimateSkill()
+    {
     }
 
     // Start is called before the first frame update
@@ -25,6 +25,6 @@ public class AcherController : CharacterBaseController
     // Update is called once per frame
     void Update()
     {
-        
+        HandleMovement();
     }
 }

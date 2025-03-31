@@ -3,45 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public abstract class CharacterBaseController : MonoBehaviour
 {
     //
-    // Character stats
+    //  FIELDS
     //
+
+    // CHARACTER STATS
     // Basic stats
-    protected float maxHealth;
-    protected float health;
-    protected float speed;
-    protected float maxAmor;
-    protected float amor;
-    protected int level;
+    protected float maxHealth; // Maximum health 
+    protected float health; // Current health
+    protected float speed; // Movement speed
+    protected float maxAmor; // Maximum amor
+    protected float amor; // Current amor
+    protected int level; // Character level
 
     // Special stats
+    protected float resistance; // This stat will block a percentage of the damage received by the player, with a value ranging from 1 to 100.
+    protected float abilityHaste; // This stat represents the percentage of time reduced for skill cooldowns.
+    protected float damageAmplifier; // This stat increases the damage dealt by weapons.
     
-    // This stat will block a percentage of the damage received 
-    // by the player, with a value ranging from 1 to 100.
-    protected float resistance; 
     
-    //This stat represents the percentage of time reduced for 
-    // skill cooldowns.
-    protected float abilityHaste;
 
-    // This stat increases the damage dealt by weapons.
-    protected float damageAmplifier;
-
-    //
-    // Character inventory system
-    //
+    // CHARACTER INVENTORY SYSTEM
+    // Weapon system
     protected IWeapon primaryWeapon; // Primary weapon for each character
-    protected List<IWeapon> weapons; // Character weapon list
+    protected List<IWeapon> weapons; // Weapon list
     protected int maxWeapon; // Ammount of weapon
-    protected List<IItem> items; // Character item list
+    
+    // Item system
+    protected List<IItem> items; // Item list
     protected int maxItem; // Ammount of item
+    
 
 
-    //
     // Fields for the dash skill 
-    //
     protected bool canDash;  
     protected bool isDashing;
     protected float dashDistance; // How far is the dash
@@ -50,51 +47,55 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected Vector3 dashTarget; // The position that player will dash to
 
 
-    //
     // Character instance
-    //
     public static CharacterBaseController Instance { get; private set; }
+
     
 
     //
-    // Initial stats for character
+    // FUNCTIONS
     //
-    public virtual void InstantiateCharacter(    float instantiateMaxHealth, float instantiateSpeed, 
-                                                    float instantiateMaxAmor, int instantiateLevel          )
+
+    // INITIAL VALUES FOR PLAYER
+    // Character stats
+    public virtual void InstantiateCharacter(   float instantiateMaxHealth, float instantiateSpeed, 
+                                                float instantiateMaxAmor, int instantiateLevel          )
     {
+        // Character basic stats
         maxHealth = instantiateMaxHealth;
         health = maxHealth;
         speed = instantiateSpeed;
         maxAmor = instantiateMaxAmor;
         amor = maxAmor;
         level = instantiateLevel;
+
+        // Character special stats
+        resistance = 0f;
+        abilityHaste = 0f;
+        damageAmplifier = 0f;
     }
 
-    //
-    //
-    //
-    public virtual void InstantiateCharacterWeapon()
+    // Character inventory
+    public virtual void InstantiateCharacterInventory()
     {
 
     }
 
-    //
-    // Initial for character dash skill
-    //
-    public virtual void InstantiateDash(     float instantiateDashDistance, float instantiateDashSpeed, 
-                                                float instantiateDashCooldown, float instantiateSpecialEffectDuration   )
+    // Character dash values
+    public virtual void InstantiateDash(    float instantiateDashDistance, float instantiateDashSpeed, 
+                                            float instantiateDashCooldown, float instantiateSpecialEffectDuration   )
     {
         dashDistance = instantiateDashDistance;
         dashSpeed = instantiateDashSpeed;
         dashCooldown = instantiateDashCooldown;
         canDash = true;
         isDashing = false; 
-
     }
 
-    //
-    // Take the player input and move the character
-    //
+
+
+    // SET UP COMMON FUNCTIONS FOR CHARACTER
+    // Character movement function
     protected virtual void HandleMovement()
     {
         if (!isDashing)
@@ -119,72 +120,80 @@ public abstract class CharacterBaseController : MonoBehaviour
         }
     }
 
-
-    //
-    // Handle the dash skill 
-    //
-    protected virtual void HandleDashSkill(object sender, EventArgs e)
+    // Character hurt function
+    public virtual void Hurt(float damageTaken)
     {
-        Debug.Log("This is the sender: " + sender.GetType());
-        if (!isDashing && canDash)
+        // Calculate damage taken due to resistance stat
+        damageTaken -= damageTaken * resistance / 100;
+        health -= damageTaken;
+        if (health <= 0f)
         {
-            //Set the destination for the dash skill
-            dashTarget = transform.position + transform.forward * dashDistance;
-            //Set the dashing flag
-            isDashing       = true;
-            canDash = false;
-
-            //Reset the skill and special effect
-            Invoke(nameof(ResetDashSkill), dashCooldown); 
+            Dead();
         }
     }
-    //
-    // Handle the special skill
-    //
-    protected abstract void HandleSpecialSkill(object sender, EventArgs e);
 
-
-    //
-    // Handle the ultimate skill
-    //
-    protected abstract void HandleUltimateSkill(object sender, EventArgs e);
-
-
-    //
-    // Take place when player get hit
-    //
-    protected virtual void Hurt()
-    {
-
-    }
-
-
-    //
-    //
-    //
+    // Character dead function
     protected virtual void Dead()
     {
 
     }
 
-    //
-    //
-    //
+    // Character amor regeneration
     protected virtual void AmorRegen()
     {
 
     }
 
-    //
-    //
-    //
+    // Handle the dash skill 
+    protected abstract void HandleDashSkill();
 
-    //
-    // Support functions
+    // Handle the special skill
+    protected abstract void HandleSpecialSkill();
+
+    // Handle the ultimate skill
+    protected abstract void HandleUltimateSkill();
+
+
+
+    // MODIFY CHARACTER STATS
+    // Modify health
+    public void ModifyHealth(float healthValue)
+    {
+        health += healthValue;
+    }
+
+    // Modify speed
+    public void ModifySpeed(float speedValue)
+    {
+        speed += speedValue;
+    }
+
+    // Modify resistance
+    public void ModifyResistance(float resistanceValue)
+    {
+        resistance += resistanceValue;
+    }
+
+    // Modify ability haste
+    public void ModifyAbilityHaste(float abilityHasteValue)
+    {
+        abilityHaste += abilityHasteValue;
+    }
+
+    // Modify damage
+    public void ModifyDamage(float damageAmplifierValue)
+    {
+        damageAmplifier += damageAmplifierValue;
+    }
+
+
+
+    // SUPPORT FUNCTIONS
     //
     protected void ResetDashSkill() => canDash = true;
 
 
+    
     //
     //
     //
@@ -200,4 +209,5 @@ public abstract class CharacterBaseController : MonoBehaviour
             Instance = this;
         }
     }
+
 }

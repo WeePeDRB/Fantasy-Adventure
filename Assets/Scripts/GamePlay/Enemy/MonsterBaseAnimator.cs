@@ -5,32 +5,40 @@ using UnityEngine;
 public class MonsterBaseAnimator : MonoBehaviour
 {
     //
-    protected const string IS_MONSTER_MOVING = "IsMoving";
-
+    // FIELDS
     //
-    protected bool isMoving;
 
+    // ANIMATOR
     // References
     protected Animator animator;
     protected MonsterBaseHitBox monsterBaseHitBox;
     protected MonsterBaseController monsterBaseController;
 
-    // Instantiate 
-    protected virtual void InstantiateAnimator()
+    // Animator parameters
+    protected const string IS_MOVING = "IsMoving";
+    protected bool isMoving;
+
+
+
+    //
+    // FUNCTIONS
+    //
+
+    // HANDLING CHARACTER ANIMATIOn
+    // Control monster movement animation
+    protected virtual void Moving()
     {
-        //
+        animator.SetBool(IS_MOVING, monsterBaseController.IsPlayerMoving);
+    }
+
+
+
+    //
+    private void Awake()
+    {
         animator = GetComponent<Animator>();
         monsterBaseController = GetComponentInParent<MonsterBaseController>();
         monsterBaseHitBox = monsterBaseController.GetComponentInChildren<MonsterBaseHitBox>();
 
-        //
-
-    }
-
-
-    //
-    protected virtual void Moving()
-    {
-        animator.SetBool(IS_MONSTER_MOVING, monsterBaseController.IsPlayerMoving);
     }
 }

@@ -4,45 +4,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterBaseAnimator : MonoBehaviour
-{
+{   
+    //
+    // FIELDS
+    //
+    
+    // ANIMATOR 
+    // References
     private Animator animator;
-
-    // Reference
-    //[SerializeField] private CharacterBaseController character; // Reference to player
-
     // Animator parameters
-    private const string VELOCITY = "Velocity"; // Parameter name
-    private float velocityFloat;  //  Paramter value
+    private const string IS_MOVING = "IsMoving"; // Parameter name
+    private bool isMoving; // Parameter value
 
-
-    // Control the player movement animation
-    private void MovementAnimation()
-    {   
-        //Handle Input
-        Vector2 inputVector = GameInput.GetMovementVectorNormalized();
-
-        //
-        float inputLength;
-        if(inputVector != Vector2.zero)
-        {
-            inputLength = Mathf.Sqrt(Mathf.Pow(inputVector.x,2) + Mathf.Pow(inputVector.y,2));
-            
-            velocityFloat = inputLength;
-            if(velocityFloat > 1)
-            {
-                velocityFloat = 1f;
-            }
-        }
-        else
-        {
-            velocityFloat = 0;
-        }
-        animator.SetFloat(VELOCITY, velocityFloat);
-    }
 
 
     //
-    private void DashAnimation(object sender, EventArgs e)
+    // FUNCTIONS
+    //
+
+    // HANDLING CHARACTER ANIMATION
+    // Control player movement animation
+    private void MovementAnimation()
+    {   
+        Vector2 inputVector = GameInput.GetMovementVectorNormalized();
+        if(inputVector != Vector2.zero) isMoving = true;
+        else isMoving = false;
+        animator.SetBool(IS_MOVING, isMoving);
+    }
+
+    // Control dash animation
+    private void DashAnimation()
     {
         animator.SetTrigger("Dash");
     }

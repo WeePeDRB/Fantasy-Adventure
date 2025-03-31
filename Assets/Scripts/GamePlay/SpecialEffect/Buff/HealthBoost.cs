@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResistanceBoost : SpecialEffectBase
+public class HealthBoost : SpecialEffectBase
 {
-    public ResistanceBoost(string name, float duration) : base(name, duration)
+    private float healthIncrease;
+
+    public HealthBoost(float amount, float duration) : base("Health Boost", duration)
     {
-        
+        healthIncrease = amount;
     }
 
     protected override void ApplyEffect(CharacterBaseController character)
     {
-        throw new System.NotImplementedException();
+        character.ModifyHealth(healthIncrease);
     }
-
-
 
     protected override void RemoveEffect(CharacterBaseController character)
     {
-        throw new System.NotImplementedException();
+
     }
 }

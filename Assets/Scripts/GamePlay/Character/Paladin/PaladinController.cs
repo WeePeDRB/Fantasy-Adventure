@@ -7,13 +7,28 @@ public class PaladinController : CharacterBaseController
 {
 
 
-    protected override void HandleSpecialSkill(object sender, EventArgs e)
+    protected override void HandleDashSkill()
     {
+        if (!isDashing && canDash)
+        {
+            //Set the destination for the dash skill
+            dashTarget = transform.position + transform.forward * dashDistance;
+            //Set the dashing flag
+            isDashing       = true;
+            canDash = false;
+
+            //Reset the skill and special effect
+            Invoke(nameof(ResetDashSkill), dashCooldown); 
+        }
     }
-    protected override void HandleUltimateSkill(object sender, EventArgs e)
+    protected override void HandleSpecialSkill()
     {
     }
 
+    protected override void HandleUltimateSkill()
+    {
+        throw new NotImplementedException();
+    }
 
     //Collider check
     private void OnCollisionEnter(Collision collision)
@@ -24,9 +39,8 @@ public class PaladinController : CharacterBaseController
         }
     }
 
-    //
-    //
-    //
+
+
     private void Start()
     {
         //Set a subscriber for the dash action event

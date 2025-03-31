@@ -18,9 +18,9 @@ public class GameInput : MonoBehaviour
     private static InputManager inputManager;   // Input actions reference
 
     // Event for the skill
-    public static event EventHandler OnDashAction;     //For the dash skill
-    public static event EventHandler OnSpecialAction;  //For the speacial skill
-    public static event EventHandler OnUltimateAction; //For the ultimate skill
+    public static event Action OnDashAction;     //For the dash skill
+    public static event Action OnSpecialAction;  //For the speacial skill
+    public static event Action OnUltimateAction; //For the ultimate skill
 
 
     // Read, normalized and return the  value from player input  
@@ -35,21 +35,21 @@ public class GameInput : MonoBehaviour
     // Handle the performed event in the input actions
     private void DashSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        OnDashAction?.Invoke(this,EventArgs.Empty);
+        OnDashAction?.Invoke();
     }
 
 
     // Handle the performed event in the input actions
     private void SpecialSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        OnSpecialAction?.Invoke(this,EventArgs.Empty);
+        OnSpecialAction?.Invoke();
     }
 
 
     // Handle the performed event in the input actions
     private void UltimateSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        OnUltimateAction?.Invoke(this,EventArgs.Empty);
+        OnUltimateAction?.Invoke();
     }
 
 
