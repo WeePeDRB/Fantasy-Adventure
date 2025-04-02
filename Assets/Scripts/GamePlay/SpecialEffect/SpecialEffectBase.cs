@@ -3,10 +3,29 @@ using UnityEngine;
 
 public abstract class SpecialEffectBase
 {
-    public string effectName;
-    public float duration; 
-    private float timeRemaining;
+    //
+    // FIELDS
+    //
 
+    // SET UP VALUES FOR SPECIAL EFFECT
+    // Essential information
+    public string effectName; // Effect name
+    public float duration; // Effect duration
+    private float timeRemaining; // Time remaining 
+   
+
+
+    //
+    // PROPERTIES
+    //
+    //
+    public float TimeRemaining { get { return timeRemaining; } }
+
+
+
+    //
+    // CONTRUCTOR
+    //
     protected SpecialEffectBase(string name, float duration)
     {
         this.effectName = name;
@@ -14,24 +33,39 @@ public abstract class SpecialEffectBase
         this.timeRemaining = duration;
     }
 
-    public void StartEffect(CharacterBaseController character, Action<SpecialEffectBase> onEffectEnd)
+
+
+    //
+    // FUNCTIONS
+    //
+
+    // MANAGE EFFECT LIFECYCLE
+    // Start effect
+    public void StartEffectOnCharacter(CharacterBaseController character)
     {
-        ApplyEffect(character);
-        EffectEndCallback = onEffectEnd;
+        character.ReceiveSpecialEffect(this);
     }
 
-    public void UpdateEffect(float deltaTime, CharacterBaseController character)
+    public void StartEffectOnMonster(MonsterBaseController monster)
+    {
+        
+    }
+
+    // Update effect
+    public void UpdateEffect(float deltaTime)
     {
         timeRemaining -= deltaTime;
-        if (timeRemaining <= 0)
-        {
-            RemoveEffect(character);
-            EffectEndCallback?.Invoke(this);
-        }
     }
 
-    protected abstract void ApplyEffect(CharacterBaseController character);
-    protected abstract void RemoveEffect(CharacterBaseController character);
+    // Refresh duration
+    public void Refresh(float newDuration)
+    {
+        timeRemaining = Math.Max(timeRemaining, newDuration); // Cộng dồn hoặc giữ thời gian lâu nhất
+    }
 
-    private Action<SpecialEffectBase> EffectEndCallback;
+    //
+    public abstract void ApplyEffect(CharacterBaseController character);
+
+
+    
 }

@@ -7,7 +7,7 @@ public class ZombieAnimator : MonsterBaseAnimator
 {
     private void Awake()
     {
-        base.InstantiateAnimator();
+        
     }
 
     private void Update()

@@ -9,20 +9,9 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     //  FIELDS
     //
-
+    
     // CHARACTER STATS
-    // Basic stats
-    protected float maxHealth; // Maximum health 
-    protected float health; // Current health
-    protected float speed; // Movement speed
-    protected float maxAmor; // Maximum amor
-    protected float amor; // Current amor
-    protected int level; // Character level
-
-    // Special stats
-    protected float resistance; // This stat will block a percentage of the damage received by the player, with a value ranging from 1 to 100.
-    protected float abilityHaste; // This stat represents the percentage of time reduced for skill cooldowns.
-    protected float damageAmplifier; // This stat increases the damage dealt by weapons.
+    protected CharacterStats characterStats;
     
     
 
@@ -36,6 +25,12 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected List<IItem> items; // Item list
     protected int maxItem; // Ammount of item
     
+
+
+    // CHARACTER EFFECT STATUS
+    // EffectStatus 
+    protected EffectStatus effectStatus; // Effect manager
+
 
 
     // Fields for the dash skill 
@@ -57,24 +52,6 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
 
     // INITIAL VALUES FOR PLAYER
-    // Character stats
-    public virtual void InstantiateCharacter(   float instantiateMaxHealth, float instantiateSpeed, 
-                                                float instantiateMaxAmor, int instantiateLevel          )
-    {
-        // Character basic stats
-        maxHealth = instantiateMaxHealth;
-        health = maxHealth;
-        speed = instantiateSpeed;
-        maxAmor = instantiateMaxAmor;
-        amor = maxAmor;
-        level = instantiateLevel;
-
-        // Character special stats
-        resistance = 0f;
-        abilityHaste = 0f;
-        damageAmplifier = 0f;
-    }
-
     // Character inventory
     public virtual void InstantiateCharacterInventory()
     {
@@ -104,7 +81,7 @@ public abstract class CharacterBaseController : MonoBehaviour
             Vector2 inputVector = GameInput.GetMovementVectorNormalized();
             Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
             //Move
-            transform.position += moveDirVector * speed * Time.deltaTime;
+            transform.position += moveDirVector * characterStats.Speed * Time.deltaTime;
             
             //Rotation
             float rotateSpeed = 10f;
@@ -124,9 +101,9 @@ public abstract class CharacterBaseController : MonoBehaviour
     public virtual void Hurt(float damageTaken)
     {
         // Calculate damage taken due to resistance stat
-        damageTaken -= damageTaken * resistance / 100;
-        health -= damageTaken;
-        if (health <= 0f)
+        damageTaken -= damageTaken * characterStats.Resistance / 100;
+        characterStats.Health -= damageTaken;
+        if (characterStats.Health == 0f)
         {
             Dead();
         }
@@ -155,40 +132,13 @@ public abstract class CharacterBaseController : MonoBehaviour
 
 
 
-    // MODIFY CHARACTER STATS
-    // Modify health
-    public void ModifyHealth(float healthValue)
-    {
-        health += healthValue;
-    }
-
-    // Modify speed
-    public void ModifySpeed(float speedValue)
-    {
-        speed += speedValue;
-    }
-
-    // Modify resistance
-    public void ModifyResistance(float resistanceValue)
-    {
-        resistance += resistanceValue;
-    }
-
-    // Modify ability haste
-    public void ModifyAbilityHaste(float abilityHasteValue)
-    {
-        abilityHaste += abilityHasteValue;
-    }
-
-    // Modify damage
-    public void ModifyDamage(float damageAmplifierValue)
-    {
-        damageAmplifier += damageAmplifierValue;
-    }
-
-
-
     // SUPPORT FUNCTIONS
+    // Access status effect
+    public void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
+    {
+        effectStatus.ReceiveEffect(specialEffect);
+    }
+
     //
     protected void ResetDashSkill() => canDash = true;
 

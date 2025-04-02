@@ -9,15 +9,11 @@ public class ResistanceBoost : SpecialEffectBase
         
     }
 
-    protected override void ApplyEffect(CharacterBaseController character)
+    public override void ApplyEffect(CharacterBaseController character)
     {
         throw new System.NotImplementedException();
     }
 
 
 
-    protected override void RemoveEffect(CharacterBaseController character)
-    {
-        throw new System.NotImplementedException();
-    }
 }

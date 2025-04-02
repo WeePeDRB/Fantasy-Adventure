@@ -6,15 +6,17 @@ using UnityEngine;
 public class Shield : MonoBehaviour, IWeapon
 {
     //
-    //  Weapon colliders
+    // FIELDS
     //
+
+    // Weapon colliders
     [SerializeField] private GameObject weaponHitBox;   //  The hit box collider
     [SerializeField] private GameObject weaponParryBox; //  The parry hit box collider
 
     //
     //  References
     //
-    [SerializeField] private PaladinController player;    //  Player reference
+    [SerializeField] private CharacterBaseController player;    //  Player reference
 
     //
     //  Weapon stats

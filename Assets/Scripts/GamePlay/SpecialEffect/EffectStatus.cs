@@ -4,39 +4,60 @@ using UnityEngine;
 
 public class EffectStatus 
 {
-    private List<SpecialEffectBase> activeEffects = new List<SpecialEffectBase>();
+    //
+    // FIELDS
+    //
+
+    // SET UP SPECIAL EFFECT DICTIONARY
+    private Dictionary<string, SpecialEffectBase> activeEffects = new Dictionary<string, SpecialEffectBase>();
     private CharacterBaseController character;
 
-    public EffectStatus(CharacterBaseController character)
-    {
-        this.character = character;
-    }
 
-    public void ApplyEffect(SpecialEffectBase newEffect)
+
+    //
+    // FUNCTIONS
+    //
+
+    // CONTROL EFFECTS   
+    // Receive effect function
+    public void ReceiveEffect(SpecialEffectBase effect)
     {
-        // Kiểm tra xem hiệu ứng đã tồn tại chưa
-        foreach (var effect in activeEffects)
+        // If an effect already exists in the dictionary, refresh its duration
+        if (activeEffects.ContainsKey(effect.effectName))
         {
-            if (effect.effectName == newEffect.effectName)
-                return;
+            activeEffects[effect.effectName].Refresh(effect.duration);
         }
-
-        // Thêm hiệu ứng vào danh sách
-        activeEffects.Add(newEffect);
-        newEffect.StartEffect(character, RemoveEffect);
+        // Else add it to dictionary
+        else
+        {
+            activeEffects.Add(effect.effectName, effect);
+        }
     }
 
+    // Update effect function
     public void UpdateEffects(float deltaTime)
     {
-        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        foreach (var effect in activeEffects.Values)
         {
-            activeEffects[i].UpdateEffect(deltaTime, character);
+            if (effect.TimeRemaining <= 0)
+            {
+                RemoveEffect(effect.effectName);
+            }
+            else
+            {
+                effect.UpdateEffect(deltaTime);
+                effect.ApplyEffect(character);
+            }
         }
     }
 
-    private void RemoveEffect(SpecialEffectBase effect)
+    // Remove effect function
+    public void RemoveEffect(string effectName)
     {
-        activeEffects.Remove(effect);
+        if (activeEffects.ContainsKey(effectName))
+        {
+            activeEffects.Remove(effectName);
+        }
     }
 
 }

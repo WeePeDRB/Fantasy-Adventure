@@ -5,19 +5,21 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class SO_Monster : ScriptableObject
 {
-    // Enemy private id
+    // Monster private id
     public int id;
 
-    // Enemy prefab for the instantiate
+    // Monster prefab for the instantiate
     public GameObject monsterPrefab;
 
-    // Enemy stats
+    // Monster basic stats
     public float maxHealth;
     public float speed;
     public float attackSpeed;
     public float level;
+    // Monster special stats
+    public float resistance;
 
-    // Enemy rank
+    // Monster rank
     public bool eliteMonster;
     public bool bossMonster;
 }

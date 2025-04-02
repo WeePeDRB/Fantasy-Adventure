@@ -11,13 +11,10 @@ public class HealthBoost : SpecialEffectBase
         healthIncrease = amount;
     }
 
-    protected override void ApplyEffect(CharacterBaseController character)
+    public override void ApplyEffect(CharacterBaseController character)
     {
-        character.ModifyHealth(healthIncrease);
+        
     }
 
-    protected override void RemoveEffect(CharacterBaseController character)
-    {
 
-    }
 }

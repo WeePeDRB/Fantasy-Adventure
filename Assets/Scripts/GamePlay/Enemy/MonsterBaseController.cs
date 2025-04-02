@@ -23,6 +23,12 @@ public abstract class MonsterBaseController : MonoBehaviour
 
 
 
+    // MONSTER EFFECT STATUS
+    // EffectStatus 
+    protected EffectStatus effectStatus; // Effect manager
+
+
+
     // CHECKING FLAGS
     // Player position flags
     protected bool isPlayerInside; // Check if player is inside monster hit box
