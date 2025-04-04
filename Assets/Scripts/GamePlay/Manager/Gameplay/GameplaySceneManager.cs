@@ -34,8 +34,6 @@ public class GameplaySceneManager : MonoBehaviour
             // Get character controller
             CharacterBaseController characterBaseController = player.GetComponent<CharacterBaseController>();
             // Instantiate character
-            characterBaseController.InstantiateCharacter(   characterData.maxHealth, characterData.speed
-                                                            , characterData.maxAmor, characterData.level    );
             characterBaseController.InstantiateDash( 5f, 13f, 5f, 3f );
         }
         else

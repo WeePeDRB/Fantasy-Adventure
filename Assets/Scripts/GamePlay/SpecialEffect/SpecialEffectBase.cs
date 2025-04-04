@@ -3,35 +3,46 @@ using UnityEngine;
 
 public abstract class SpecialEffectBase
 {
-    public string effectName;
-    public float duration; 
-    private float timeRemaining;
+    //
+    // FIELDS
+    //
 
-    protected SpecialEffectBase(string name, float duration)
-    {
-        this.effectName = name;
-        this.duration = duration;
-        this.timeRemaining = duration;
-    }
+    // SET UP VALUES FOR SPECIAL EFFECT
+    // Essential information
+    public string effectName; // Effect name
+    public float duration; // Effect duration
+    protected float timeRemaining; // Time remaining 
+   
 
-    public void StartEffect(CharacterBaseController character, Action<SpecialEffectBase> onEffectEnd)
-    {
-        ApplyEffect(character);
-        EffectEndCallback = onEffectEnd;
-    }
 
-    public void UpdateEffect(float deltaTime, CharacterBaseController character)
+    //
+    // PROPERTIES
+    //
+    //
+    public float TimeRemaining { get { return timeRemaining; } }
+
+
+
+    //
+    // FUNCTIONS
+    //
+
+    // MANAGE EFFECT LIFECYCLE
+    // Update effect
+    public void UpdateEffect(float deltaTime)
     {
         timeRemaining -= deltaTime;
-        if (timeRemaining <= 0)
-        {
-            RemoveEffect(character);
-            EffectEndCallback?.Invoke(this);
-        }
     }
 
-    protected abstract void ApplyEffect(CharacterBaseController character);
-    protected abstract void RemoveEffect(CharacterBaseController character);
+    // Refresh duration
+    public void Refresh(float newDuration)
+    {
+        timeRemaining = Math.Max(timeRemaining, newDuration); // Cộng dồn hoặc giữ thời gian lâu nhất
+    }
 
-    private Action<SpecialEffectBase> EffectEndCallback;
+    //
+    public abstract void ApplyEffectOnCharacter(CharacterBaseController character);
+
+
+    
 }

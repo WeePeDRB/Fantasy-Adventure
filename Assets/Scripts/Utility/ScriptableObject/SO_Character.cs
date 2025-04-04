@@ -19,6 +19,12 @@ public class SO_Character : ScriptableObject
     public float speed;
     public float maxAmor;
     public int level;
+
+    // Character Special Stats
+    public float resistance;
+    public float abilityHaste;
+    public float damageAmplifier;
+
     public IWeapon primaryWeapon;
     public int maxWeapon;
     public int maxItem;

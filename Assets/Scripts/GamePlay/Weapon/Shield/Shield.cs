@@ -6,45 +6,29 @@ using UnityEngine;
 public class Shield : MonoBehaviour, IWeapon
 {
     //
-    //  Weapon colliders
+    // FIELDS
     //
-    [SerializeField] private GameObject weaponHitBox;   //  The hit box collider
-    [SerializeField] private GameObject weaponParryBox; //  The parry hit box collider
 
-    //
+    // Weapon colliders
+    private SphereCollider weaponHitBox;   //  The hit box collider
+
     //  References
-    //
-    [SerializeField] private PaladinController player;    //  Player reference
+    private CharacterBaseController player;    //  Player reference
 
-    //
     //  Weapon stats
-    //
     private float   weaponAttackSpeed;  
     private float   weaponAttackDamage;
     private int     weaponLevel;
 
     //
-    //  Flag for the moving function
-    //
-    public bool weaponMove;
+    private List<GameObject> monsterListInHitBox;
 
 
-
-    private void Start()
-    {
-
-
-
-    }
-
-    
-    private void Update()
-    {
-        Attack();
-    }
 
     //
-    //  
+    // FUNCTIONS
+    //
+
     //
     public void EquipWeapon()
     {
@@ -63,11 +47,22 @@ public class Shield : MonoBehaviour, IWeapon
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (collider.gameObject.CompareTag("Monster"))
         {
-            
+            monsterListInHitBox.Add(collider.gameObject);
         }
+    }
+
+    private void Start()
+    {
+        player = CharacterBaseController.Instance;
+    }
+
+    
+    private void Update()
+    {
+       
     }
 }

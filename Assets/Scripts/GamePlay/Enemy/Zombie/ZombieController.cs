@@ -7,7 +7,7 @@ public class ZombieController : MonsterBaseController
 {
     private void Awake()
     {
-        base.InstantiateCharacter(100,2,2);
+       
     }
 
     private void Update()
