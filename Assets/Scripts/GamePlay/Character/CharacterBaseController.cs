@@ -11,7 +11,7 @@ public abstract class CharacterBaseController : MonoBehaviour
     //
     
     // CHARACTER STATS
-    protected CharacterStats characterStats;
+    public CharacterStats characterStats;
     
     
 

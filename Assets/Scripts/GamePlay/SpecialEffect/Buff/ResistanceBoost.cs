@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class ResistanceBoost : SpecialEffectBase
 {
-    public ResistanceBoost(string name, float duration) : base(name, duration)
+    private float resistanceIncrease;
+
+    public ResistanceBoost(float amount, float duration) 
     {
-        
+        effectName = "ResistanceBoost";
+        this.duration = duration;
+        timeRemaining = duration;
+        resistanceIncrease = amount;
     }
 
-    public override void ApplyEffect(CharacterBaseController character)
+    public override void ApplyEffectOnCharacter(CharacterBaseController character)
     {
         throw new System.NotImplementedException();
     }

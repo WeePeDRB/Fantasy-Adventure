@@ -11,7 +11,7 @@ public abstract class SpecialEffectBase
     // Essential information
     public string effectName; // Effect name
     public float duration; // Effect duration
-    private float timeRemaining; // Time remaining 
+    protected float timeRemaining; // Time remaining 
    
 
 
@@ -24,33 +24,10 @@ public abstract class SpecialEffectBase
 
 
     //
-    // CONTRUCTOR
-    //
-    protected SpecialEffectBase(string name, float duration)
-    {
-        this.effectName = name;
-        this.duration = duration;
-        this.timeRemaining = duration;
-    }
-
-
-
-    //
     // FUNCTIONS
     //
 
     // MANAGE EFFECT LIFECYCLE
-    // Start effect
-    public void StartEffectOnCharacter(CharacterBaseController character)
-    {
-        character.ReceiveSpecialEffect(this);
-    }
-
-    public void StartEffectOnMonster(MonsterBaseController monster)
-    {
-        
-    }
-
     // Update effect
     public void UpdateEffect(float deltaTime)
     {
@@ -64,7 +41,7 @@ public abstract class SpecialEffectBase
     }
 
     //
-    public abstract void ApplyEffect(CharacterBaseController character);
+    public abstract void ApplyEffectOnCharacter(CharacterBaseController character);
 
 
     

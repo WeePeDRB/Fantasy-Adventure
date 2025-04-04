@@ -8,14 +8,14 @@ public class MonsterStats
     // FIELDS
     //
 
+    //Basic stats
     protected float maxHealth; // Maximum health;
     protected float health; // Current health
     protected float speed; // Movement speed
     protected float attackSpeed; // Attack speed
     
     // Special stats
-    protected float resistance; // This stat will block a percentage of the damage received by the player, with a value ranging from 1 to 100.
-
+    protected float resistance; // This stat will block a percentage of the damage received from player, with a value ranging from 1 to 100.
 
 
 
@@ -55,4 +55,34 @@ public class MonsterStats
         get { return maxHealth; }
     }
 
+    public float AttackSpeed
+    {
+        get { return attackSpeed; }
+    }
+
+    // Special stats
+    public float Resistance
+    {
+        get { return resistance; }
+        set { resistance = Mathf.Clamp(value, 0f, 100f); } // Ensure resistance is between 0% and 100%
+    }
+
+
+
+    //
+    // FUNCTIONS
+    //
+
+    // MODIFY CHARACTER STATS
+     // Modify health (using setter)
+    public void ModifyHealth(float healthValue)
+    {
+        Health += healthValue; // Uses the property setter, ensuring health is within valid range
+    }
+
+    // Modify speed (using setter)
+    public void ModifySpeed(float speedValue)
+    {
+        Speed += speedValue * speed / 100; // Uses the property setter
+    }
 }

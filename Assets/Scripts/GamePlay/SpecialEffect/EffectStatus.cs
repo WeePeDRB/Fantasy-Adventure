@@ -46,7 +46,7 @@ public class EffectStatus
             else
             {
                 effect.UpdateEffect(deltaTime);
-                effect.ApplyEffect(character);
+                //effect.ApplyEffect(character);
             }
         }
     }

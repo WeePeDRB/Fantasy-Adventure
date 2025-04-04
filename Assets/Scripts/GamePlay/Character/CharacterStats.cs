@@ -8,6 +8,7 @@ public class CharacterStats : MonoBehaviour
     //  FIELDS
     //
 
+    // Basic stats
     private float maxHealth; // Maximum health 
     private float health; // Current health
     private float speed; // Movement speed
@@ -15,7 +16,8 @@ public class CharacterStats : MonoBehaviour
     private float amor; // Current amor
     private int level; // Character level
 
-    private float resistance; // This stat will block a percentage of the damage received by the player, with a value ranging from 1 to 100.
+    // Special stats
+    private float resistance; // This stat will block a percentage of the damage received from monster, with a value ranging from 1 to 100.
     private float abilityHaste; // This stat represents the percentage of time reduced for skill cooldowns.
     private float damageAmplifier; // This stat increases the damage dealt by weapons
 
@@ -95,7 +97,6 @@ public class CharacterStats : MonoBehaviour
     // FUNCTIONS
     //
 
-    // MODIFY CHARACTER STATS
     // Modify health (using setter)
     public void ModifyHealth(float healthValue)
     {
@@ -105,7 +106,7 @@ public class CharacterStats : MonoBehaviour
     // Modify speed (using setter)
     public void ModifySpeed(float speedValue)
     {
-        Speed += speedValue; // Uses the property setter
+        Speed += speedValue * speed / 100; // Uses the property setter
     }
 
     // Modify resistance (using setter)

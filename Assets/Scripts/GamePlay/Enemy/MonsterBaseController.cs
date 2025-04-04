@@ -10,16 +10,8 @@ public abstract class MonsterBaseController : MonoBehaviour
     //
 
     // MONSTER STATS
-    // Basic stats
-    protected float maxHealth; // Maximum health;
-    protected float health; // Current health
-    protected float speed; // Movement speed
-    protected float attackSpeed; // Attack speed
     
-    // Special stats
-    protected float resistance; // This stat will block a percentage of the damage received by the player, with a value ranging from 1 to 100.
-    protected float abilityHaste; // This stat represents the percentage of time reduced for skill cooldowns.
-    protected float damageAmplifier; // This stat increases the damage dealt by weapons.
+    protected MonsterStats monsterStats;
 
 
 
@@ -57,19 +49,13 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // INITIAL VALUES FOR MONSTER
     // Monster stats
-    public virtual void InstantiateCharacter(float instantiateMaxHealth, float instantiateSpeed, float instantiateAttackSpeed)
+    public virtual void InstantiateCharacter()
     {
         monsterBaseHitBox = GetComponentInChildren<ZombieHitBox>();
 
         //
         monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += Attack;
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
-
-        //
-        maxHealth = instantiateMaxHealth;
-        health = maxHealth;
-        speed = instantiateSpeed;
-        attackSpeed = instantiateAttackSpeed;
 
     }
 
@@ -85,7 +71,7 @@ public abstract class MonsterBaseController : MonoBehaviour
             Vector3 direction = (CharacterBaseController.Instance.transform.position - this.transform.position).normalized;
             Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
             //Movement
-            transform.position += moveDirVector * speed * Time.deltaTime;
+            transform.position += moveDirVector * monsterStats.Speed * Time.deltaTime;
 
             //Rotation
             float rotateSpeed = 10f;
@@ -123,36 +109,10 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     }
 
-
-
-    // MODIFY CHARACTER STATS
-    // Modify health
-    public void ModifyHealth(float healthValue)
+    // SUPPORT FUNCTIONS
+    // Access status effect
+    public void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
-        health += healthValue;
-    }
-
-    // Modify speed
-    public void ModifySpeed(float speedValue)
-    {
-        speed += speedValue;
-    }
-
-    // Modify resistance
-    public void ModifyResistance(float resistanceValue)
-    {
-        resistance += resistanceValue;
-    }
-
-    // Modify ability haste
-    public void ModifyAbilityHaste(float abilityHasteValue)
-    {
-        abilityHaste += abilityHasteValue;
-    }
-
-    // Modify damage
-    public void ModifyDamage(float damageAmplifierValue)
-    {
-        damageAmplifier += damageAmplifierValue;
+        effectStatus.ReceiveEffect(specialEffect);
     }
 }

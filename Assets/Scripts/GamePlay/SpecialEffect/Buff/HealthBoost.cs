@@ -6,14 +6,18 @@ public class HealthBoost : SpecialEffectBase
 {
     private float healthIncrease;
 
-    public HealthBoost(float amount, float duration) : base("Health Boost", duration)
+
+    public HealthBoost(float amount, float duration) 
     {
+        effectName = "HealthBoost";
+        this.duration = duration;
+        timeRemaining = duration;
         healthIncrease = amount;
     }
 
-    public override void ApplyEffect(CharacterBaseController character)
+    public override void ApplyEffectOnCharacter(CharacterBaseController character)
     {
-        
+        character.characterStats.ModifyHealth(healthIncrease);
     }
 
 
