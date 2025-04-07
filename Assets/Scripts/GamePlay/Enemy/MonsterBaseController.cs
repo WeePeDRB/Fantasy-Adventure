@@ -98,9 +98,9 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
 
     // Monster hurt function
-    protected virtual void Hurt()
+    public virtual void Hurt(float damageTaken)
     {
-
+        monsterStats.ModifyHealth(-damageTaken);
     }
 
     // Monster dead function

@@ -158,6 +158,8 @@ public abstract class CharacterBaseController : MonoBehaviour
         {
             Instance = this;
         }
+
+        characterStats = new CharacterStats(100,6,100,1);
     }
 
 }
