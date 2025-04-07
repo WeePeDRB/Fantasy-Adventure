@@ -16,12 +16,12 @@ public class Shield : MonoBehaviour, IWeapon
     private CharacterBaseController player;    //  Player reference
 
     //  Weapon stats
-    private float   weaponAttackSpeed;  
-    private float   weaponAttackDamage;
-    private int     weaponLevel;
+    [SerializeField] private float   weaponAttackSpeed;  
+    [SerializeField] private float   weaponAttackDamage;
+    [SerializeField] private int     weaponLevel;
 
     //
-    private List<GameObject> monsterListInHitBox;
+    private List<MonsterBaseController> monsterListInHitBox;
 
 
 
@@ -38,31 +38,49 @@ public class Shield : MonoBehaviour, IWeapon
     
     public void UpgradeWeapon()
     {
-        
+        weaponLevel ++;
+        weaponAttackDamage += weaponLevel * 5;
+
     }
-    
     
     public void Attack()
     {
+        foreach (MonsterBaseController monster in monsterListInHitBox)
+        {
+            monster.Hurt(weaponAttackDamage);
+        }
+    }
 
+    public IEnumerator AttackCoroutine()
+    {
+        while (player.characterStats.Health > 0)
+        {
+            Attack();
+            yield return new WaitForSeconds(weaponAttackSpeed);
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Add(collider.gameObject);
+            monsterListInHitBox.Add(collider.gameObject.GetComponent<MonsterBaseController>());
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Monster"))
+        {
+            monsterListInHitBox.Remove(collider.gameObject.GetComponent<MonsterBaseController>());
         }
     }
 
     private void Start()
     {
+        monsterListInHitBox = new List<MonsterBaseController>();
         player = CharacterBaseController.Instance;
+        StartCoroutine(AttackCoroutine());
     }
 
-    
-    private void Update()
-    {
-       
-    }
 }

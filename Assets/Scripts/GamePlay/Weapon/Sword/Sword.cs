@@ -37,5 +37,9 @@ public class Sword : MonoBehaviour, IWeapon
     {
         
     }
+    public IEnumerator AttackCoroutine()
+    {
+        yield return new WaitForSeconds(weaponAttackSpeed);
+    }
 
 }

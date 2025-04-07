@@ -12,5 +12,6 @@ public interface IWeapon
     
     // Weapon attack
     void Attack();
+    IEnumerator AttackCoroutine();
     
 }

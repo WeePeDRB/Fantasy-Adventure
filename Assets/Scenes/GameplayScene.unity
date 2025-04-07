@@ -1313,6 +1313,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c350fce8e0119bc438043039726e995a, type: 3}
+--- !u!4 &945310240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2109799903844791648, guid: c350fce8e0119bc438043039726e995a, type: 3}
+  m_PrefabInstance: {fileID: 945310239}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,6 +2089,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3bf0b36fd852643be19b99f0908336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponAttackSpeed: 0.75
+  weaponAttackDamage: 10
+  weaponLevel: 1
 --- !u!135 &2124428039
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2092,7 +2100,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124428037}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2
@@ -2104,13 +2112,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124428037}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_Father: {fileID: 945310240}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2095937946938865051
 PrefabInstance:
@@ -2125,7 +2133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6860055387196731155, guid: 079b40f8f7c2aa54c960905db772378d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7280278313023480991, guid: 079b40f8f7c2aa54c960905db772378d, type: 3}
       propertyPath: zombieObjectPool
