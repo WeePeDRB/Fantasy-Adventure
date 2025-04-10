@@ -9,29 +9,15 @@ public class MonsterStats
     //
 
     //Basic stats
+    protected float damage; // Monster damage
     protected float maxHealth; // Maximum health;
     protected float health; // Current health
     protected float speed; // Movement speed
     protected float attackSpeed; // Attack speed
+    protected int level; // Monster level
     
     // Special stats
     protected float resistance; // This stat will block a percentage of the damage received from player, with a value ranging from 1 to 100.
-
-
-
-    //
-    // CONSTRUCTOR
-    //
-
-    public MonsterStats(    float maxHealth,    float speed, 
-                            float attackSpeed,  float resistance )
-    {
-        this.maxHealth = maxHealth;
-        this.speed = speed;
-        this.attackSpeed = attackSpeed;
-        this.resistance = resistance;
-    }
-
 
 
     //
@@ -39,6 +25,12 @@ public class MonsterStats
     //
 
     // Basic stats
+    public float Damage
+    {
+        get { return damage; }
+    
+    }
+
     public float Health
     {
         get { return health; }
@@ -69,20 +61,32 @@ public class MonsterStats
 
 
 
-    //
+    // 
     // FUNCTIONS
     //
 
-    // MODIFY CHARACTER STATS
-     // Modify health (using setter)
-    public void ModifyHealth(float healthValue)
-    {
-        Health += healthValue; // Uses the property setter, ensuring health is within valid range
-    }
 
-    // Modify speed (using setter)
-    public void ModifySpeed(float speedValue)
+    public void  InitialMonsterStats(    float damage,       float maxHealth,    float speed, 
+                                        float attackSpeed,  float resistance,   int level )
     {
-        Speed += speedValue * speed / 100; // Uses the property setter
+        this.level = level;
+        this.damage = damage + level * 5;
+        this.maxHealth = maxHealth + level * 50;
+        this.health = maxHealth;
+        this.speed = speed;
+        this.attackSpeed = attackSpeed;
+        this.resistance = resistance;
     }
+    // // MODIFY CHARACTER STATS
+    //  // Modify health (using setter)
+    // public void ModifyHealth(float healthValue)
+    // {
+    //     Health += healthValue; // Uses the property setter, ensuring health is within valid range
+    // }
+
+    // // Modify speed (using setter)
+    // public void ModifySpeed(float speedValue)
+    // {
+    //     Speed += speedValue * speed / 100; // Uses the property setter
+    // }
 }
