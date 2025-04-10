@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+public class CharacterStats
 {
     //
     //  FIELDS
@@ -91,39 +91,4 @@ public class CharacterStats : MonoBehaviour
         set { damageAmplifier = Mathf.Max(0f, value); } // Ensure damage amplifier can't be negative
     }
 
-
-
-    //
-    // FUNCTIONS
-    //
-
-    // Modify health (using setter)
-    public void ModifyHealth(float healthValue)
-    {
-        Health += healthValue; // Uses the property setter, ensuring health is within valid range
-    }
-
-    // Modify speed (using setter)
-    public void ModifySpeed(float speedValue)
-    {
-        Speed += speedValue * speed / 100; // Uses the property setter
-    }
-
-    // Modify resistance (using setter)
-    public void ModifyResistance(float resistanceValue)
-    {
-        Resistance += resistanceValue; // Uses the property setter
-    }
-
-    // Modify ability haste (using setter)
-    public void ModifyAbilityHaste(float abilityHasteValue)
-    {
-        AbilityHaste += abilityHasteValue; // Uses the property setter
-    }
-
-    // Modify damage (using setter)
-    public void ModifyDamage(float damageAmplifierValue)
-    {
-        DamageAmplifier += damageAmplifierValue; // Uses the property setter
-    }
 }

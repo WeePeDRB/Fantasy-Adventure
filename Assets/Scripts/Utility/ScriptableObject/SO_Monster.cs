@@ -12,10 +12,12 @@ public class SO_Monster : ScriptableObject
     public GameObject monsterPrefab;
 
     // Monster basic stats
+    public float damage;
     public float maxHealth;
     public float speed;
     public float attackSpeed;
-    public float level;
+    public int level;
+
     // Monster special stats
     public float resistance;
 

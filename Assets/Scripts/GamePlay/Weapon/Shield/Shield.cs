@@ -21,7 +21,7 @@ public class Shield : MonoBehaviour, IWeapon
     [SerializeField] private int     weaponLevel;
 
     //
-    private List<MonsterBaseController> monsterListInHitBox;
+    private List<IMonsterController> monsterListInHitBox;
 
 
 
@@ -45,7 +45,7 @@ public class Shield : MonoBehaviour, IWeapon
     
     public void Attack()
     {
-        foreach (MonsterBaseController monster in monsterListInHitBox)
+        foreach (IMonsterController monster in monsterListInHitBox)
         {
             monster.Hurt(weaponAttackDamage);
         }
@@ -64,7 +64,7 @@ public class Shield : MonoBehaviour, IWeapon
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Add(collider.gameObject.GetComponent<MonsterBaseController>());
+            monsterListInHitBox.Add(collider.gameObject.GetComponent<IMonsterController>());
         }
     }
 
@@ -72,13 +72,13 @@ public class Shield : MonoBehaviour, IWeapon
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Remove(collider.gameObject.GetComponent<MonsterBaseController>());
+            monsterListInHitBox.Remove(collider.gameObject.GetComponent<IMonsterController>());
         }
     }
 
     private void Start()
     {
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<IMonsterController>();
         player = CharacterBaseController.Instance;
         StartCoroutine(AttackCoroutine());
     }

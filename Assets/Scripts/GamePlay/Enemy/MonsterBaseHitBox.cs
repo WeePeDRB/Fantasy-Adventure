@@ -15,7 +15,6 @@ public abstract class MonsterBaseHitBox : MonoBehaviour
     public event Action OnPlayerExitMonsterAttackRange; // Event occurs when player exit the attack range, all the logic related to the attack function will listen to this event
 
 
-
     //
     // FUNCTIONS
     //

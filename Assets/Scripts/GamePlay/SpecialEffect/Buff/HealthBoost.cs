@@ -17,7 +17,7 @@ public class HealthBoost : SpecialEffectBase
 
     public override void ApplyEffectOnCharacter(CharacterBaseController character)
     {
-        character.characterStats.ModifyHealth(healthIncrease);
+        character.characterStats.Health += healthIncrease;
     }
 
 
