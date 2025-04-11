@@ -77,16 +77,4 @@ public class MonsterStats
         this.attackSpeed = attackSpeed;
         this.resistance = resistance;
     }
-    // // MODIFY CHARACTER STATS
-    //  // Modify health (using setter)
-    // public void ModifyHealth(float healthValue)
-    // {
-    //     Health += healthValue; // Uses the property setter, ensuring health is within valid range
-    // }
-
-    // // Modify speed (using setter)
-    // public void ModifySpeed(float speedValue)
-    // {
-    //     Speed += speedValue * speed / 100; // Uses the property setter
-    // }
 }

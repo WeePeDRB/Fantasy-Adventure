@@ -11,17 +11,17 @@ public class ZombieAnimator : MonsterBaseAnimator
 
     // ANIMATOR
     // References
-    protected Animator animator;
-    protected MonsterBaseHitBox zombieBaseHitBox;
-    protected ZombieController zombieController;
+    private Animator animator;
+    private MonsterBaseHitBox zombieBaseHitBox;
+    private ZombieController zombieController;
 
     // Animator parameters
-    protected const string IS_MOVING = "IsMoving";
-    protected const string ATTACK = "Attack";
-    protected const string IS_DEAD_TRIGGER = "DeadTrigger";
+    private const string IS_MOVING = "IsMoving";
+    private const string ATTACK = "Attack";
+    private const string IS_DEAD_TRIGGER = "DeadTrigger";
 
     // Flags
-    protected bool isDead;
+    private bool isDead;
 
     //
     // FUNCTIONS
@@ -35,8 +35,8 @@ public class ZombieAnimator : MonsterBaseAnimator
         zombieBaseHitBox = zombieController.GetComponentInChildren<MonsterBaseHitBox>();
     }
 
-    // HANDLING CHARACTER ANIMATIOn
-    // Monster movement
+    // HANDLING ZOMBIE ANIMATION
+    // Zombie movement
     protected override void Move()
     {
         if ( isDead == false )
@@ -45,7 +45,7 @@ public class ZombieAnimator : MonsterBaseAnimator
         }
     }
 
-    // Monster attack
+    // Zombie attack
     protected override void Attack()
     {
         if ( isDead == false )
@@ -65,7 +65,7 @@ public class ZombieAnimator : MonsterBaseAnimator
     }
 
 
-    private void Awake()
+    private void Start()
     {
         //
         InstantiateAnimator();

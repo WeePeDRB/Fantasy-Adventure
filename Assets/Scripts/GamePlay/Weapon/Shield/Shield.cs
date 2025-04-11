@@ -12,18 +12,16 @@ public class Shield : MonoBehaviour, IWeapon
     // Weapon colliders
     private SphereCollider weaponHitBox;   //  The hit box collider
 
-    //  References
+    // References
     private CharacterBaseController player;    //  Player reference
 
-    //  Weapon stats
+    // Weapon stats
     [SerializeField] private float   weaponAttackSpeed;  
     [SerializeField] private float   weaponAttackDamage;
     [SerializeField] private int     weaponLevel;
 
-    //
+    // List contain monsters that get hit
     private List<MonsterBaseController> monsterListInHitBox;
-
-
 
     //
     // FUNCTIONS

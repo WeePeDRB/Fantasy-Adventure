@@ -10,9 +10,6 @@ public class EffectStatus
 
     // SET UP SPECIAL EFFECT DICTIONARY
     private Dictionary<string, SpecialEffectBase> activeEffects = new Dictionary<string, SpecialEffectBase>();
-    private CharacterBaseController character;
-
-
 
     //
     // FUNCTIONS

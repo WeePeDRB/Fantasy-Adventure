@@ -3,54 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterBaseAnimator : MonoBehaviour
+public abstract class CharacterBaseAnimator : MonoBehaviour
 {   
-    //
-    // FIELDS
-    //
-    
-    // ANIMATOR 
-    // References
-    private Animator animator;
-    // Animator parameters
-    private const string IS_MOVING = "IsMoving"; // Parameter name
-    private bool isMoving; // Parameter value
-
-
-
     //
     // FUNCTIONS
     //
 
+    // INITIAL SET UP FOR ANIMATOR
+    protected abstract void InstantiateAnimator();
+
     // HANDLING CHARACTER ANIMATION
-    // Control player movement animation
-    private void MovementAnimation()
-    {   
-        Vector2 inputVector = GameInput.GetMovementVectorNormalized();
-        if(inputVector != Vector2.zero) isMoving = true;
-        else isMoving = false;
-        animator.SetBool(IS_MOVING, isMoving);
-    }
+    // Character movement
+    protected abstract void MoveAnimate();
 
-    // Control dash animation
-    private void DashAnimation()
-    {
-        animator.SetTrigger("Dash");
-    }
+    // Character dead
+    protected abstract void DeadAnimate(); 
 
+    // Character dash
+    protected abstract void DashSkillAnimate();
 
-    //
-    //
-    //
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        GameInput.OnDashAction += DashAnimation;
-    }
+    // Character special
+    protected abstract void SpecialSkillAnimate();
 
-    private void Update()
-    {
-        MovementAnimation();
-    }
-
+    // Character ultimate
+    protected abstract void UltimateSkillAnimate();
 }

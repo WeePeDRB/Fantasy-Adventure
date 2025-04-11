@@ -5,11 +5,34 @@ using UnityEngine;
 
 public abstract class MonsterBaseController : MonoBehaviour
 { 
+    //
+    // FIELDS
+    //
+
+    // CHECKING FLAGS
+    protected bool isMoving;
+    protected bool isPlayerInside;
+    protected bool isAttacking;
+    protected bool isDead;
+
+    // REFERENCE 
+    protected MonsterBaseHitBox monsterBaseHitBox;
+
+    // COROUTINE VALUE
+    protected Coroutine attackCoroutine;
+
+    // MONSTER STATS
+    public MonsterStats monsterStats;
+
+    // MONSTER EFFECT STATUS
+    protected EffectStatus effectStatus;
+
+
+
     // INITIAL SET UP FOR MONSTER
     public abstract void InstantiateMonster();
 
-
-    // MONSTER BEHAVIOR
+    // HANDLING MONSTER BEHAVIOR
     // Monster movement
     protected abstract void HandleMovement();
 
@@ -24,7 +47,6 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // Monster dead
     protected abstract void Dead();
-
 
     // SUPPORT FUNCTION
     // Get special effect
