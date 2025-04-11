@@ -399,6 +399,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381600081}
   m_CullTransparentMesh: 1
+--- !u!1 &507741299 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2124428037, guid: c350fce8e0119bc438043039726e995a, type: 3}
+  m_PrefabInstance: {fileID: 945310239}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &507741303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507741299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3bf0b36fd852643be19b99f0908336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponAttackSpeed: 0
+  weaponAttackDamage: 0
+  weaponLevel: 0
 --- !u!1001 &652416702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -448,6 +468,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6296286955969420680, guid: ae40eda532f4fcf43907b7ae2475aa21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296286955969420683, guid: ae40eda532f4fcf43907b7ae2475aa21, type: 3}
+      propertyPath: checking
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6296286955969420686, guid: ae40eda532f4fcf43907b7ae2475aa21, type: 3}

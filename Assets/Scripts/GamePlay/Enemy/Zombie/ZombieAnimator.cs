@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAnimator : MonoBehaviour, IMonsterAnimator
+public class ZombieAnimator : MonsterBaseAnimator
 {
     //
     // FIELDS
@@ -20,13 +20,15 @@ public class ZombieAnimator : MonoBehaviour, IMonsterAnimator
     protected const string ATTACK = "Attack";
     protected const string IS_DEAD_TRIGGER = "DeadTrigger";
 
+    // Flags
+    protected bool isDead;
 
     //
     // FUNCTIONS
     //
 
    // INITIAL SET UP FOR ANIMATOR
-    public void InstantiateAnimator()
+    protected override void InstantiateAnimator()
     {
         animator = GetComponent<Animator>();
         zombieController = GetComponentInParent<ZombieController>();
@@ -34,20 +36,34 @@ public class ZombieAnimator : MonoBehaviour, IMonsterAnimator
     }
 
     // HANDLING CHARACTER ANIMATIOn
-    public void Move()
+    // Monster movement
+    protected override void Move()
     {
-        animator.SetBool(IS_MOVING, zombieController.IsMoving);
+        if ( isDead == false )
+        {
+            animator.SetBool(IS_MOVING, zombieController.IsMoving);
+        }
     }
 
-    public void Attack()
+    // Monster attack
+    protected override void Attack()
     {
-        animator.SetTrigger(ATTACK);
+        if ( isDead == false )
+        {
+            animator.SetTrigger(ATTACK);
+        }
+    }
+    protected void ControllerAttack()
+    {
+        zombieController.Attack();
     }
 
-    public void Dead()
+    // Monster dead
+    protected override void Dead()
     {
         animator.SetTrigger(IS_DEAD_TRIGGER);
     }
+
 
     private void Awake()
     {
@@ -61,6 +77,7 @@ public class ZombieAnimator : MonoBehaviour, IMonsterAnimator
 
     private void Update()
     {
+        isDead = zombieController.IsDead;
         Move();
     }
 }

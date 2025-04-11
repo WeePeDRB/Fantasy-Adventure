@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieController :  MonoBehaviour, IMonsterController
+public class ZombieController : MonsterBaseController
 {
     //
     // FIELDS
@@ -38,13 +38,14 @@ public class ZombieController :  MonoBehaviour, IMonsterController
     //
 
     public bool IsMoving { get { return isMoving; } }
+    public bool IsDead { get { return isDead; } }
 
     //
     // FUNCTIONS
     //
 
     // INITIAL SET UP FOR ZOMBIE
-    public void InstantiateMonster()
+    public override void InstantiateMonster()
     {
         // Reset the "isDead" bool
         isDead = false;
@@ -58,12 +59,12 @@ public class ZombieController :  MonoBehaviour, IMonsterController
 
         // Initial stats for zombie
         zombieStats = new MonsterStats();
-        zombieStats.InitialMonsterStats(10,100,3,2,0,1);
+        zombieStats.InitialMonsterStats(10,100,3,2.16f,0,1);
     }
 
     // MONSTER BEHAVIOR
     // Monster movement
-    public void HandleMovement()
+    protected override void HandleMovement()
     {
         if ( isDead == false && isPlayerInside == false && isAttacking == false )
         {
@@ -84,7 +85,7 @@ public class ZombieController :  MonoBehaviour, IMonsterController
     }
 
     // Monster attack
-    public void IsReadyToAttack()
+    protected override void IsReadyToAttack()
     {
         //
         isPlayerInside = true;
@@ -93,56 +94,55 @@ public class ZombieController :  MonoBehaviour, IMonsterController
         // Check if coroutine is start
         if ( attackCoroutine == null )
         {
+            isAttacking = true;
             attackCoroutine = StartCoroutine(AttackCoroutine());
         }
     }
 
-    public IEnumerator AttackCoroutine()
+    protected override IEnumerator AttackCoroutine()
     {
         while ( isDead == false)
         {
-            Attack();
+            OnZombieAttack?.Invoke();
             yield return new WaitForSeconds(zombieStats.AttackSpeed);
         }
     }
 
-    public void Attack()
+    public override void Attack()
     {
-        OnZombieAttack?.Invoke();
         if (isPlayerInside) CharacterBaseController.Instance.Hurt(zombieStats.Damage);
     }
 
 
-    public void IsOutOfRange()
+    protected override void IsOutOfRange()
     {
         isPlayerInside = false;
         isAttacking = false;
         if ( attackCoroutine != null )
         {
-            StopCoroutine(AttackCoroutine());
+            StopCoroutine(attackCoroutine);
             attackCoroutine = null;
         }
     }
 
 
     // Monster get hurt
-    public void Hurt(float damageTaken)
+    public override void Hurt(float damageTaken)
     {
         if (isDead == false)
         {
             //OnMonsterHurt?.Invoke();
             zombieStats.Health -= damageTaken;
-            Debug.Log("This is monster health: "+ zombieStats.Health);
+            
             if ( zombieStats.Health == 0 )
             {
-                Debug.Log("Dead function from hurt");
                 Dead();
             }
         }
     }
 
     // Monster dead
-    public void Dead()
+    protected override void Dead()
     {
         OnZombieDead?.Invoke();
         ZombieBaseHitBox.OnPlayerEnterMonsterAttackRange -= IsReadyToAttack;
@@ -151,7 +151,8 @@ public class ZombieController :  MonoBehaviour, IMonsterController
     }
 
     // SUPPORT FUNCTION
-    public void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
+    
+    public override void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
 
     }

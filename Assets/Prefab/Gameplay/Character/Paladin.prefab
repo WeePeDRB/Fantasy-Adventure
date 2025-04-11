@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2124428040}
   - component: {fileID: 2124428039}
-  - component: {fileID: 2124428038}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -46,21 +45,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2124428038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124428037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b3bf0b36fd852643be19b99f0908336, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponAttackSpeed: 0.75
-  weaponAttackDamage: 10
-  weaponLevel: 1
 --- !u!1 &5834047930223403777
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df83772ad18c194b9fabfb0bcc7e3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterStats: {fileID: 0}
 --- !u!54 &2131646790
 Rigidbody:
   m_ObjectHideFlags: 0
