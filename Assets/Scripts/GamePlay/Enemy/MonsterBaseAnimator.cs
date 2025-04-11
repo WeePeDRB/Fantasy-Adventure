@@ -4,10 +4,14 @@ using UnityEngine;
 
 public abstract class MonsterBaseAnimator : MonoBehaviour
 {
+    //
+    // FUNCTIONS
+    //
+    
     // INITIAL SET UP FOR ANIMATOR
     protected abstract void InstantiateAnimator();
 
-    // HANDLING CHARACTER ANIMATIOn
+    // HANDLING MONSTER ANIMATION
     // Monster movement
     protected abstract void Move();
 

@@ -9,29 +9,10 @@ public class ZombieController : MonsterBaseController
     // FIELDS
     //
 
-    // MONSTER STATS
-    public MonsterStats zombieStats;
-
-    // MONSTER EFFECT STATUS
-    protected EffectStatus effectStatus;
-
-    // CHECKING FLAGS
-    protected bool isMoving;
-    protected bool isPlayerInside;
-    protected bool isAttacking;
-    protected bool isDead;
-    public bool checking; 
-
     // EVENTS
     public event Action OnZombieAttack;
     public event Action OnZombieHurt;
     public event Action OnZombieDead;
-
-    // REFERENCE 
-    protected MonsterBaseHitBox ZombieBaseHitBox;
-
-    // COROUTINE VALUE
-    protected Coroutine attackCoroutine;
 
     //
     // PROPERTIES
@@ -51,29 +32,29 @@ public class ZombieController : MonsterBaseController
         isDead = false;
 
         // HitBox set up
-        if ( ZombieBaseHitBox == null) ZombieBaseHitBox = GetComponentInChildren<ZombieHitBox>();
+        if ( monsterBaseHitBox == null) monsterBaseHitBox = GetComponentInChildren<ZombieHitBox>();
 
         // Listen to HitBox events
-        ZombieBaseHitBox.OnPlayerEnterMonsterAttackRange += IsReadyToAttack;
-        ZombieBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
+        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += IsReadyToAttack;
+        monsterBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
 
         // Initial stats for zombie
-        zombieStats = new MonsterStats();
-        zombieStats.InitialMonsterStats(10,100,3,2.16f,0,1);
+        monsterStats = new MonsterStats();
+        monsterStats.InitialMonsterStats(10,100,3,2.16f,0,1);
     }
 
-    // MONSTER BEHAVIOR
-    // Monster movement
+    // HANDLING ZOMBIE BEHAVIOR
+    // Zombie movement
     protected override void HandleMovement()
     {
-        if ( isDead == false && isPlayerInside == false && isAttacking == false )
+        if ( !isDead && !isPlayerInside && !isAttacking )
         {
             //Specify direction
             Vector3 direction = (CharacterBaseController.Instance.transform.position - this.transform.position).normalized;
             Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
 
             //Movement
-            transform.position += moveDirVector * zombieStats.Speed * Time.deltaTime;
+            transform.position += moveDirVector * monsterStats.Speed * Time.deltaTime;
 
             //Rotation
             float rotateSpeed = 10f;
@@ -84,7 +65,7 @@ public class ZombieController : MonsterBaseController
         }
     }
 
-    // Monster attack
+    // Zombie attack
     protected override void IsReadyToAttack()
     {
         //
@@ -101,16 +82,16 @@ public class ZombieController : MonsterBaseController
 
     protected override IEnumerator AttackCoroutine()
     {
-        while ( isDead == false)
+        while ( !isDead )
         {
             OnZombieAttack?.Invoke();
-            yield return new WaitForSeconds(zombieStats.AttackSpeed);
+            yield return new WaitForSeconds(monsterStats.AttackSpeed);
         }
     }
 
     public override void Attack()
     {
-        if (isPlayerInside) CharacterBaseController.Instance.Hurt(zombieStats.Damage);
+        if (isPlayerInside) CharacterBaseController.Instance.Hurt(monsterStats.Damage);
     }
 
 
@@ -126,27 +107,26 @@ public class ZombieController : MonsterBaseController
     }
 
 
-    // Monster get hurt
+    // Zombie get hurt
     public override void Hurt(float damageTaken)
     {
-        if (isDead == false)
+        if ( !isDead )
         {
-            //OnMonsterHurt?.Invoke();
-            zombieStats.Health -= damageTaken;
+            monsterStats.Health -= damageTaken;
             
-            if ( zombieStats.Health == 0 )
+            if ( monsterStats.Health == 0 )
             {
                 Dead();
             }
         }
     }
 
-    // Monster dead
+    // Zombie dead
     protected override void Dead()
     {
         OnZombieDead?.Invoke();
-        ZombieBaseHitBox.OnPlayerEnterMonsterAttackRange -= IsReadyToAttack;
-        ZombieBaseHitBox.OnPlayerExitMonsterAttackRange -= IsOutOfRange;
+        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= IsReadyToAttack;
+        monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= IsOutOfRange;
         isDead = true;
     }
 
@@ -166,7 +146,5 @@ public class ZombieController : MonsterBaseController
     private void Update()
     {
         HandleMovement();
-        if (attackCoroutine != null) checking = true;
-        else checking = false;
     }
 }

@@ -21,8 +21,6 @@ public class CharacterStats
     private float abilityHaste; // This stat represents the percentage of time reduced for skill cooldowns.
     private float damageAmplifier; // This stat increases the damage dealt by weapons
 
-
-
     //
     // CONSTRUCTOR
     //
@@ -42,8 +40,6 @@ public class CharacterStats
         abilityHaste = 0f;
         damageAmplifier = 0f;
     }
-
-
 
     //
     // PROPERTIES 

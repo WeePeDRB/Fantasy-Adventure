@@ -12,16 +12,12 @@ public abstract class SpecialEffectBase
     public string effectName; // Effect name
     public float duration; // Effect duration
     protected float timeRemaining; // Time remaining 
-   
-
 
     //
     // PROPERTIES
     //
     //
     public float TimeRemaining { get { return timeRemaining; } }
-
-
 
     //
     // FUNCTIONS
