@@ -10,13 +10,13 @@ public abstract class CharacterBaseController : MonoBehaviour
     // FIELDS
     //
 
+    // CHARACTER BEHAVIOR STATE
+    protected CharacterBehavior characterBehaviorState; 
+
     // CHECKING FLAGS
     protected bool canDash;  
-    protected bool isDashing;
     protected bool canSpecial;
-    protected bool isCastingSpecial;
     protected bool canUltimate;
-    protected bool isCastingUltimate;
     protected bool isDead;
 
     // CHARACTER INVENTORY SYSTEM
@@ -82,6 +82,13 @@ public abstract class CharacterBaseController : MonoBehaviour
 
 
     // SUPPORT FUNCTIONS
+    // Set character state to normal
+    public void ReturnNormalState()
+    {
+        Debug.Log("return normal state in paladin");
+        characterBehaviorState = CharacterBehavior.Normal;
+    }
+
     // Access status effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {

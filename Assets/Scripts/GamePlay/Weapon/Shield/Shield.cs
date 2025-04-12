@@ -45,7 +45,6 @@ public class Shield : MonoBehaviour, IWeapon
     {
         foreach (MonsterBaseController monster in monsterListInHitBox)
         {
-            Debug.Log("This is the attack function");
             monster.Hurt(weaponAttackDamage);
         }
     }
@@ -55,7 +54,6 @@ public class Shield : MonoBehaviour, IWeapon
         while (player.characterStats.Health > 0)
         {
             Attack();
-            Debug.Log("This is the attack coroutine");
             yield return new WaitForSeconds(weaponAttackSpeed);
         }
     }

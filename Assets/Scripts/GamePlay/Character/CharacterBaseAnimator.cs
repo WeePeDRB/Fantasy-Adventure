@@ -27,4 +27,7 @@ public abstract class CharacterBaseAnimator : MonoBehaviour
 
     // Character ultimate
     protected abstract void UltimateSkillAnimate();
+
+    // SUPPORT FUNCTION
+    protected abstract void ReturnNormalState();
 }

@@ -53,7 +53,6 @@ public class PaladinController : CharacterBaseController
         dashSpeed = instantiateDashSpeed;
         dashCooldown = instantiateDashCooldown;
         canDash = true;
-        isDashing = false; 
     }
 
     
@@ -64,7 +63,7 @@ public class PaladinController : CharacterBaseController
     {
         if ( !isDead )
         {
-            if ( !isDashing )
+            if ( characterBehaviorState == CharacterBehavior.Normal)
             {
                 //Handle Input
                 Vector2 inputVector = GameInput.GetMovementVectorNormalized();
@@ -76,13 +75,9 @@ public class PaladinController : CharacterBaseController
                 float rotateSpeed = 10f;
                 transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
             }
-            else
+            else if (characterBehaviorState == CharacterBehavior.Dashing)
             {
                 transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
-                if (Vector3.Distance(transform.position, dashTarget) < 0.1f)        
-                {
-                    isDashing = false;
-                }
             }    
         }
     }
@@ -111,6 +106,9 @@ public class PaladinController : CharacterBaseController
     {
         if ( canDash )
         {
+            // Change the behavior state
+            characterBehaviorState = CharacterBehavior.Dashing;
+
             // Invoke the dash event
             OnPaladinDash?.Invoke();
 
@@ -118,11 +116,10 @@ public class PaladinController : CharacterBaseController
             dashTarget = transform.position + transform.forward * dashDistance;
             
             //Set the dashing flag
-            isDashing = true;
             canDash = false;
 
             //Reset the skill and special effect
-            StartCoroutine(ResetDashSkill(5f));
+            StartCoroutine(ResetDashSkill(dashCooldown));
         }
     }
 
@@ -132,6 +129,9 @@ public class PaladinController : CharacterBaseController
     {
         if ( canSpecial )
         {
+            // Change the behavior state
+            characterBehaviorState = CharacterBehavior.Casting;
+
             // Invoke the special event
             OnPaladinSpecial?.Invoke();
         }
@@ -148,6 +148,9 @@ public class PaladinController : CharacterBaseController
     {
         if ( canUltimate )
         {
+            // Change the behavior state
+            characterBehaviorState = CharacterBehavior.Casting;
+
             // Invoke the ultimate event
             OnPaladinUltimate?.Invoke();
         }
@@ -160,9 +163,9 @@ public class PaladinController : CharacterBaseController
     // SUPPORT FUNCTIONS
     private void OnCollisionEnter(Collision collision)
     {
-        if (isDashing && collision.gameObject.CompareTag("Wall"))
+        if (characterBehaviorState == CharacterBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
         {
-            isDashing = false;
+            characterBehaviorState = CharacterBehavior.Normal;
         }
     }
 
@@ -177,10 +180,13 @@ public class PaladinController : CharacterBaseController
         canSpecial = true;
         canUltimate = true;
 
-        //Set a subscriber
+        //Set a subscriber for gameinput
         GameInput.OnDashAction += HandleDashSkill;
         GameInput.OnSpecialAction += HandleSpecialSkill;
         GameInput.OnUltimateAction += HandleUltimateSkill;
+
+        //
+
     }
 
     private void Update()

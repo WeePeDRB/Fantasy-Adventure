@@ -6,8 +6,14 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class SO_CharacterSkill : ScriptableObject
 {
+    // Skill icon
     public Sprite skillSprite;
+
+    // Skill data
     public string skillName;
     public string skillDescription;
     public float skillCooldown;
+    public SkillType skillType;
+    public SkillTargetType skillTargetType;
+    public SkillCategory skillCategory;
 }
