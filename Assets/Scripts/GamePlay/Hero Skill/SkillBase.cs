@@ -8,12 +8,14 @@ public abstract class SkillBase : MonoBehaviour
     // FIELDS
     //
 
-    // Skill data
-    protected SO_CharacterSkill skillData;
+    protected HeroBaseController heroBaseController;
 
     //
     // FUNCTIONS
     //
+
+    // Instantiate skill
+    protected abstract void InstantiateSkill();
 
     // Activate skill
     protected abstract void SkillActivate();

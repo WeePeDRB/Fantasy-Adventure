@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class CharacterBaseController : MonoBehaviour
+public abstract class HeroBaseController : MonoBehaviour
 {
     //
     // FIELDS
@@ -29,14 +29,11 @@ public abstract class CharacterBaseController : MonoBehaviour
     protected List<IItem> items; // Item list
     protected int maxItem; // Ammount of item
 
-    // CHARACTER INSTANCE
-    public static CharacterBaseController Instance { get; protected set; }
-
     // CHARACTER STATS
-    public CharacterStats characterStats;
+    public HeroStats heroStats;
 
     // CHARACTER EFFECT STATUS
-    public EffectStatus effectStatus; 
+    protected CharacterEffectStatus effectStatus; 
 
     // CHARACTER SKILLS
 
@@ -94,6 +91,10 @@ public abstract class CharacterBaseController : MonoBehaviour
     {
         effectStatus.ReceiveEffect(specialEffect);
     }
+    public virtual void UpdateSpecialEffect()
+    {
+        //effectStatus.UpdateEffects(Time.deltaTime);
+    } 
 
     // Reset dash skill
     protected IEnumerator ResetDashSkill(float dashSkillCooldown)

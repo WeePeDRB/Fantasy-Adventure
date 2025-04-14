@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterBaseAnimator : MonoBehaviour
+public abstract class HeroBaseAnimator : MonoBehaviour
 {   
     //
     // FUNCTIONS

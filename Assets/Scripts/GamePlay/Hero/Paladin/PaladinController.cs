@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaladinController : CharacterBaseController
+public class PaladinController : HeroBaseController
 {
     //
     // FIELDS
@@ -33,10 +33,10 @@ public class PaladinController : CharacterBaseController
     public override void InstantiateStatandStatus()
     {
         // Instantiate stats
-        characterStats = new CharacterStats(100,7,100,1);
+        //heroStats = new HeroStats(100,7,100,1);
 
         // Instantiate status
-        effectStatus = new EffectStatus();        
+        //effectStatus = new EffectStatus();        
     }
 
     // Paladin inventory
@@ -69,7 +69,7 @@ public class PaladinController : CharacterBaseController
                 Vector2 inputVector = GameInput.GetMovementVectorNormalized();
                 Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
                 //Move
-                transform.position += moveDirVector * characterStats.Speed * Time.deltaTime;
+                transform.position += moveDirVector * heroStats.Speed * Time.deltaTime;
                 
                 //Rotation
                 float rotateSpeed = 10f;
@@ -172,8 +172,7 @@ public class PaladinController : CharacterBaseController
 
     private void Awake()
     {
-        //
-        Instance = this;
+
         InstantiateStatandStatus();
         InstantiateDash(5,18,5,3);
 

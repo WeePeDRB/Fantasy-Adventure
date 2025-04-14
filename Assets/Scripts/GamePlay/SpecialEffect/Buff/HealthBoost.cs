@@ -6,18 +6,25 @@ public class HealthBoost : SpecialEffectBase
 {
     private float healthIncrease;
 
-
-    public HealthBoost(float amount, float duration) 
+    public HealthBoost(float amount, float duration, EffectTarget effectTarget) 
     {
         effectName = "HealthBoost";
         this.duration = duration;
+        this.effectTarget = effectTarget;
         timeRemaining = duration;
         healthIncrease = amount;
     }
 
-    public override void ApplyEffectOnCharacter(CharacterBaseController character)
+    // Apply effect to character
+    public override void ApplyEffectOnCharacter(HeroBaseController hero)
     {
-        character.characterStats.Health += healthIncrease;
+        hero.heroStats.Health += healthIncrease;
+    }
+
+    // Apply effect to monster
+    public override void ApplyEffectOnMonster(MonsterBaseController monster)
+    {
+        throw new System.NotImplementedException();
     }
 
 

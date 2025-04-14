@@ -32,7 +32,7 @@ public class GameplaySceneManager : MonoBehaviour
             // Instantiate game object
             GameObject player = Instantiate(characterData.characterPrefab, Vector3.zero, Quaternion.identity);
             // Get character controller
-            CharacterBaseController characterBaseController = player.GetComponent<CharacterBaseController>();
+            HeroBaseController characterBaseController = player.GetComponent<HeroBaseController>();
             // Instantiate character
             characterBaseController.InstantiateDash( 5f, 13f, 5f, 3f );
         }

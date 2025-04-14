@@ -2,28 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResistanceBoost : SpecialEffectBase
+public class DamageBoost : SpecialEffectBase
 {
-    private float resistance;
+    //
+    // FIELDS
+    //
 
-    public ResistanceBoost(float amount, float duration, EffectTarget effectTarget) 
+    private float damageAmplifier;
+
+    //
+    // CONTRUCTOR
+    //
+    public DamageBoost(float amount, float duration, EffectTarget effectTarget)
     {
-        effectName = "ResistanceBoost";
+        effectName = "DamageBoost";
         this.duration = duration;
         this.effectTarget = effectTarget;
         timeRemaining = duration;
-        resistance = amount;
+        damageAmplifier = amount;
     }
 
-    // Apply effect to character
+    //
+    // FUNCTIONS
+    //
+
+    // Apply effect to player
     public override void ApplyEffectOnCharacter(HeroBaseController hero)
     {
-        hero.heroStats.Resistance = resistance;
+        hero.heroStats.DamageAmplifier = damageAmplifier;
     }
+
 
     // Apply effect to monster
     public override void ApplyEffectOnMonster(MonsterBaseController monster)
     {
         throw new System.NotImplementedException();
     }
+
 }
