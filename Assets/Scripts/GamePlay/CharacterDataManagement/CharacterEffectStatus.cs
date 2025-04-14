@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectStatus 
+public abstract class CharacterEffectStatus 
 {
     //
     // FIELDS
     //
 
     // SET UP SPECIAL EFFECT DICTIONARY
-    private Dictionary<string, SpecialEffectBase> activeEffects = new Dictionary<string, SpecialEffectBase>();
+    protected Dictionary<string, SpecialEffectBase> activeEffects = new Dictionary<string, SpecialEffectBase>();
 
     //
     // FUNCTIONS
@@ -20,33 +20,20 @@ public class EffectStatus
     public void ReceiveEffect(SpecialEffectBase effect)
     {
         // If an effect already exists in the dictionary, refresh its duration
-        if (activeEffects.ContainsKey(effect.effectName))
+        if (activeEffects.ContainsKey(effect.EffectName))
         {
-            activeEffects[effect.effectName].Refresh(effect.duration);
+            activeEffects[effect.EffectName].Refresh();
         }
         // Else add it to dictionary
         else
         {
-            activeEffects.Add(effect.effectName, effect);
+            activeEffects.Add(effect.EffectName, effect);
         }
     }
 
     // Update effect function
-    public void UpdateEffects(float deltaTime)
-    {
-        foreach (var effect in activeEffects.Values)
-        {
-            if (effect.TimeRemaining <= 0)
-            {
-                RemoveEffect(effect.effectName);
-            }
-            else
-            {
-                effect.UpdateEffect(deltaTime);
-                //effect.ApplyEffect(character);
-            }
-        }
-    }
+    public abstract void UpdateEffects(float deltaTime);
+
 
     // Remove effect function
     public void RemoveEffect(string effectName)

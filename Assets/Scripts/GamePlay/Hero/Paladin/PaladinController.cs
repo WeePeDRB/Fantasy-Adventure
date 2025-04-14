@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaladinController : CharacterBaseController
+public class PaladinController : HeroBaseController
 {
     //
     // FIELDS
@@ -33,10 +33,10 @@ public class PaladinController : CharacterBaseController
     public override void InstantiateStatandStatus()
     {
         // Instantiate stats
-        characterStats = new CharacterStats(100,7,100,1);
+        //heroStats = new HeroStats(100,7,100,1);
 
         // Instantiate status
-        effectStatus = new EffectStatus();        
+        //effectStatus = new EffectStatus();        
     }
 
     // Paladin inventory
@@ -53,7 +53,6 @@ public class PaladinController : CharacterBaseController
         dashSpeed = instantiateDashSpeed;
         dashCooldown = instantiateDashCooldown;
         canDash = true;
-        isDashing = false; 
     }
 
     
@@ -64,25 +63,21 @@ public class PaladinController : CharacterBaseController
     {
         if ( !isDead )
         {
-            if ( !isDashing )
+            if ( characterBehaviorState == CharacterBehavior.Normal)
             {
                 //Handle Input
                 Vector2 inputVector = GameInput.GetMovementVectorNormalized();
                 Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
                 //Move
-                transform.position += moveDirVector * characterStats.Speed * Time.deltaTime;
+                transform.position += moveDirVector * heroStats.Speed * Time.deltaTime;
                 
                 //Rotation
                 float rotateSpeed = 10f;
                 transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
             }
-            else
+            else if (characterBehaviorState == CharacterBehavior.Dashing)
             {
                 transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
-                if (Vector3.Distance(transform.position, dashTarget) < 0.1f)        
-                {
-                    isDashing = false;
-                }
             }    
         }
     }
@@ -111,6 +106,9 @@ public class PaladinController : CharacterBaseController
     {
         if ( canDash )
         {
+            // Change the behavior state
+            characterBehaviorState = CharacterBehavior.Dashing;
+
             // Invoke the dash event
             OnPaladinDash?.Invoke();
 
@@ -118,11 +116,10 @@ public class PaladinController : CharacterBaseController
             dashTarget = transform.position + transform.forward * dashDistance;
             
             //Set the dashing flag
-            isDashing = true;
             canDash = false;
 
             //Reset the skill and special effect
-            StartCoroutine(ResetDashSkill(5f));
+            StartCoroutine(ResetDashSkill(dashCooldown));
         }
     }
 
@@ -132,6 +129,9 @@ public class PaladinController : CharacterBaseController
     {
         if ( canSpecial )
         {
+            // Change the behavior state
+            characterBehaviorState = CharacterBehavior.Casting;
+
             // Invoke the special event
             OnPaladinSpecial?.Invoke();
         }
@@ -148,6 +148,9 @@ public class PaladinController : CharacterBaseController
     {
         if ( canUltimate )
         {
+            // Change the behavior state
+            characterBehaviorState = CharacterBehavior.Casting;
+
             // Invoke the ultimate event
             OnPaladinUltimate?.Invoke();
         }
@@ -160,27 +163,29 @@ public class PaladinController : CharacterBaseController
     // SUPPORT FUNCTIONS
     private void OnCollisionEnter(Collision collision)
     {
-        if (isDashing && collision.gameObject.CompareTag("Wall"))
+        if (characterBehaviorState == CharacterBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
         {
-            isDashing = false;
+            characterBehaviorState = CharacterBehavior.Normal;
         }
     }
 
 
     private void Awake()
     {
-        //
-        Instance = this;
+
         InstantiateStatandStatus();
         InstantiateDash(5,18,5,3);
 
         canSpecial = true;
         canUltimate = true;
 
-        //Set a subscriber
+        //Set a subscriber for gameinput
         GameInput.OnDashAction += HandleDashSkill;
         GameInput.OnSpecialAction += HandleSpecialSkill;
         GameInput.OnUltimateAction += HandleUltimateSkill;
+
+        //
+
     }
 
     private void Update()

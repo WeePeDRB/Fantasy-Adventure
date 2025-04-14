@@ -62,7 +62,7 @@ public class MonsterSpawnManager : MonoBehaviour
     // Check and locate player position and assign it to monster spawn position
     private void CheckPlayerPosition()
     {
-        monsterSpawnPosition = CharacterBaseController.Instance.transform;
+        //monsterSpawnPosition = CharacterBaseController.Instance.transform;
     }
 
     // 

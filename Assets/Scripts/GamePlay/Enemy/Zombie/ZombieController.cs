@@ -39,8 +39,8 @@ public class ZombieController : MonsterBaseController
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
 
         // Initial stats for zombie
-        monsterStats = new MonsterStats();
-        monsterStats.InitialMonsterStats(10,100,3,2.16f,0,1);
+        //monsterStats = new MonsterStats();
+        //monsterStats.InitialMonsterStats(10,100,3,2.16f,0,1);
     }
 
     // HANDLING ZOMBIE BEHAVIOR
@@ -50,7 +50,7 @@ public class ZombieController : MonsterBaseController
         if ( !isDead && !isPlayerInside && !isAttacking )
         {
             //Specify direction
-            Vector3 direction = (CharacterBaseController.Instance.transform.position - this.transform.position).normalized;
+            Vector3 direction = (player.transform.position - this.transform.position).normalized;
             Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
 
             //Movement
@@ -91,7 +91,7 @@ public class ZombieController : MonsterBaseController
 
     public override void Attack()
     {
-        if (isPlayerInside) CharacterBaseController.Instance.Hurt(monsterStats.Damage);
+        if (isPlayerInside) player.Hurt(monsterStats.Damage);
     }
 
 
@@ -134,7 +134,7 @@ public class ZombieController : MonsterBaseController
     
     public override void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
-
+        
     }
 
 

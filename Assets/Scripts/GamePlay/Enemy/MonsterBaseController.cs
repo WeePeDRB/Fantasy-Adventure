@@ -17,6 +17,7 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // REFERENCE 
     protected MonsterBaseHitBox monsterBaseHitBox;
+    protected HeroBaseController player;
 
     // COROUTINE VALUE
     protected Coroutine attackCoroutine;
@@ -25,7 +26,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     public MonsterStats monsterStats;
 
     // MONSTER EFFECT STATUS
-    protected EffectStatus effectStatus;
+    protected MonsterEffectStatus effectStatus;
 
 
 

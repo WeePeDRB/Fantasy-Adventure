@@ -13,7 +13,7 @@ public class Shield : MonoBehaviour, IWeapon
     private SphereCollider weaponHitBox;   //  The hit box collider
 
     // References
-    private CharacterBaseController player;    //  Player reference
+    private HeroBaseController player;    //  Player reference
 
     // Weapon stats
     [SerializeField] private float   weaponAttackSpeed;  
@@ -45,17 +45,15 @@ public class Shield : MonoBehaviour, IWeapon
     {
         foreach (MonsterBaseController monster in monsterListInHitBox)
         {
-            Debug.Log("This is the attack function");
             monster.Hurt(weaponAttackDamage);
         }
     }
 
     public IEnumerator AttackCoroutine()
     {
-        while (player.characterStats.Health > 0)
+        while (player.heroStats.Health > 0)
         {
             Attack();
-            Debug.Log("This is the attack coroutine");
             yield return new WaitForSeconds(weaponAttackSpeed);
         }
     }
@@ -79,7 +77,7 @@ public class Shield : MonoBehaviour, IWeapon
     private void Start()
     {
         monsterListInHitBox = new List<MonsterBaseController>();
-        player = CharacterBaseController.Instance;
+        player = GetComponentInParent<HeroBaseController>();
         StartCoroutine(AttackCoroutine());
     }
 

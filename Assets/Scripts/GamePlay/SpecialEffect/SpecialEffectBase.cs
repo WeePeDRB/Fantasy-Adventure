@@ -9,15 +9,20 @@ public abstract class SpecialEffectBase
 
     // SET UP VALUES FOR SPECIAL EFFECT
     // Essential information
-    public string effectName; // Effect name
-    public float duration; // Effect duration
+    protected string effectName; // Effect name
+    protected float duration; // Effect duration
     protected float timeRemaining; // Time remaining 
+    protected EffectTarget effectTarget; 
 
     //
     // PROPERTIES
     //
+    
     //
+    public string EffectName { get { return effectName; } }
     public float TimeRemaining { get { return timeRemaining; } }
+    public float Duration { get { return duration; } }
+    public EffectTarget EffectTarget { get { return effectTarget; } }
 
     //
     // FUNCTIONS
@@ -25,20 +30,21 @@ public abstract class SpecialEffectBase
 
     // MANAGE EFFECT LIFECYCLE
     // Update effect
-    public void UpdateEffect(float deltaTime)
+    public void UpdateTime(float deltaTime)
     {
         timeRemaining -= deltaTime;
     }
 
     // Refresh duration
-    public void Refresh(float newDuration)
+    public void Refresh()
     {
-        timeRemaining = Math.Max(timeRemaining, newDuration); // Cộng dồn hoặc giữ thời gian lâu nhất
+        timeRemaining = duration; 
     }
 
-    //
-    public abstract void ApplyEffectOnCharacter(CharacterBaseController character);
+    // Apply effect to player
+    public abstract void ApplyEffectOnCharacter(HeroBaseController hero);
 
+    // Apply effect to monster
+    public abstract void ApplyEffectOnMonster(MonsterBaseController monster);
 
-    
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaladinAnimator : CharacterBaseAnimator
+public class PaladinAnimator : HeroBaseAnimator
 {
     //
     // FIELDS
@@ -41,6 +41,7 @@ public class PaladinAnimator : CharacterBaseAnimator
     // Paladin dead
     protected override void DeadAnimate()
     {
+
     }
 
     // Paladin dash
@@ -58,6 +59,7 @@ public class PaladinAnimator : CharacterBaseAnimator
     // This function will handle the special skill effect
     protected void SpecialSkillActivate()
     {
+        Debug.Log("This is special skill activate in animator");
         paladinController.SpecialSkillActivate();
     }
 
@@ -65,6 +67,13 @@ public class PaladinAnimator : CharacterBaseAnimator
     protected override void UltimateSkillAnimate()
     {
         animator.SetTrigger("Ultimate");
+    }
+
+    // SUPPORT FUNCTION
+    protected override void ReturnNormalState()
+    {
+        Debug.Log("return normal state in paladin animator");
+        paladinController.ReturnNormalState();
     }
 
     // Start is called before the first frame update
