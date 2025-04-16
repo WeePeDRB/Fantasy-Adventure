@@ -4,7 +4,7 @@ using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class SO_CharacterSkill : ScriptableObject
+public class SO_HeroSkill : ScriptableObject
 {
     // Skill icon
     public Sprite skillSprite;

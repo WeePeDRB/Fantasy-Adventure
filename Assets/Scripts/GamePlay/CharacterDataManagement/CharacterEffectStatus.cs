@@ -44,4 +44,10 @@ public abstract class CharacterEffectStatus
         }
     }
 
+    // Check if dictionary is empty
+    public bool IsDictionaryEmpty()
+    {
+        if (activeEffects.Count == 0) return true;
+        return false;
+    }
 }

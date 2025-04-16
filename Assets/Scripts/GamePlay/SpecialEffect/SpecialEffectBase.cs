@@ -41,10 +41,14 @@ public abstract class SpecialEffectBase
         timeRemaining = duration; 
     }
 
-    // Apply effect to player
-    public abstract void ApplyEffectOnCharacter(HeroBaseController hero);
+    // Apply effect to hero
+    public abstract void ApplyEffectOnHero(HeroBaseController hero);
+    // Remove effect to hero
+    public abstract void RemoveEffectOnHero(HeroBaseController hero);
 
     // Apply effect to monster
     public abstract void ApplyEffectOnMonster(MonsterBaseController monster);
+    // Remove effect to monster
+    public abstract void RemoveEffectOnMonster(MonsterBaseController monster);
 
 }

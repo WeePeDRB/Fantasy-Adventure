@@ -10,8 +10,11 @@ public abstract class HeroBaseController : MonoBehaviour
     // FIELDS
     //
 
-    // CHARACTER BEHAVIOR STATE
-    protected CharacterBehavior characterBehaviorState; 
+    // Hero data
+    [SerializeField] protected SO_Hero heroData;
+
+    // HERO BEHAVIOR STATE
+    protected HeroBehavior heroBehaviorState; 
 
     // CHECKING FLAGS
     protected bool canDash;  
@@ -19,9 +22,9 @@ public abstract class HeroBaseController : MonoBehaviour
     protected bool canUltimate;
     protected bool isDead;
 
-    // CHARACTER INVENTORY SYSTEM
+    // HERO INVENTORY SYSTEM
     // Weapon system
-    protected IWeapon primaryWeapon; // Primary weapon for each character
+    protected IWeapon primaryWeapon; // Primary weapon for each hero
     protected List<IWeapon> weapons; // Weapon list
     protected int maxWeapon; // Ammount of weapon
     
@@ -29,45 +32,60 @@ public abstract class HeroBaseController : MonoBehaviour
     protected List<IItem> items; // Item list
     protected int maxItem; // Ammount of item
 
-    // CHARACTER STATS
+    // HERO STATS
     public HeroStats heroStats;
 
-    // CHARACTER EFFECT STATUS
-    protected CharacterEffectStatus effectStatus; 
+    // HERO EFFECT STATUS
+    protected HeroEffectStatus heroEffectStatus; 
 
-    // CHARACTER SKILLS
+    // HERO SKILLS
 
+    //
+    // PROPERTIES
+    //
+    public SO_Hero HeroData
+    {
+        get { return heroData; }
+    }
+
+    public HeroBehavior HeroBehavior
+    {
+        get { return heroBehaviorState; }
+    }
 
     //
     // FUNCTIONS
     //
 
-    // INITIAL VALUES FOR CHARACTER
-    // Character stats and status
-    public abstract void InstantiateStatandStatus();
+    // INITIAL VALUES FOR HERO
+    // Hero stats 
+    public abstract void InstantiateStats();
 
-    // Character inventory
+    // Hero effect status
+    public abstract void InstantiateEffectStatus();
+
+    // Hero inventory
     public abstract void InstantiateCharacterInventory();
 
-    // Character dash values
+    // Hero dash values
     public abstract void InstantiateDash(    float instantiateDashDistance, float instantiateDashSpeed, 
                                             float instantiateDashCooldown, float instantiateSpecialEffectDuration   );
 
 
-    // HANDLING CHARACTER BEHAVIOR
-    // Character movement function
+    // HANDLING HERO BEHAVIOR
+    // Hero movement function
     protected abstract void HandleMovement();
 
-    // Character hurt function
+    // Hero hurt function
     public abstract void Hurt(float damageTaken);
 
-    // Character dead function
+    // Hero dead function
     protected abstract void Dead();
 
-    // Character amor regeneration
+    // Hero amor regeneration
     protected abstract void AmorRegen();
 
-    // HANDLING CHARACTER SKILLS
+    // HANDLING HERO SKILLS
     // Handle the dash skill 
     protected abstract void HandleDashSkill();
 
@@ -79,21 +97,24 @@ public abstract class HeroBaseController : MonoBehaviour
 
 
     // SUPPORT FUNCTIONS
-    // Set character state to normal
+    // Set hero state to normal
     public void ReturnNormalState()
     {
-        Debug.Log("return normal state in paladin");
-        characterBehaviorState = CharacterBehavior.Normal;
+        heroBehaviorState = HeroBehavior.Normal;
     }
 
     // Access status effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
-        effectStatus.ReceiveEffect(specialEffect);
+        heroEffectStatus.ReceiveEffect(specialEffect);
     }
     public virtual void UpdateSpecialEffect()
     {
-        //effectStatus.UpdateEffects(Time.deltaTime);
+        if (heroEffectStatus.IsDictionaryEmpty())
+        {
+            return;
+        }
+        heroEffectStatus.UpdateEffects(Time.deltaTime);
     } 
 
     // Reset dash skill

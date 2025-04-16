@@ -26,10 +26,16 @@ public class DamageBoost : SpecialEffectBase
     // FUNCTIONS
     //
 
-    // Apply effect to player
-    public override void ApplyEffectOnCharacter(HeroBaseController hero)
+    // Apply effect to hero
+    public override void ApplyEffectOnHero(HeroBaseController hero)
     {
         hero.heroStats.DamageAmplifier = damageAmplifier;
+    }
+    // Remove effect to hero
+    public override void RemoveEffectOnHero(HeroBaseController hero)
+    {
+        
+        hero.heroStats.DamageAmplifier = hero.HeroData.damageAmplifier;
     }
 
 
@@ -38,5 +44,9 @@ public class DamageBoost : SpecialEffectBase
     {
         throw new System.NotImplementedException();
     }
-
+    // Remove effect to monster
+    public override void RemoveEffectOnMonster(MonsterBaseController monster)
+    {
+        throw new System.NotImplementedException();
+    }
 }

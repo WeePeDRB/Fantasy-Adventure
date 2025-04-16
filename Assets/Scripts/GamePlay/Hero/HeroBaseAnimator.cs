@@ -12,20 +12,20 @@ public abstract class HeroBaseAnimator : MonoBehaviour
     // INITIAL SET UP FOR ANIMATOR
     protected abstract void InstantiateAnimator();
 
-    // HANDLING CHARACTER ANIMATION
-    // Character movement
+    // HANDLING HERO ANIMATION
+    // Hero movement
     protected abstract void MoveAnimate();
 
-    // Character dead
+    // Hero dead
     protected abstract void DeadAnimate(); 
 
-    // Character dash
+    // Hero dash
     protected abstract void DashSkillAnimate();
 
-    // Character special
+    // Hero special
     protected abstract void SpecialSkillAnimate();
 
-    // Character ultimate
+    // Hero ultimate
     protected abstract void UltimateSkillAnimate();
 
     // SUPPORT FUNCTION

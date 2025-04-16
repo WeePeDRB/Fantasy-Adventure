@@ -12,25 +12,25 @@ public class GameplaySceneManager : MonoBehaviour
     // Character instantiate funtions 
     //
     // Set up to instantiate the character gameobject
-    private int characterId;
-    private SO_Character characterData;
+    private int heroId;
+    private SO_Hero heroData;
     
-    [SerializeField] private SO_CharacterList characterDataList;
+    [SerializeField] private SO_HeroList heroDataList;
 
     // Get and set value for the character data
     private void GetCharacterData()
     {
-        characterId = PlayerPrefs.GetInt("CharacterID");
-        characterData = characterDataList.GetCharacterById(characterId);
+        heroId = PlayerPrefs.GetInt("CharacterID");
+        heroData = heroDataList.GetCharacterById(heroId);
     }
 
     // Instantiate character
     private void InstantiateCharacter()
     {
-        if (characterData != null)
+        if (heroData != null)
         {
             // Instantiate game object
-            GameObject player = Instantiate(characterData.characterPrefab, Vector3.zero, Quaternion.identity);
+            GameObject player = Instantiate(heroData.heroPrefab, Vector3.zero, Quaternion.identity);
             // Get character controller
             HeroBaseController characterBaseController = player.GetComponent<HeroBaseController>();
             // Instantiate character

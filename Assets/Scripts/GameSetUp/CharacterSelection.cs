@@ -10,30 +10,30 @@ public class CharacterSelection : MonoBehaviour
     // Event for the select character UI
     // This event will notify and send CharacterData to DisplayUI, 
     // allowing it to update the displayed information.
-    public static event EventHandler<CharacterData> OnChangeCharacter;
-    public class CharacterData : EventArgs
+    public static event EventHandler<HeroData> OnChangeHero;
+    public class HeroData : EventArgs
     {
-        public SO_Character characterData;
+        public SO_Hero heroData;
     }
-    [SerializeField] private SO_CharacterList characterDataList;
-    private SO_Character characterData;
+    [SerializeField] private SO_HeroList heroDataList;
+    private SO_Hero heroData;
 
     //
-    private int currentCharacterId;
+    private int currentHeroId;
 
     //
-    private List<GameObject> characterSelectionList;
+    private List<GameObject> heroSelectionList;
 
 
     // Instantiate character model from the character list scriptable object
     private void InstantiateCharacterList()
     {
-        characterSelectionList = new List<GameObject>();
-        foreach (SO_Character characterData in characterDataList.characterDataList)
+        heroSelectionList = new List<GameObject>();
+        foreach (SO_Hero characterData in heroDataList.heroList)
         {
-            GameObject characterModel = Instantiate(characterData.characterPrefab);
+            GameObject characterModel = Instantiate(characterData.heroPrefab);
             characterModel.transform.position = Vector3.zero;
-            characterSelectionList.Add(characterModel);
+            heroSelectionList.Add(characterModel);
         }
     }
 
@@ -41,8 +41,8 @@ public class CharacterSelection : MonoBehaviour
     // character and send this data to DisplayUI through the OnChangeCharacter event.
     private void OnChangeCharacterHandler()
     {
-        characterData = characterDataList.GetCharacterById(currentCharacterId);
-        OnChangeCharacter?.Invoke(this, new CharacterData{characterData = characterData});
+        heroData = heroDataList.GetCharacterById(currentHeroId);
+        OnChangeHero?.Invoke(this, new HeroData{heroData = heroData});
     }
 
 
@@ -50,16 +50,16 @@ public class CharacterSelection : MonoBehaviour
     public void SelectNextCharacter()
     {
         DisableCharacter();
-        currentCharacterId ++;
-        if (currentCharacterId > characterSelectionList.Count - 1) currentCharacterId = 0;
+        currentHeroId ++;
+        if (currentHeroId > heroSelectionList.Count - 1) currentHeroId = 0;
         ShowCharacter();
         OnChangeCharacterHandler();
     }
     public void SelectPreviousCharacter()
     {
         DisableCharacter();
-        currentCharacterId --;
-        if (currentCharacterId < 0) currentCharacterId = characterSelectionList.Count - 1;
+        currentHeroId --;
+        if (currentHeroId < 0) currentHeroId = heroSelectionList.Count - 1;
         ShowCharacter();
         OnChangeCharacterHandler();
     }
@@ -68,21 +68,21 @@ public class CharacterSelection : MonoBehaviour
     // Show character
     private void ShowCharacter()
     {
-        characterSelectionList[currentCharacterId].SetActive(true);
+        heroSelectionList[currentHeroId].SetActive(true);
     }
 
 
     // Disable character
     private void DisableAllCharacter()
     {
-        foreach (GameObject character in characterSelectionList)
+        foreach (GameObject character in heroSelectionList)
         {
             character.SetActive(false);
         }
     }
     private void DisableCharacter()
     {
-        characterSelectionList[currentCharacterId].SetActive(false);
+        heroSelectionList[currentHeroId].SetActive(false);
     }
 
     //
@@ -91,7 +91,7 @@ public class CharacterSelection : MonoBehaviour
         InstantiateCharacterList();
         OnChangeCharacterHandler();
         DisableAllCharacter();
-        currentCharacterId = 0;
+        currentHeroId = 0;
         ShowCharacter();
     }
 
