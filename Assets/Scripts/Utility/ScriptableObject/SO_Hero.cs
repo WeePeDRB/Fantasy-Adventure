@@ -3,34 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class SO_Character : ScriptableObject
+public class SO_Hero : ScriptableObject
 {
-    // Character private id
+    // Hero private id
     public int id;
 
-    // Character class
-    public string characterClass;
+    // Hero class
+    public string heroClass;
 
-    // Character prefab for the instantiate
-    public GameObject characterPrefab;
+    // Hero prefab for the instantiate
+    public GameObject heroPrefab;
 
-    // Character Basic Stats
+    // Hero Basic Stats
     public float maxHealth;
     public float speed;
     public float maxAmor;
     public int level;
 
-    // Character Special Stats
+    // Hero Special Stats
     public float resistance;
     public float abilityHaste;
     public float damageAmplifier;
 
+    // Hero weapon data
     public IWeapon primaryWeapon;
     public int maxWeapon;
     public int maxItem;
 
     // Skill information
-    public SO_CharacterSkill dashSkill;
-    public SO_CharacterSkill specialSkill;
-    public SO_CharacterSkill ultimateSkill;
+    public SO_HeroSkill dashSkill;
+    public SO_HeroSkill specialSkill;
+    public SO_HeroSkill ultimateSkill;
 }

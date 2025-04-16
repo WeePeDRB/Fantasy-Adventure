@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DisplayUI : MonoBehaviour
 {
     // Character stats
-    private SO_Character characterData;
+    private SO_Hero heroData;
   
 
     // Skill panel
@@ -41,25 +41,25 @@ public class DisplayUI : MonoBehaviour
     // Display suitable UI when change character 
     private void ChangeSkillImage()
     {
-        dashSkill.image.sprite = characterData.dashSkill.skillSprite;
-        specialSkill.image.sprite = characterData.specialSkill.skillSprite;
-        ultimateSkill.image.sprite = characterData.ultimateSkill.skillSprite; 
+        dashSkill.image.sprite = heroData.dashSkill.skillSprite;
+        specialSkill.image.sprite = heroData.specialSkill.skillSprite;
+        ultimateSkill.image.sprite = heroData.ultimateSkill.skillSprite; 
     }
     private void ChangeCharacterStat()
     {
 
-        characterClass.text = characterData.characterClass;
-        characterHealth.text = characterData.maxHealth.ToString();
-        characterSpeed.text = characterData.speed.ToString();
-        characterAmor.text = characterData.maxAmor.ToString();
+        characterClass.text = heroData.heroClass;
+        characterHealth.text = heroData.maxHealth.ToString();
+        characterSpeed.text = heroData.speed.ToString();
+        characterAmor.text = heroData.maxAmor.ToString();
     }
 
     // Display skill information on click
     public void OnClickDashSkill()
     {
         // Display Skill Information
-        skillName.text = characterData.dashSkill.skillName;
-        skillDescription.text = characterData.dashSkill.skillDescription;
+        skillName.text = heroData.dashSkill.skillName;
+        skillDescription.text = heroData.dashSkill.skillDescription;
 
         // Display Color for Skills
         dashSkillImage.color = selectedColor;
@@ -74,8 +74,8 @@ public class DisplayUI : MonoBehaviour
     public void OnClickSpecialSkill()
     {
         // Display Skill Information
-        skillName.text = characterData.specialSkill.skillName;
-        skillDescription.text = characterData.specialSkill.skillDescription;
+        skillName.text = heroData.specialSkill.skillName;
+        skillDescription.text = heroData.specialSkill.skillDescription;
         
         // Display Color for Skills
         dashSkillImage.color = unselectedColor;
@@ -90,8 +90,8 @@ public class DisplayUI : MonoBehaviour
     public void OnClickUltimateSkill()
     {
         // Display Skill Information
-        skillName.text = characterData.ultimateSkill.skillName;
-        skillDescription.text = characterData.ultimateSkill.skillDescription;
+        skillName.text = heroData.ultimateSkill.skillName;
+        skillDescription.text = heroData.ultimateSkill.skillDescription;
 
         // Display Color for Skills
         dashSkillImage.color = unselectedColor;
@@ -105,9 +105,9 @@ public class DisplayUI : MonoBehaviour
     }
 
     // Handler for event
-    private void OnChangeCharacterHandler(object sender, CharacterSelection.CharacterData data)
+    private void OnChangeCharacterHandler(object sender, CharacterSelection.HeroData data)
     {
-        characterData = data.characterData;
+        heroData = data.heroData;
         ChangeSkillImage();
         ChangeCharacterStat();
         OnClickDashSkill();
@@ -116,6 +116,6 @@ public class DisplayUI : MonoBehaviour
     //
     private void Start()
     {
-        CharacterSelection.OnChangeCharacter += OnChangeCharacterHandler;
+        CharacterSelection.OnChangeHero += OnChangeCharacterHandler;
     }
 }

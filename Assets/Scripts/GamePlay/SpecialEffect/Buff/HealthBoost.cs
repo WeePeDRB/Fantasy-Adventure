@@ -15,10 +15,15 @@ public class HealthBoost : SpecialEffectBase
         healthIncrease = amount;
     }
 
-    // Apply effect to character
-    public override void ApplyEffectOnCharacter(HeroBaseController hero)
+    // Apply effect to hero
+    public override void ApplyEffectOnHero(HeroBaseController hero)
     {
         hero.heroStats.Health += healthIncrease;
+    }
+    // Remove effect to hero
+    public override void RemoveEffectOnHero(HeroBaseController hero)
+    {
+        return;
     }
 
     // Apply effect to monster
@@ -26,6 +31,9 @@ public class HealthBoost : SpecialEffectBase
     {
         throw new System.NotImplementedException();
     }
-
-
+    // Remove effect to monster
+    public override void RemoveEffectOnMonster(MonsterBaseController monster)
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -17,6 +17,9 @@ public class PaladinAnimator : HeroBaseAnimator
     private const string IS_MOVING = "IsMoving"; // Parameter name
     private bool isMoving; // Parameter value
 
+    private const string DASH = "Dash";
+    private const string SPECIAL = "Special";
+    private const string ULTIMATE = "Ultimate";
     //
     // FUNCTIONS
     //
@@ -33,9 +36,9 @@ public class PaladinAnimator : HeroBaseAnimator
     protected override void MoveAnimate()
     {
         Vector2 inputVector = GameInput.GetMovementVectorNormalized();
-         if(inputVector != Vector2.zero) isMoving = true;
-         else isMoving = false;
-         animator.SetBool(IS_MOVING, isMoving);
+        if(inputVector != Vector2.zero) isMoving = true;
+        else isMoving = false;
+        animator.SetBool(IS_MOVING, isMoving);
     }
 
     // Paladin dead
@@ -47,32 +50,30 @@ public class PaladinAnimator : HeroBaseAnimator
     // Paladin dash
     protected override void DashSkillAnimate()
     {
-        animator.SetTrigger("Dash");
+        animator.SetTrigger(DASH);
     }
 
     // Paladin special
     // This function will handle the animation
     protected override void SpecialSkillAnimate()
     {
-        animator.SetTrigger("Special");
+        animator.SetTrigger(SPECIAL);
     }
     // This function will handle the special skill effect
     protected void SpecialSkillActivate()
     {
-        Debug.Log("This is special skill activate in animator");
         paladinController.SpecialSkillActivate();
     }
 
     //Paladin ultimate
     protected override void UltimateSkillAnimate()
     {
-        animator.SetTrigger("Ultimate");
+        animator.SetTrigger(ULTIMATE);
     }
 
     // SUPPORT FUNCTION
     protected override void ReturnNormalState()
     {
-        Debug.Log("return normal state in paladin animator");
         paladinController.ReturnNormalState();
     }
 
@@ -91,7 +92,9 @@ public class PaladinAnimator : HeroBaseAnimator
     // Update is called once per frame
     void Update()
     {
+
         MoveAnimate();
+
     }
 }
 

@@ -28,6 +28,9 @@ public class ZombieController : MonsterBaseController
     // INITIAL SET UP FOR ZOMBIE
     public override void InstantiateMonster()
     {
+        //
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
+        
         // Reset the "isDead" bool
         isDead = false;
 
@@ -39,8 +42,8 @@ public class ZombieController : MonsterBaseController
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
 
         // Initial stats for zombie
-        //monsterStats = new MonsterStats();
-        //monsterStats.InitialMonsterStats(10,100,3,2.16f,0,1);
+        monsterStats = new MonsterStats(100,2,1,10,2,0,0);
+
     }
 
     // HANDLING ZOMBIE BEHAVIOR

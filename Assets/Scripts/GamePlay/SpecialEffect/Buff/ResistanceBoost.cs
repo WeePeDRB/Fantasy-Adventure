@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class ResistanceBoost : SpecialEffectBase
 {
+    //
+    // FIELDS
+    //
+
     private float resistance;
 
+    //
+    // CONTRUCTOR
+    //
     public ResistanceBoost(float amount, float duration, EffectTarget effectTarget) 
     {
         effectName = "ResistanceBoost";
@@ -15,14 +22,28 @@ public class ResistanceBoost : SpecialEffectBase
         resistance = amount;
     }
 
-    // Apply effect to character
-    public override void ApplyEffectOnCharacter(HeroBaseController hero)
+    //
+    // FUNCTIONS
+    // 
+
+    // Apply effect to hero
+    public override void ApplyEffectOnHero(HeroBaseController hero)
     {
         hero.heroStats.Resistance = resistance;
+    }
+    // Remove effect to hero
+    public override void RemoveEffectOnHero(HeroBaseController hero)
+    {
+        hero.heroStats.Resistance = hero.HeroData.resistance;
     }
 
     // Apply effect to monster
     public override void ApplyEffectOnMonster(MonsterBaseController monster)
+    {
+        throw new System.NotImplementedException();
+    }
+    // Remove effect to monster
+    public override void RemoveEffectOnMonster(MonsterBaseController monster)
     {
         throw new System.NotImplementedException();
     }

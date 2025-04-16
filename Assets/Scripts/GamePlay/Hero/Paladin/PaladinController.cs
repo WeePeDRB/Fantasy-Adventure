@@ -29,14 +29,18 @@ public class PaladinController : HeroBaseController
     //
 
     // INITIAL VALUES FOR PALADIN
-    // Paladin stats and status
-    public override void InstantiateStatandStatus()
+    // Paladin stats 
+    public override void InstantiateStats()
     {
-        // Instantiate stats
-        //heroStats = new HeroStats(100,7,100,1);
+        heroStats = new HeroStats(  heroData.maxHealth, heroData.speed, heroData.level, heroData.maxAmor, 
+                                    heroData.resistance, heroData.damageAmplifier, heroData.abilityHaste    );
+    }
 
-        // Instantiate status
-        //effectStatus = new EffectStatus();        
+    // Paladin effect status
+    public override void InstantiateEffectStatus()
+    {
+        heroEffectStatus = new HeroEffectStatus();
+        heroEffectStatus.hero = this;
     }
 
     // Paladin inventory
@@ -63,7 +67,7 @@ public class PaladinController : HeroBaseController
     {
         if ( !isDead )
         {
-            if ( characterBehaviorState == CharacterBehavior.Normal)
+            if ( heroBehaviorState == HeroBehavior.Normal)
             {
                 //Handle Input
                 Vector2 inputVector = GameInput.GetMovementVectorNormalized();
@@ -75,7 +79,7 @@ public class PaladinController : HeroBaseController
                 float rotateSpeed = 10f;
                 transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
             }
-            else if (characterBehaviorState == CharacterBehavior.Dashing)
+            else if (heroBehaviorState == HeroBehavior.Dashing)
             {
                 transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
             }    
@@ -85,7 +89,8 @@ public class PaladinController : HeroBaseController
     // Paladin hurt function
     public override void Hurt(float damageTaken)
     {
-
+        float damageAfter = damageTaken - (damageTaken * heroStats.Resistance / 100);
+        heroStats.Health -= damageAfter;
     }
 
     // Paladin dead function
@@ -107,7 +112,7 @@ public class PaladinController : HeroBaseController
         if ( canDash )
         {
             // Change the behavior state
-            characterBehaviorState = CharacterBehavior.Dashing;
+            heroBehaviorState = HeroBehavior.Dashing;
 
             // Invoke the dash event
             OnPaladinDash?.Invoke();
@@ -130,7 +135,7 @@ public class PaladinController : HeroBaseController
         if ( canSpecial )
         {
             // Change the behavior state
-            characterBehaviorState = CharacterBehavior.Casting;
+            heroBehaviorState = HeroBehavior.Casting;
 
             // Invoke the special event
             OnPaladinSpecial?.Invoke();
@@ -149,7 +154,7 @@ public class PaladinController : HeroBaseController
         if ( canUltimate )
         {
             // Change the behavior state
-            characterBehaviorState = CharacterBehavior.Casting;
+            heroBehaviorState = HeroBehavior.Casting;
 
             // Invoke the ultimate event
             OnPaladinUltimate?.Invoke();
@@ -163,17 +168,17 @@ public class PaladinController : HeroBaseController
     // SUPPORT FUNCTIONS
     private void OnCollisionEnter(Collision collision)
     {
-        if (characterBehaviorState == CharacterBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
+        if (heroBehaviorState == HeroBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
         {
-            characterBehaviorState = CharacterBehavior.Normal;
+            heroBehaviorState = HeroBehavior.Normal;
         }
     }
 
 
     private void Awake()
     {
-
-        InstantiateStatandStatus();
+        InstantiateStats();
+        InstantiateEffectStatus();
         InstantiateDash(5,18,5,3);
 
         canSpecial = true;
@@ -188,8 +193,21 @@ public class PaladinController : HeroBaseController
 
     }
 
+    private void TestCharacterStats()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.Log("This is hero health :" + heroStats.Health);
+            Debug.Log("This is hero resistance :" + heroStats.Resistance);
+            Debug.Log("This is hero damage amplifier :" + heroStats.DamageAmplifier);
+        }
+    }
+
     private void Update()
     {
         HandleMovement();
+        UpdateSpecialEffect();
+        TestCharacterStats();
     }
+
 }

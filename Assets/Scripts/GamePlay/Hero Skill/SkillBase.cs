@@ -5,12 +5,6 @@ using UnityEngine;
 public abstract class SkillBase : MonoBehaviour
 {
     //
-    // FIELDS
-    //
-
-    protected HeroBaseController heroBaseController;
-
-    //
     // FUNCTIONS
     //
 

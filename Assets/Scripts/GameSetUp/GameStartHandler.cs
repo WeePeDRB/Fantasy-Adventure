@@ -8,9 +8,9 @@ public class GameStartHandler : MonoBehaviour
     private int characterId;
     private int gameDifficulty;
 
-    private void OnChangeCharacterHandler(object sender, CharacterSelection.CharacterData characterData)
+    private void OnChangeCharacterHandler(object sender, CharacterSelection.HeroData heroData)
     {   
-        characterId = characterData.characterData.id;
+        characterId = heroData.heroData.id;
     }
 
     private void OnChaneDifficultyHandler(object sender, DifficultySelection.Difficulty difficulty)
@@ -27,7 +27,7 @@ public class GameStartHandler : MonoBehaviour
 
     private void Awake()
     {
-        CharacterSelection.OnChangeCharacter += OnChangeCharacterHandler;
+        CharacterSelection.OnChangeHero += OnChangeCharacterHandler;
         DifficultySelection.OnSelectGameDifficulty += OnChaneDifficultyHandler;
     }
 }

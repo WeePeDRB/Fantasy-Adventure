@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaladinUltimate : SkillBase
+public class PaladinUltimateSkill : SkillBase
 {
     //
     // FIELDS
@@ -11,6 +11,8 @@ public class PaladinUltimate : SkillBase
     // Reference
     private List<MonsterBaseController> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
+    private PaladinController paladin;
+
 
     // Special effect
     private ResistanceBoost resistanceBoost;
@@ -27,23 +29,30 @@ public class PaladinUltimate : SkillBase
         // Instantiate references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
-        heroBaseController = GetComponentInParent<HeroBaseController>();
+        paladin = GetComponentInParent<PaladinController>();
 
         // Instantiate special effect
         resistanceBoost = new ResistanceBoost(100, 10f, EffectTarget.Character);
-        healthBoost = new HealthBoost(5, 10f, EffectTarget.Character);
+        healthBoost = new HealthBoost(0.1f, 8f, EffectTarget.Character);
         damageBoost = new DamageBoost(50 , 10f, EffectTarget.Character);
+
+        //
+        paladin.OnPaladinUltimate += SkillActivate;
     }
 
     // Activate skill
     protected override void SkillActivate()
     {
+        // Apply special effect to other hero
         foreach (HeroBaseController character in heroListInRange)
         {
             character.ReceiveSpecialEffect(healthBoost);
         }
-        heroBaseController.ReceiveSpecialEffect(resistanceBoost);
-        heroBaseController.ReceiveSpecialEffect(damageBoost);
+
+        // Apply special effect to paladin
+        paladin.ReceiveSpecialEffect(resistanceBoost);
+        paladin.ReceiveSpecialEffect(damageBoost);
+        paladin.ReceiveSpecialEffect(healthBoost);
     }
 
     //
