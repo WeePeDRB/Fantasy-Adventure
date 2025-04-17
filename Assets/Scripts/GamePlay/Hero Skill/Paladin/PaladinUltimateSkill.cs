@@ -11,7 +11,7 @@ public class PaladinUltimateSkill : SkillBase
     // Reference
     private List<MonsterBaseController> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
-    private PaladinController paladin;
+    private PaladinController paladinController;
 
 
     // Special effect
@@ -29,7 +29,7 @@ public class PaladinUltimateSkill : SkillBase
         // Instantiate references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
-        paladin = GetComponentInParent<PaladinController>();
+        paladinController = GetComponentInParent<PaladinController>();
 
         // Instantiate special effect
         resistanceBoost = new ResistanceBoost(100, 10f, EffectTarget.Character);
@@ -37,7 +37,7 @@ public class PaladinUltimateSkill : SkillBase
         damageBoost = new DamageBoost(50 , 10f, EffectTarget.Character);
 
         //
-        paladin.OnPaladinUltimate += SkillActivate;
+        paladinController.OnHeroUltimate += SkillActivate;
     }
 
     // Activate skill
@@ -50,9 +50,9 @@ public class PaladinUltimateSkill : SkillBase
         }
 
         // Apply special effect to paladin
-        paladin.ReceiveSpecialEffect(resistanceBoost);
-        paladin.ReceiveSpecialEffect(damageBoost);
-        paladin.ReceiveSpecialEffect(healthBoost);
+        paladinController.ReceiveSpecialEffect(resistanceBoost);
+        paladinController.ReceiveSpecialEffect(damageBoost);
+        paladinController.ReceiveSpecialEffect(healthBoost);
     }
 
     //

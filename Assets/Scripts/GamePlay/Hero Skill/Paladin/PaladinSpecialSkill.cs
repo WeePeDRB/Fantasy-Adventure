@@ -11,7 +11,7 @@ public class PaladinSpecialSkill : SkillBase
     // Reference
     private List<MonsterBaseController> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
-    private PaladinController paladin;
+    private PaladinController paladinController;
 
     // Special effect
     private DamageBoost damageBoost;
@@ -26,13 +26,13 @@ public class PaladinSpecialSkill : SkillBase
         // Instantiate references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
-        paladin = GetComponentInParent<PaladinController>();
+        paladinController = GetComponentInParent<PaladinController>();
 
         // Instantiate special effect
         damageBoost = new DamageBoost(20, 10f, EffectTarget.Character);
 
         //
-        paladin.OnPaladinSpecial += SkillActivate;
+        paladinController.OnHeroSpecial += SkillActivate;
     }
 
     // Activate skill

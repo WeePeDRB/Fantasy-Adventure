@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class HeroStats : CharacterStats
     // Basic stats
     private float maxAmor; // Maximum amor
     private float amor; // Current amor
+    private int expRequire; // Experience require to level up
+    private int exp; // Current experience
 
 
     // Special stats
@@ -49,7 +52,16 @@ public class HeroStats : CharacterStats
         get { return amor; }
         set { amor = Mathf.Clamp(value, 0f, maxAmor); } // Ensure amor is within the range [0, maxAmor]
     }
-
+    public int ExpRequire
+    {
+        get { return expRequire; }
+        set { expRequire = Math.Max(0,value); }
+    }
+    public int Exp
+    {
+        get { return exp; }
+        set { exp = Math.Max(0,value); }
+    }
     // Special stats
     public float AbilityHaste
     {

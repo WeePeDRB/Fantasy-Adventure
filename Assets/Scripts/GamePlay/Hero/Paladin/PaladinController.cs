@@ -13,16 +13,13 @@ public class PaladinController : HeroBaseController
     // Dash skill 
     private float dashDistance; // How far is the dash
     private float dashSpeed; // How fast is the dash
-    private float dashCooldown; // Dash skill cool down
     private Vector3 dashTarget; // The position that player will dash to
 
     // Special skill
     
 
     // EVENTS
-    public event Action OnPaladinDash;
-    public event Action OnPaladinSpecial;
-    public event Action OnPaladinUltimate;
+
 
     //
     // FUNCTIONS
@@ -50,12 +47,11 @@ public class PaladinController : HeroBaseController
     }
 
     // Paladin dash values
-    public override void InstantiateDash(   float instantiateDashDistance, float instantiateDashSpeed, 
-                                            float instantiateDashCooldown, float instantiateSpecialEffectDuration)
+    public override void InstantiateDash(   float instantiateDashDistance, float instantiateDashSpeed
+                                            , float instantiateSpecialEffectDuration)
     {
         dashDistance = instantiateDashDistance;
         dashSpeed = instantiateDashSpeed;
-        dashCooldown = instantiateDashCooldown;
         canDash = true;
     }
 
@@ -115,7 +111,7 @@ public class PaladinController : HeroBaseController
             heroBehaviorState = HeroBehavior.Dashing;
 
             // Invoke the dash event
-            OnPaladinDash?.Invoke();
+            RaiseOnHeroDash();
 
             // Set up the position for the dash
             dashTarget = transform.position + transform.forward * dashDistance;
@@ -124,7 +120,7 @@ public class PaladinController : HeroBaseController
             canDash = false;
 
             //Reset the skill and special effect
-            StartCoroutine(ResetDashSkill(dashCooldown));
+            StartCoroutine(ResetDashSkill(heroData.dashSkill.skillCooldown));
         }
     }
 
@@ -138,13 +134,19 @@ public class PaladinController : HeroBaseController
             heroBehaviorState = HeroBehavior.Casting;
 
             // Invoke the special event
-            OnPaladinSpecial?.Invoke();
+            RaiseOnHeroSpecial();
+
+            // Set special flag
+            canSpecial = false;
+
+            // Reset the skill
+            StartCoroutine(ResetSpecialSkill(heroData.specialSkill.skillCooldown));
         }
     }
     // This function will handle the special skill effect
     public void SpecialSkillActivate()
     {
-
+        
     }
 
     // Handle the ultimate skill
@@ -157,14 +159,22 @@ public class PaladinController : HeroBaseController
             heroBehaviorState = HeroBehavior.Casting;
 
             // Invoke the ultimate event
-            OnPaladinUltimate?.Invoke();
+            RaiseOnHeroUltimate();
+
+            // Set ultimate flag
+            canUltimate = false;
+
+            // Reset the skill
+            StartCoroutine(ResetUltimateSkill(heroData.ultimateSkill.skillCooldown));
         }
     }
+
     // This function will handle the ultimate skill effect
     public void UltimateSkillActivate()
     {
 
     }
+
     // SUPPORT FUNCTIONS
     private void OnCollisionEnter(Collision collision)
     {
@@ -179,7 +189,7 @@ public class PaladinController : HeroBaseController
     {
         InstantiateStats();
         InstantiateEffectStatus();
-        InstantiateDash(5,18,5,3);
+        InstantiateDash(5,18,3);
 
         canSpecial = true;
         canUltimate = true;

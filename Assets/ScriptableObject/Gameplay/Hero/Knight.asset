@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: Knight
   m_EditorClassIdentifier: 
   id: 2
-  characterClass: 
-  characterPrefab: {fileID: 0}
+  heroClass: 
+  heroPrefab: {fileID: 0}
   maxHealth: 100
   speed: 7
   maxAmor: 40
   level: 1
+  exp: 0
+  expRequire: 100
+  resistance: 0
+  abilityHaste: 0
+  damageAmplifier: 0
   maxWeapon: 4
   maxItem: 3
   dashSkill: {fileID: 0}
