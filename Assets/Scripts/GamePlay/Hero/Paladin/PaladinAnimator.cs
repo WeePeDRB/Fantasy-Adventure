@@ -84,9 +84,9 @@ public class PaladinAnimator : HeroBaseAnimator
         InstantiateAnimator();
 
         // 
-        paladinController.OnPaladinDash += DashSkillAnimate;
-        paladinController.OnPaladinSpecial += SpecialSkillAnimate;
-        paladinController.OnPaladinUltimate += UltimateSkillAnimate;
+        paladinController.OnHeroDash += DashSkillAnimate;
+        paladinController.OnHeroSpecial += SpecialSkillAnimate;
+        paladinController.OnHeroUltimate += UltimateSkillAnimate;
     }
 
     // Update is called once per frame

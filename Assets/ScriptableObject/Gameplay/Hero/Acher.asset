@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: Acher
   m_EditorClassIdentifier: 
   id: 1
-  characterClass: Acher
-  characterPrefab: {fileID: 2990716267823741060, guid: 61a611c2796e16e46b00cd0f697a8a84, type: 3}
+  heroClass: 
+  heroPrefab: {fileID: 0}
   maxHealth: 70
   speed: 9
   maxAmor: 50
   level: 1
+  exp: 0
+  expRequire: 100
+  resistance: 0
+  abilityHaste: 0
+  damageAmplifier: 0
   maxWeapon: 3
   maxItem: 3
   dashSkill: {fileID: 11400000, guid: baa593265690ab4449bd497f738b0b61, type: 2}

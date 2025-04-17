@@ -9,8 +9,9 @@ public class MonsterStats : CharacterStats
     //
 
     //Basic stats
-    protected float damage; // Monster damage
-    protected float attackSpeed; // Attack speed
+    private float damage; // Monster damage
+    private float attackSpeed; // Attack speed
+    private int expDrop;
 
     //
     // CONSTRUCTOR
@@ -39,13 +40,15 @@ public class MonsterStats : CharacterStats
     public float Damage
     {
         get { return damage; }
-    
     }
     public float AttackSpeed
     {
         get { return attackSpeed; }
     }
-
+    public int ExpDrop
+    {
+        get { return expDrop; }
+    }
     // 
     // FUNCTIONS
     //

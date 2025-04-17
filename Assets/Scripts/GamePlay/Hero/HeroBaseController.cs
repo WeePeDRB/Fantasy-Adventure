@@ -38,7 +38,10 @@ public abstract class HeroBaseController : MonoBehaviour
     // HERO EFFECT STATUS
     protected HeroEffectStatus heroEffectStatus; 
 
-    // HERO SKILLS
+    // HERO SKILL EVENTS
+    public  event Action OnHeroDash;
+    public  event Action OnHeroSpecial;
+    public  event Action OnHeroUltimate;
 
     //
     // PROPERTIES
@@ -69,7 +72,7 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // Hero dash values
     public abstract void InstantiateDash(    float instantiateDashDistance, float instantiateDashSpeed, 
-                                            float instantiateDashCooldown, float instantiateSpecialEffectDuration   );
+                                             float instantiateSpecialEffectDuration   );
 
 
     // HANDLING HERO BEHAVIOR
@@ -136,5 +139,19 @@ public abstract class HeroBaseController : MonoBehaviour
     {
         yield return new WaitForSeconds(ultimateSkillCooldown);
         canUltimate = true;
+    }
+
+    // Invoke event
+    protected void RaiseOnHeroDash()
+    {
+        OnHeroDash?.Invoke();
+    }
+    protected void RaiseOnHeroSpecial()
+    {
+        OnHeroSpecial?.Invoke();
+    }
+    protected void RaiseOnHeroUltimate()
+    {
+        OnHeroUltimate?.Invoke();
     }
 }

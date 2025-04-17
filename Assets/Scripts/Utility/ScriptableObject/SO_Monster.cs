@@ -17,6 +17,7 @@ public class SO_Monster : ScriptableObject
     public float speed;
     public float attackSpeed;
     public int level;
+    public int expDrop;
 
     // Monster special stats
     public float resistance;

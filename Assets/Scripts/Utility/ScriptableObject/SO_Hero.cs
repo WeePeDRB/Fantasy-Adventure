@@ -19,6 +19,8 @@ public class SO_Hero : ScriptableObject
     public float speed;
     public float maxAmor;
     public int level;
+    public int exp;
+    public int expRequire;
 
     // Hero Special Stats
     public float resistance;

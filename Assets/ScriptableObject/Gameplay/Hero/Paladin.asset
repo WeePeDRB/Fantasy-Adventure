@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: Paladin
   m_EditorClassIdentifier: 
   id: 0
-  characterClass: Paladin
-  characterPrefab: {fileID: 5834047930223403777, guid: c350fce8e0119bc438043039726e995a, type: 3}
+  heroClass: 
+  heroPrefab: {fileID: 0}
   maxHealth: 100
   speed: 6
   maxAmor: 50
   level: 1
+  exp: 0
+  expRequire: 100
+  resistance: 0
+  abilityHaste: 0
+  damageAmplifier: 0
   maxWeapon: 3
   maxItem: 3
   dashSkill: {fileID: 11400000, guid: ff72d48d3033e89409f77f5fd24f0bcc, type: 2}
