@@ -10,7 +10,5 @@ public class SO_Item : ScriptableObject
 
     // Item prefab for the instantiate
     public GameObject itemPrefab;
-
-    // 
-
+    
 }

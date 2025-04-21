@@ -26,14 +26,14 @@ public class UI_HealthBar : MonoBehaviour
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         
         // Set value to slider
-        slider.maxValue = heroController.heroStats.MaxHealth;
-        slider.value = heroController.heroStats.Health;
+        slider.maxValue = heroController.HeroStats.MaxHealth;
+        slider.value = heroController.HeroStats.Health;
     }
 
     // Update health
     private void SetHealth()
     {
-        slider.value = heroController.heroStats.Health;
+        slider.value = heroController.HeroStats.Health;
     }
 
     private void Start()

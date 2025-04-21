@@ -10,13 +10,14 @@ public abstract class HeroBaseController : MonoBehaviour
     // FIELDS
     //
 
-    // Hero data
+    // HERO DATA
     [SerializeField] protected SO_Hero heroData;
 
     // HERO BEHAVIOR STATE
     protected HeroBehavior heroBehaviorState; 
 
     // CHECKING FLAGS
+    protected bool canAmorRegen;
     protected bool canDash;  
     protected bool canSpecial;
     protected bool canUltimate;
@@ -29,11 +30,12 @@ public abstract class HeroBaseController : MonoBehaviour
     protected int maxWeapon; // Ammount of weapon
     
     // Item system
-    protected List<IItem> items; // Item list
+    protected List<ItemBase> items; // Item list
     protected int maxItem; // Ammount of item
+    protected int coin; 
 
     // HERO STATS
-    public HeroStats heroStats;
+    protected HeroStats heroStats;
 
     // HERO EFFECT STATUS
     protected HeroEffectStatus heroEffectStatus; 
@@ -43,12 +45,23 @@ public abstract class HeroBaseController : MonoBehaviour
     public  event Action OnHeroSpecial;
     public  event Action OnHeroUltimate;
 
+    // LEVEL UP EVENTS
+    public event Action OnLevelUp;
+
+    //
+    protected Coroutine regenCooldownCoroutine;
+
     //
     // PROPERTIES
     //
     public SO_Hero HeroData
     {
         get { return heroData; }
+    }
+
+    public HeroStats HeroStats
+    {
+        get { return heroStats; }
     }
 
     public HeroBehavior HeroBehavior
@@ -86,7 +99,15 @@ public abstract class HeroBaseController : MonoBehaviour
     protected abstract void Dead();
 
     // Hero amor regeneration
-    protected abstract void AmorRegen();
+    protected virtual void AmorRegen()
+    {
+        if (canAmorRegen) if (heroStats.Amor < heroStats.MaxAmor) heroStats.Amor+= 5f * Time.deltaTime;
+    }
+    protected virtual IEnumerator AmorRegenCountDown()
+    {
+        yield return new WaitForSeconds(10f);
+        canAmorRegen = true;
+    }
 
     // HANDLING HERO SKILLS
     // Handle the dash skill 
@@ -98,6 +119,13 @@ public abstract class HeroBaseController : MonoBehaviour
     // Handle the ultimate skill
     protected abstract void HandleUltimateSkill();
 
+    // LEVEL UP
+    protected abstract void LevelUp();
+    
+    // HANDLING ITEM USE
+    protected abstract void UsetItem1();
+    protected abstract void UsetItem2();
+    protected abstract void UsetItem3();
 
     // SUPPORT FUNCTIONS
     // Set hero state to normal
@@ -153,5 +181,24 @@ public abstract class HeroBaseController : MonoBehaviour
     protected void RaiseOnHeroUltimate()
     {
         OnHeroUltimate?.Invoke();
+    }
+
+    // Collision detect
+    protected void OnCollisionEnter(Collision collision)
+    {
+        if (heroBehaviorState == HeroBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
+        {
+            heroBehaviorState = HeroBehavior.Normal;
+        }
+        
+        else if (collision.gameObject.CompareTag("Coin"))
+        {
+            Debug.Log("Coin touch !");
+        }
+
+        else if (collision.gameObject.CompareTag("ExpGem"))
+        {
+            Debug.Log("Gem touch !");
+        }
     }
 }

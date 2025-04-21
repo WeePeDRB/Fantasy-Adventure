@@ -40,7 +40,7 @@ public class PaladinSpecialSkill : SkillBase
     {
         foreach (MonsterBaseController monster in monsterListInHitBox)
         {
-            monster.Hurt(monster.monsterStats.Health * 30 / 100);
+            monster.Hurt(monster.MonsterStats.Health * 30 / 100);
         }
         foreach (HeroBaseController hero in heroListInRange)
         {

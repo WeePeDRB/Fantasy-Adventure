@@ -51,7 +51,7 @@ public class Shield : MonoBehaviour, IWeapon
 
     public IEnumerator AttackCoroutine()
     {
-        while (player.heroStats.Health > 0)
+        while (player.HeroStats.Health > 0)
         {
             Attack();
             yield return new WaitForSeconds(weaponAttackSpeed);
