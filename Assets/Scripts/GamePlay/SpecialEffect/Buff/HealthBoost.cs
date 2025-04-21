@@ -18,7 +18,7 @@ public class HealthBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.heroStats.Health += healthIncrease;
+        hero.HeroStats.Health += healthIncrease;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)

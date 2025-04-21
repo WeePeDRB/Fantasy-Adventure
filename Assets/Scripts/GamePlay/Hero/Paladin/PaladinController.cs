@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PaladinController : HeroBaseController
 {
@@ -85,18 +86,36 @@ public class PaladinController : HeroBaseController
     // Paladin hurt function
     public override void Hurt(float damageTaken)
     {
-        float damageAfter = damageTaken - (damageTaken * heroStats.Resistance / 100);
-        heroStats.Health -= damageAfter;
+        float damageAfterResistance = 0;
+        float damageLeft = damageTaken;
+
+        // Take damage 
+        if (heroStats.Amor >= damageTaken)
+        {
+            heroStats.Amor -= damageTaken;
+        }
+        else 
+        {
+            if (heroStats.Amor > 0)
+            {
+                damageLeft -= heroStats.Amor;
+                heroStats.Amor = 0;
+            }
+
+            damageAfterResistance = damageLeft - (damageLeft * heroStats.Resistance / 100f);
+            heroStats.Health -= damageAfterResistance;
+        }
+
+        
+        //
+        canAmorRegen = false;
+        // Check if there is already a coroutine
+        if (regenCooldownCoroutine != null) StopCoroutine(regenCooldownCoroutine);
+        regenCooldownCoroutine = StartCoroutine(AmorRegenCountDown());
     }
 
     // Paladin dead function
     protected override void Dead()
-    {
-
-    }
-
-    // Paladin amor regeneration
-    protected override void AmorRegen()
     {
 
     }
@@ -175,15 +194,24 @@ public class PaladinController : HeroBaseController
 
     }
 
-    // SUPPORT FUNCTIONS
-    private void OnCollisionEnter(Collision collision)
+    // LEVEL UP
+    protected override void LevelUp()
     {
-        if (heroBehaviorState == HeroBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
-        {
-            heroBehaviorState = HeroBehavior.Normal;
-        }
+        
     }
 
+    // SUPPORT FUNCTIONS
+
+
+    private void TestCharacterStats()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.Log("This is player health :" + heroStats.Health);
+            Debug.Log("This is player amor : " + heroStats.Amor);
+            Debug.Log("");
+        }
+    }
 
     private void Awake()
     {
@@ -200,24 +228,24 @@ public class PaladinController : HeroBaseController
         GameInput.OnUltimateAction += HandleUltimateSkill;
 
         //
-
-    }
-
-    private void TestCharacterStats()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Debug.Log("This is hero health :" + heroStats.Health);
-            Debug.Log("This is hero resistance :" + heroStats.Resistance);
-            Debug.Log("This is hero damage amplifier :" + heroStats.DamageAmplifier);
-        }
     }
 
     private void Update()
     {
         HandleMovement();
         UpdateSpecialEffect();
-        TestCharacterStats();
+        AmorRegen();
     }
 
+    protected override void UsetItem1()
+    {
+    }
+
+    protected override void UsetItem2()
+    {
+    }
+
+    protected override void UsetItem3()
+    {
+    }
 }

@@ -29,12 +29,12 @@ public class ResistanceBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.heroStats.Resistance = resistance;
+        hero.HeroStats.Resistance = resistance;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
-        hero.heroStats.Resistance = hero.HeroData.resistance;
+        hero.HeroStats.Resistance = hero.HeroData.resistance;
     }
 
     // Apply effect to monster

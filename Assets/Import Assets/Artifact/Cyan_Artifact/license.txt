@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cyan Artifact
+* source:	https://sketchfab.com/3d-models/cyan-artifact-0077b6c8d2984a8cb79fa213d1a438b0
+* author:	RadTheZealot (https://sketchfab.com/RadTheZealot)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cyan Artifact" (https://sketchfab.com/3d-models/cyan-artifact-0077b6c8d2984a8cb79fa213d1a438b0) by RadTheZealot (https://sketchfab.com/RadTheZealot) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

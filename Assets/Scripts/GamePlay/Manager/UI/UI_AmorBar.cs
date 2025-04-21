@@ -26,14 +26,14 @@ public class UI_AmorBar : MonoBehaviour
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         
         // Set value to slider
-        slider.maxValue = heroController.heroStats.MaxAmor;
-        slider.value = heroController.heroStats.Amor;
+        slider.maxValue = heroController.HeroStats.MaxAmor;
+        slider.value = heroController.HeroStats.Amor;
     }
 
-    // Update health
+    // Update amor
     private void SetAmor()
     {
-        slider.value = heroController.heroStats.Health;
+        slider.value = heroController.HeroStats.Amor;
     }
 
     private void Start()

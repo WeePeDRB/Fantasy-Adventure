@@ -8,6 +8,7 @@ public abstract class ObjectPool : MonoBehaviour
     //
     // Monster object pool
     //
+    
     // The Queue that will store monster game object
     protected Queue<GameObject> objectPool;
     // Monster data

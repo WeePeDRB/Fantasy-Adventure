@@ -20,29 +20,29 @@ public class UI_LevelBar : MonoBehaviour
     //
 
     // INSTANTIATE
-    private void InstantiateAmorBar()
+    private void InstantiateLevelBar()
     {
         // Take hero controller reference
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         
         // Set value to slider
-        slider.maxValue = heroController.heroStats.MaxAmor;
-        slider.value = heroController.heroStats.Amor;
+        slider.maxValue = heroController.HeroStats.MaxAmor;
+        slider.value = heroController.HeroStats.Amor;
     }
 
     // Update health
-    private void SetAmor()
+    private void SetExp()
     {
-        slider.value = heroController.heroStats.Health;
+        slider.value = heroController.HeroStats.Exp;
     }
 
     private void Start()
     {
-        InstantiateAmorBar();
+        InstantiateLevelBar();
     }
 
     private void Update()
     {
-        SetAmor();
+    
     }
 }

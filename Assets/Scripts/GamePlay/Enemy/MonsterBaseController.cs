@@ -9,6 +9,9 @@ public abstract class MonsterBaseController : MonoBehaviour
     // FIELDS
     //
 
+    // HERO DATA
+    [SerializeField] protected SO_Monster monsterData;
+
     // CHECKING FLAGS
     protected bool isMoving;
     protected bool isPlayerInside;
@@ -23,12 +26,22 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected Coroutine attackCoroutine;
 
     // MONSTER STATS
-    public MonsterStats monsterStats;
+    protected MonsterStats monsterStats;
 
     // MONSTER EFFECT STATUS
     protected MonsterEffectStatus effectStatus;
 
-
+    //
+    // PROPERTIES
+    //
+    public SO_Monster MonsterData
+    {
+        get { return monsterData; }
+    }
+    public MonsterStats MonsterStats
+    {
+        get { return monsterStats; }
+    }
 
     // INITIAL SET UP FOR MONSTER
     public abstract void InstantiateMonster();
@@ -48,6 +61,10 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // Monster dead
     protected abstract void Dead();
+    protected virtual void DropExp()
+    {
+        
+    }
 
     // SUPPORT FUNCTION
     // Get special effect

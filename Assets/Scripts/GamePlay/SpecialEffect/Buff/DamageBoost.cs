@@ -29,13 +29,13 @@ public class DamageBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.heroStats.DamageAmplifier = damageAmplifier;
+        hero.HeroStats.DamageAmplifier = damageAmplifier;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
         
-        hero.heroStats.DamageAmplifier = hero.HeroData.damageAmplifier;
+        hero.HeroStats.DamageAmplifier = hero.HeroData.damageAmplifier;
     }
 
 
