@@ -9,17 +9,12 @@ public class ZombieController : MonsterBaseController
     // FIELDS
     //
 
-    // EVENTS
-    public event Action OnZombieAttack;
-    public event Action OnZombieHurt;
-    public event Action OnZombieDead;
-
     //
     // PROPERTIES
     //
 
-    public bool IsMoving { get { return isMoving; } }
-    public bool IsDead { get { return isDead; } }
+    public MonsterBehavior MonsterBeHaviorState { get { return monsterBehaviorState; } }
+
 
     //
     // FUNCTIONS
@@ -28,29 +23,20 @@ public class ZombieController : MonsterBaseController
     // INITIAL SET UP FOR ZOMBIE
     public override void InstantiateMonster()
     {
-        //
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
-        
-        // Reset the "isDead" bool
-        isDead = false;
-
-        // HitBox set up
-        if ( monsterBaseHitBox == null) monsterBaseHitBox = GetComponentInChildren<ZombieHitBox>();
-
-        // Listen to HitBox events
-        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += IsReadyToAttack;
-        monsterBaseHitBox.OnPlayerExitMonsterAttackRange += IsOutOfRange;
+        base.InstantiateMonster();
 
         // Initial stats for zombie
-        monsterStats = new MonsterStats(100,2,1,10,2,0,0);
+        monsterStats = new MonsterStats(100,2,1,10,0.5f,0,0);
 
     }
+
+    
 
     // HANDLING ZOMBIE BEHAVIOR
     // Zombie movement
     protected override void HandleMovement()
     {
-        if ( !isDead && !isPlayerInside && !isAttacking )
+        if (monsterBehaviorState == MonsterBehavior.Move)
         {
             //Specify direction
             Vector3 direction = (player.transform.position - this.transform.position).normalized;
@@ -62,58 +48,15 @@ public class ZombieController : MonsterBaseController
             //Rotation
             float rotateSpeed = 10f;
             transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
-
-            //
-            isMoving = true;
         }
     }
 
     // Zombie attack
-    protected override void IsReadyToAttack()
-    {
-        //
-        isPlayerInside = true;
-        isMoving = false;
-
-        // Check if coroutine is start
-        if ( attackCoroutine == null )
-        {
-            isAttacking = true;
-            attackCoroutine = StartCoroutine(AttackCoroutine());
-        }
-    }
-
-    protected override IEnumerator AttackCoroutine()
-    {
-        while ( !isDead )
-        {
-            OnZombieAttack?.Invoke();
-            yield return new WaitForSeconds(monsterStats.AttackSpeed);
-        }
-    }
-
-    public override void Attack()
-    {
-        if (isPlayerInside) player.Hurt(monsterStats.Damage);
-    }
-
-
-    protected override void IsOutOfRange()
-    {
-        isPlayerInside = false;
-        isAttacking = false;
-        if ( attackCoroutine != null )
-        {
-            StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
-        }
-    }
-
 
     // Zombie get hurt
     public override void Hurt(float damageTaken)
     {
-        if ( !isDead )
+        if (monsterBehaviorState != MonsterBehavior.Dead)
         {
             monsterStats.Health -= damageTaken;
             
@@ -127,10 +70,25 @@ public class ZombieController : MonsterBaseController
     // Zombie dead
     protected override void Dead()
     {
-        OnZombieDead?.Invoke();
-        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= IsReadyToAttack;
-        monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= IsOutOfRange;
-        isDead = true;
+        // Disable collider
+        monsterCollider.enabled = false;
+
+        // Rigidbody
+        monsterRigidbody.useGravity = false;
+
+        // Invoke dead event
+        HandleOnMonsterDead();
+
+        // Unsub all event
+        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= ReadyToAttack;
+        monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
+        
+        //
+        monsterBehaviorState = MonsterBehavior.Dead;
+
+        // Drop item when dead
+        DropExp();
+        DropCoin();
     }
 
     // SUPPORT FUNCTION

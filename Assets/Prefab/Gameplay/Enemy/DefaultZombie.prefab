@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6296286955969420680}
-  - component: {fileID: 6296286955969420681}
   - component: {fileID: 6296286955969420683}
   - component: {fileID: -359887809366352541}
+  - component: {fileID: 645452488029623005}
   m_Layer: 0
   m_Name: DefaultZombie
   m_TagString: Monster
@@ -36,19 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6296286955969420681
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6296286955969420686}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.4633577, y: 1.5044603, z: 0.56743526}
-  m_Center: {x: 0.011923432, y: 0.8693054, z: 0.079871416}
 --- !u!114 &6296286955969420683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a612be2d70888aa4ab45daa94b3567cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePopup: {fileID: 0}
+  monsterData: {fileID: 0}
 --- !u!54 &-359887809366352541
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -78,6 +65,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &645452488029623005
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296286955969420686}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.34274197
+  m_Height: 1.6573079
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.85154426, z: 0.15725803}
 --- !u!1 &6296286957068687958
 GameObject:
   m_ObjectHideFlags: 0

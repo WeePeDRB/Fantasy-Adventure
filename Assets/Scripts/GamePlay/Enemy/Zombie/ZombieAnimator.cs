@@ -20,8 +20,8 @@ public class ZombieAnimator : MonsterBaseAnimator
     private const string ATTACK = "Attack";
     private const string IS_DEAD_TRIGGER = "DeadTrigger";
 
-    // Flags
-    private bool isDead;
+    // Behavior state
+    private MonsterBehavior zombieBehaviorState;
 
     //
     // FUNCTIONS
@@ -39,23 +39,28 @@ public class ZombieAnimator : MonsterBaseAnimator
     // Zombie movement
     protected override void Move()
     {
-        if ( isDead == false )
+        if ( zombieBehaviorState == MonsterBehavior.Move )
         {
-            animator.SetBool(IS_MOVING, zombieController.IsMoving);
+            animator.SetBool(IS_MOVING, true);
+        }
+        else 
+        {
+            animator.SetBool(IS_MOVING, false);
         }
     }
 
     // Zombie attack
     protected override void Attack()
     {
-        if ( isDead == false )
-        {
-            animator.SetTrigger(ATTACK);
-        }
+        animator.SetTrigger(ATTACK);
     }
-    protected void ControllerAttack()
+    protected void AttackHit()
     {
         zombieController.Attack();
+    }
+    protected void ResetAttack()
+    {
+        zombieController.ResetAttack();
     }
 
     // Monster dead
@@ -71,13 +76,13 @@ public class ZombieAnimator : MonsterBaseAnimator
         InstantiateAnimator();
 
         //
-        zombieController.OnZombieAttack += Attack;
-        zombieController.OnZombieDead += Dead;
+        zombieController.OnMonsterAttack += Attack;
+        zombieController.OnMonsterDead += Dead;
     }
 
     private void Update()
     {
-        isDead = zombieController.IsDead;
+        zombieBehaviorState = zombieController.MonsterBeHaviorState;
         Move();
     }
 }
