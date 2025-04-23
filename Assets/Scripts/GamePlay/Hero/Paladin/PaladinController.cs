@@ -130,7 +130,7 @@ public class PaladinController : HeroBaseController
             heroBehaviorState = HeroBehavior.Dashing;
 
             // Invoke the dash event
-            RaiseOnHeroDash();
+            HandleOnHeroDash();
 
             // Set up the position for the dash
             dashTarget = transform.position + transform.forward * dashDistance;
@@ -153,7 +153,7 @@ public class PaladinController : HeroBaseController
             heroBehaviorState = HeroBehavior.Casting;
 
             // Invoke the special event
-            RaiseOnHeroSpecial();
+            HandleOnHeroSpecial();
 
             // Set special flag
             canSpecial = false;
@@ -178,7 +178,7 @@ public class PaladinController : HeroBaseController
             heroBehaviorState = HeroBehavior.Casting;
 
             // Invoke the ultimate event
-            RaiseOnHeroUltimate();
+            HandleOnHeroUltimate();
 
             // Set ultimate flag
             canUltimate = false;

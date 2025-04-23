@@ -23,6 +23,23 @@ public abstract class HeroBaseController : MonoBehaviour
     protected bool canUltimate;
     protected bool isDead;
 
+    // HERO STATS
+    protected HeroStats heroStats;
+
+    // HERO EFFECT STATUS
+    protected HeroEffectStatus heroEffectStatus; 
+
+    // COROUTINE VALUE
+    protected Coroutine regenCooldownCoroutine;
+    
+    // HERO SKILL EVENTS
+    public  event Action OnHeroDash;
+    public  event Action OnHeroSpecial;
+    public  event Action OnHeroUltimate;
+
+    // LEVEL UP EVENTS
+    public event Action OnLevelUp;
+
     // HERO INVENTORY SYSTEM
     // Weapon system
     protected IWeapon primaryWeapon; // Primary weapon for each hero
@@ -33,24 +50,7 @@ public abstract class HeroBaseController : MonoBehaviour
     protected List<ItemBase> items; // Item list
     protected int maxItem; // Ammount of item
     protected int coin; 
-
-    // HERO STATS
-    protected HeroStats heroStats;
-
-    // HERO EFFECT STATUS
-    protected HeroEffectStatus heroEffectStatus; 
-
-    // HERO SKILL EVENTS
-    public  event Action OnHeroDash;
-    public  event Action OnHeroSpecial;
-    public  event Action OnHeroUltimate;
-
-    // LEVEL UP EVENTS
-    public event Action OnLevelUp;
-
-    //
-    protected Coroutine regenCooldownCoroutine;
-
+    
     //
     // PROPERTIES
     //
@@ -170,15 +170,15 @@ public abstract class HeroBaseController : MonoBehaviour
     }
 
     // Invoke event
-    protected void RaiseOnHeroDash()
+    protected void HandleOnHeroDash()
     {
         OnHeroDash?.Invoke();
     }
-    protected void RaiseOnHeroSpecial()
+    protected void HandleOnHeroSpecial()
     {
         OnHeroSpecial?.Invoke();
     }
-    protected void RaiseOnHeroUltimate()
+    protected void HandleOnHeroUltimate()
     {
         OnHeroUltimate?.Invoke();
     }
