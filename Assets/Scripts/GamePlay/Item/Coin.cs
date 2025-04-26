@@ -13,4 +13,13 @@ public class Coin : ItemBase
     {
         
     }
+    
+    // Collider check
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            CoinObjectPool.Instance.ReturnObject(this.gameObject);
+        }
+    }
 }

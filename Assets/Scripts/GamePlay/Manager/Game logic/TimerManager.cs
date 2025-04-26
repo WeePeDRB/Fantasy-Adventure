@@ -3,25 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameplayTimeManager : MonoBehaviour
+public class TimerManager : MonoBehaviour
 {
-    // Combat timing event
-    public static event Action OnStartCombat;
-    public static event Action OnEndCombat;
-    public static event EventHandler<NextLevelEventArgs> OnNextLevel;
-    public class NextLevelEventArgs : EventArgs
-    {
-        public int roundLevel;
-    }
+    //
+    // FIELDS
+    //
 
+    public static TimerManager Instance;
 
-    // Timing value 
+    // Timer value 
     private float maxCombatTime;
     private float currenCombatTime;
     
+    // Level
+    private int roundLevel;
+
+    // Combat timing event
+    public static event Action OnStartCombat;
+    public static event Action OnEndCombat;
 
     //
-    private int roundLevel;
+    // PROPERTIES
+    //
+    public int RoundLevel
+    {
+        get { return roundLevel; }
+    }
+
+    //
+    // FUNCTIONS
+    //
 
     // Initial time manager set up    
     private void InstantiateTimer()
@@ -41,24 +52,30 @@ public class GameplayTimeManager : MonoBehaviour
         EndCombat();
     }
 
-    // Invoke event
+    // Invoke event to control timer
     private void StartCombat()
     {
         currenCombatTime = maxCombatTime;
         OnStartCombat?.Invoke();
         StartCoroutine(CountDownRoutine());
     }
-
-    // Invoke evnt and send next round level
     private void EndCombat()
     {
         OnEndCombat?.Invoke();
-        OnNextLevel?.Invoke(this, new NextLevelEventArgs{ roundLevel = this.roundLevel ++});
     }
 
+    //
     private void Awake()
     {
         InstantiateTimer();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
     
     private void Start()

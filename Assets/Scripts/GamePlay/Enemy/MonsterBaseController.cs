@@ -33,7 +33,9 @@ public abstract class MonsterBaseController : MonoBehaviour
     // MONSTER BEHAVIOR EVENTS
     public event Action OnMonsterAttack;
     public event Action OnMonsterHurt;
-    public event Action OnMonsterDead;
+    public event EventHandler<OnMonsterDeadEventArgs> OnMonsterDead;
+
+    
 
     // MONSTER PHYSICS 
     protected Rigidbody monsterRigidbody;
@@ -43,6 +45,12 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected MonsterBaseHitBox monsterBaseHitBox;
     protected HeroBaseController player;
     
+    // Custom class for event args
+    public class OnMonsterDeadEventArgs : EventArgs
+    {
+        public MonsterBaseController monsterBaseController;
+    }
+
     //
     // PROPERTIES
     //
@@ -53,6 +61,10 @@ public abstract class MonsterBaseController : MonoBehaviour
     public MonsterStats MonsterStats
     {
         get { return monsterStats; }
+    }
+    public MonsterBehavior MonsterBeHaviorState 
+    { 
+        get { return monsterBehaviorState; } 
     }
 
     // INITIAL SET UP FOR MONSTER
@@ -117,7 +129,6 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         float elapsedTime = 0f;
         float waitTime = monsterStats.AttackSpeed * 0.7f;
-        Debug.Log("Monster wait time : " + waitTime);
 
         while (elapsedTime < waitTime)
         {
@@ -180,7 +191,7 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // Monster dead
     protected abstract void Dead();
-    protected virtual void DropExp()
+    public virtual void DropExp()
     {
         // Initial values
         int dropAmount = Random.Range(1,2);
@@ -190,13 +201,13 @@ public abstract class MonsterBaseController : MonoBehaviour
         // Drop item
         for (int i = 0; i < dropAmount; i++)
         {
-            expGemGameObject = ExpGemObjectPool.Instance.GetObject(this.transform);
+            expGemGameObject = ExpGemObjectPool.Instance.GetObject(this.transform );
             expGem = expGemGameObject.GetComponentInChildren<ExpGem>();
             expGem.LaunchItemRandomDirection();
         }
     }
     
-    protected virtual void DropCoin()
+    public virtual void DropCoin()
     {
         // Initial values
         int dropAmount = Random.Range(1,3);
@@ -227,6 +238,6 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
     protected void HandleOnMonsterDead()
     {
-        OnMonsterDead?.Invoke();
+        OnMonsterDead?.Invoke(this, new OnMonsterDeadEventArgs{ monsterBaseController = this});
     }
 }

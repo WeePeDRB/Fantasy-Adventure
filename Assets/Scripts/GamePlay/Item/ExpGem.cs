@@ -17,4 +17,13 @@ public class ExpGem : ItemBase
             LaunchItemRandomDirection();
         }
     }
+
+    // Collider check
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            ExpGemObjectPool.Instance.ReturnObject(this.gameObject);
+        }
+    }
 }

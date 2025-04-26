@@ -13,9 +13,6 @@ public class UI_SkillManager : MonoBehaviour
     // Reference
     private HeroBaseController heroController;
 
-    // Hero data
-    private SO_Hero heroData;
-
     // UI COMPONENTS
     // Dash
     [SerializeField] private Image dashSkillIcon;
@@ -44,24 +41,22 @@ public class UI_SkillManager : MonoBehaviour
         // Take hero controller reference
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
 
-        // Take hero data
-        heroData = heroController.HeroData;
     }
     // UI 
     private void InstantiateSkillUI()
     {
         // Dash
-        dashSkillIcon.sprite = heroData.dashSkill.skillSprite;
+        dashSkillIcon.sprite = heroController.HeroData.dashSkill.skillSprite;
         dashSkillIcon.color = skillReadyColor;
         dashSkillCountDown.enabled = false;
 
         // Special
-        specialSkillIcon.sprite = heroData.specialSkill.skillSprite;
+        specialSkillIcon.sprite = heroController.HeroData.specialSkill.skillSprite;
         specialSkillIcon.color = skillReadyColor;
         specialSkillCountDown.enabled = false;
         
         // Ultimate
-        ultiamteSkillIcon.sprite = heroData.ultimateSkill.skillSprite;
+        ultiamteSkillIcon.sprite = heroController.HeroData.ultimateSkill.skillSprite;
         ultiamteSkillIcon.color = skillReadyColor;
         ultimateSkillCountDown.enabled = false;
     }
@@ -88,15 +83,15 @@ public class UI_SkillManager : MonoBehaviour
     //
     private void OnHeroDash()
     {
-        SkillActivate(dashSkillIcon, dashSkillCountDown, heroData.dashSkill.skillCooldown);
+        SkillActivate(dashSkillIcon, dashSkillCountDown, heroController.HeroData.dashSkill.skillCooldown);
     }
     private void OnHeroSpecial()
     {
-        SkillActivate(specialSkillIcon, specialSkillCountDown, heroData.specialSkill.skillCooldown);
+        SkillActivate(specialSkillIcon, specialSkillCountDown, heroController.HeroData.specialSkill.skillCooldown);
     }
     private void OnHeroUltimate()
     {
-        SkillActivate(ultiamteSkillIcon, ultimateSkillCountDown, heroData.ultimateSkill.skillCooldown);
+        SkillActivate(ultiamteSkillIcon, ultimateSkillCountDown, heroController.HeroData.ultimateSkill.skillCooldown);
     }
 
     private void Start()
@@ -105,7 +100,7 @@ public class UI_SkillManager : MonoBehaviour
         InstantiateSkillManagerData();
         InstantiateSkillUI();
 
-        //
+        // Event subscribe
         heroController.OnHeroDash += OnHeroDash;
         heroController.OnHeroSpecial += OnHeroSpecial;
         heroController.OnHeroUltimate += OnHeroUltimate;
