@@ -9,6 +9,10 @@ public abstract class ItemBase : MonoBehaviour
     //
     protected Rigidbody rb;
 
+    //
+    // FUNCTIONS
+    //
+
     // Item behavior
     public virtual void LaunchItemRandomDirection(float upwardForce = 5f, float horizontalForce = 1.5f)
     {

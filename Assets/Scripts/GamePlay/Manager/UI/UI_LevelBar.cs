@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,8 +27,13 @@ public class UI_LevelBar : MonoBehaviour
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         
         // Set value to slider
-        slider.maxValue = heroController.HeroStats.MaxAmor;
-        slider.value = heroController.HeroStats.Amor;
+        UpdateExpStatus();
+    }
+
+    private void UpdateExpStatus()
+    {
+        slider.maxValue = heroController.HeroStats.ExpRequire;
+        slider.value = heroController.HeroStats.Exp;
     }
 
     // Update health
@@ -39,10 +45,11 @@ public class UI_LevelBar : MonoBehaviour
     private void Start()
     {
         InstantiateLevelBar();
+        heroController.OnLevelUp += UpdateExpStatus;
     }
 
     private void Update()
     {
-    
+        SetExp();
     }
 }

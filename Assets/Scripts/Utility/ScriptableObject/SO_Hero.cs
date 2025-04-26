@@ -9,7 +9,7 @@ public class SO_Hero : ScriptableObject
     public int id;
 
     // Hero Icon
-    public Sprite heroIcon;
+    public Sprite heroPortrait;
 
     // Hero class
     public string heroClass;

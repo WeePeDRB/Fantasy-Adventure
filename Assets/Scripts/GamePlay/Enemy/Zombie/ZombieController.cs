@@ -6,17 +6,6 @@ using UnityEngine;
 public class ZombieController : MonsterBaseController
 {
     //
-    // FIELDS
-    //
-
-    //
-    // PROPERTIES
-    //
-
-    public MonsterBehavior MonsterBeHaviorState { get { return monsterBehaviorState; } }
-
-
-    //
     // FUNCTIONS
     //
 
@@ -80,15 +69,11 @@ public class ZombieController : MonsterBaseController
         HandleOnMonsterDead();
 
         // Unsub all event
-        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= ReadyToAttack;
+        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= InRange;
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
         
         //
         monsterBehaviorState = MonsterBehavior.Dead;
-
-        // Drop item when dead
-        DropExp();
-        DropCoin();
     }
 
     // SUPPORT FUNCTION

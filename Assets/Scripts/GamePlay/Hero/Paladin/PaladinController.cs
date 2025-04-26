@@ -194,21 +194,13 @@ public class PaladinController : HeroBaseController
 
     }
 
-    // LEVEL UP
-    protected override void LevelUp()
-    {
-        
-    }
-
     // SUPPORT FUNCTIONS
-
-
     private void TestCharacterStats()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Debug.Log("This is player health :" + heroStats.Health);
-            Debug.Log("This is player amor : " + heroStats.Amor);
+            Debug.Log("This is player current exp: " + heroStats.Exp);
+            Debug.Log("This is player require exp: " + heroStats.ExpRequire);
             Debug.Log("");
         }
     }
@@ -235,6 +227,7 @@ public class PaladinController : HeroBaseController
         HandleMovement();
         UpdateSpecialEffect();
         AmorRegen();
+        TestCharacterStats();
     }
 
     protected override void UsetItem1()

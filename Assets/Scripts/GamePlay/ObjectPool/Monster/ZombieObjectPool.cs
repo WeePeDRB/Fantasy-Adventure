@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieObjetPool : ObjectPool
+public class ZombieObjectPool : ObjectPool
 {
     // Class instance
-    public static ZombieObjetPool Instance;
+    public static ZombieObjectPool Instance;
 
     // Monster data
     [SerializeField] private SO_Monster zombieData;

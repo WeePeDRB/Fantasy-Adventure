@@ -43,7 +43,7 @@ public abstract class ObjectPool : MonoBehaviour
         if (objectPool.Count > 0)
         {
             GameObject obj = objectPool.Dequeue();
-            obj.transform.position = objectTransform.position;
+            obj.transform.position = objectTransform.position + new Vector3(0,0.1f,0);
             obj.SetActive(true);
             return obj;
         }

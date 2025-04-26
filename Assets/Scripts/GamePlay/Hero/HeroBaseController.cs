@@ -46,9 +46,11 @@ public abstract class HeroBaseController : MonoBehaviour
     protected List<IWeapon> weapons; // Weapon list
     protected int maxWeapon; // Ammount of weapon
     
-    // Item system
-    protected List<ItemBase> items; // Item list
-    protected int maxItem; // Ammount of item
+    // Blessing system
+    protected List<BlessingBase> blessings; // Blessing list
+    protected int maxBlessing; // Ammount of blessing
+
+    // Inventory
     protected int coin; 
     
     //
@@ -120,7 +122,19 @@ public abstract class HeroBaseController : MonoBehaviour
     protected abstract void HandleUltimateSkill();
 
     // LEVEL UP
-    protected abstract void LevelUp();
+    protected virtual void LevelUp()
+    {
+        if (heroStats.Exp == heroStats.ExpRequire)
+        {
+            // Update exp status
+            heroStats.Level ++;
+            heroStats.ExpRequire += heroStats.Level * 100;
+            heroStats.Exp = 0;
+
+            // Invoke level up event
+            OnLevelUp?.Invoke();
+        }
+    }
     
     // HANDLING ITEM USE
     protected abstract void UsetItem1();
@@ -186,19 +200,22 @@ public abstract class HeroBaseController : MonoBehaviour
     // Collision detect
     protected void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("On collision enter work");
         if (heroBehaviorState == HeroBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
         {
             heroBehaviorState = HeroBehavior.Normal;
         }
         
-        else if (collision.gameObject.CompareTag("Coin"))
+        if (collision.gameObject.CompareTag("Coin"))
         {
-            Debug.Log("Coin touch !");
+            coin ++ ;
         }
 
-        else if (collision.gameObject.CompareTag("ExpGem"))
+        if (collision.gameObject.CompareTag("ExpGem"))
         {
-            Debug.Log("Gem touch !");
+            Debug.Log("Hero touch exp gem");
+            heroStats.Exp += 10;
+            LevelUp();
         }
     }
 }

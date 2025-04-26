@@ -32,6 +32,8 @@ public class HeroStats : CharacterStats
         level = Level;
         maxAmor = MaxAmor;
         amor = maxAmor;
+        expRequire = 100;
+        exp = 0;
         // Instantiate special stats
         resistance = Resistance;
         damageAmplifier = DamageAmplifier;
