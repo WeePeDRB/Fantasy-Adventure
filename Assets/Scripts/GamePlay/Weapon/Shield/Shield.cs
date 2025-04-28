@@ -27,13 +27,13 @@ public class Shield : MonoBehaviour, IWeapon
     // FUNCTIONS
     //
 
-    //
+    // EQUIP WEAPON
     public void EquipWeapon()
     {
 
     }
     
-    
+    // UPGRADE WEAPON (Increase weapon stats)  
     public void UpgradeWeapon()
     {
         weaponLevel ++;
@@ -41,14 +41,16 @@ public class Shield : MonoBehaviour, IWeapon
 
     }
     
+    // WEAPON ATTACK LOGIC
+    // Deal damage to monster
     public void Attack()
     {
-        foreach (MonsterBaseController monster in monsterListInHitBox)
+        for (int i =0; i < monsterListInHitBox.Count; i++)
         {
-            monster.Hurt(weaponAttackDamage);
+            monsterListInHitBox[i].Hurt(weaponAttackDamage);
         }
     }
-
+    // Attack coroutine
     public IEnumerator AttackCoroutine()
     {
         while (player.HeroStats.Health > 0)
@@ -58,19 +60,44 @@ public class Shield : MonoBehaviour, IWeapon
         }
     }
 
+    // SUPPORT FUNCTIONS
+    // Trigger detect
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Add(collider.gameObject.GetComponent<MonsterBaseController>());
+            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            
+            // Add monster to hit box list
+            monsterListInHitBox.Add(monsterBaseController);
+
+            // Subscribe to monster dead event (Remove monster from list incase monster die)
+            monsterBaseController.OnMonsterDead += CheckIfMonsterDead;
         }
     }
-
     private void OnTriggerExit(Collider collider)
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Remove(collider.gameObject.GetComponent<MonsterBaseController>());
+            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+
+            // Remove monster from hit box list
+            monsterListInHitBox.Remove(monsterBaseController);
+
+            // Unsubscribe to monster dead event
+            monsterBaseController.OnMonsterDead -= CheckIfMonsterDead;
+        }
+    }
+
+    // Check monster list
+    private void CheckIfMonsterDead(object sender, MonsterBaseController.OnMonsterDeadEventArgs monsterDeadEventArgs)
+    {
+        for (int i = 0; i < monsterListInHitBox.Count; i ++)
+        {
+            if (monsterListInHitBox[i] == monsterDeadEventArgs.monsterBaseController)
+            {
+                monsterListInHitBox.Remove(monsterListInHitBox[i]);
+            }
         }
     }
 

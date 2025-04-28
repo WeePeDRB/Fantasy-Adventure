@@ -33,8 +33,6 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
         monsterBaseController = GetComponentInParent<ZombieController>();
     }
 
-    // RESET ANIMATOR
-
     // HANDLING MONSTER ANIMATION
     // Monster movement
     protected virtual void Move()
@@ -60,10 +58,11 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     }
 
     // Monster dead
-    protected virtual void Dead()
+    protected virtual void Dead(object sender, MonsterBaseController.OnMonsterDeadEventArgs monsterDeadEventArgs)
     {
         animator.SetTrigger(IS_DEAD_TRIGGER);
     }
+    
     protected virtual void DropItem()
     {
         // Drop item when monster dead

@@ -148,11 +148,13 @@ public abstract class HeroBaseController : MonoBehaviour
         heroBehaviorState = HeroBehavior.Normal;
     }
 
-    // Access status effect
+    // Special effect handling
+    // Receive special effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
         heroEffectStatus.ReceiveEffect(specialEffect);
     }
+    // Update special effect
     public virtual void UpdateSpecialEffect()
     {
         if (heroEffectStatus.IsDictionaryEmpty())
@@ -200,7 +202,6 @@ public abstract class HeroBaseController : MonoBehaviour
     // Collision detect
     protected void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("On collision enter work");
         if (heroBehaviorState == HeroBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
         {
             heroBehaviorState = HeroBehavior.Normal;
@@ -213,7 +214,6 @@ public abstract class HeroBaseController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("ExpGem"))
         {
-            Debug.Log("Hero touch exp gem");
             heroStats.Exp += 10;
             LevelUp();
         }

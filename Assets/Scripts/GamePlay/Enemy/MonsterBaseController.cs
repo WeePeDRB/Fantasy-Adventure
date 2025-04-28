@@ -24,7 +24,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected MonsterStats monsterStats;
 
     // MONSTER EFFECT STATUS
-    protected MonsterEffectStatus effectStatus;
+    protected MonsterEffectStatus monsterEffectStatus;
 
     // COROUTINE VALUE
     protected Coroutine readyAttackCoroutine;
@@ -90,18 +90,43 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         if (monsterBehaviorState == MonsterBehavior.Dead)
         {
+            // Enable the collider
+            monsterCollider.enabled = true;
+
+            // Rigidbody
+            monsterRigidbody.useGravity = true;
+
+            // Subscribe HitBox events
+            monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += InRange;
+            monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
+            
             // Set behavior state
             monsterBehaviorState = MonsterBehavior.Move;
 
-            // Listen to HitBox events
-            monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += InRange;
-            monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
+
+            // Set health
+            monsterStats.Health = monsterStats.MaxHealth;
         }
     }
 
     // HANDLING MONSTER BEHAVIOR
     // Monster movement
-    protected abstract void HandleMovement();
+    protected virtual void HandleMovement()
+    {
+        if (monsterBehaviorState == MonsterBehavior.Move)
+        {
+            //Specify direction
+            Vector3 direction = (player.transform.position - this.transform.position).normalized;
+            Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
+
+            //Movement
+            transform.position += moveDirVector * monsterStats.Speed * Time.deltaTime;
+
+            //Rotation
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
+        }
+    }
 
     // Monster attack
     // In range
@@ -187,10 +212,42 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
 
     // Monster get hurt
-    public abstract void Hurt(float damageTaken);
+    public virtual void Hurt(float damageTaken)
+    {
+        if (monsterBehaviorState != MonsterBehavior.Dead)
+        {
+            monsterStats.Health -= damageTaken;
+
+            if (monsterStats.Health <= 0)
+            {
+                Dead();
+            }
+        }
+    }
 
     // Monster dead
-    protected abstract void Dead();
+    protected virtual void Dead()
+    {
+        if (monsterStats.Health <= 0)
+        {
+            // Disable collider
+            monsterCollider.enabled = false;
+
+            // Disable gravity in rigidbody
+            monsterRigidbody.useGravity = false;
+
+            // Invoke dead event
+            HandleOnMonsterDead();
+
+            // Unsubscribe HitBox events
+            monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= InRange;
+            monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
+            
+            // Set behavior state
+            monsterBehaviorState = MonsterBehavior.Dead;
+        }
+    }
+
     public virtual void DropExp()
     {
         // Initial values
@@ -224,8 +281,21 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
 
     // SUPPORT FUNCTIONS
-    // Get special effect
-    public abstract void ReceiveSpecialEffect(SpecialEffectBase specialEffect);
+    // Special effect handling
+    // Receive special effect
+    public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
+    {
+
+    }
+    // Update special effect
+    public virtual void UpdateSpecialEffect()
+    {
+        if (monsterEffectStatus.IsDictionaryEmpty())
+        {
+            return;
+        }
+        monsterEffectStatus.UpdateEffects(Time.deltaTime);
+    }
 
     // Invoke event
     protected void HandleOnMonsterAttack()
