@@ -4,13 +4,13 @@ using UnityEngine;
 
 public interface IWeapon
 {
-    // Add the weapon to the player inventory
+    // EQUIP WEAPON
     void EquipWeapon();
     
-    // Upgrade the weapon level (Increase weapon stats)     
+    // UPGRADE WEAPON (Increase weapon stats)     
     void UpgradeWeapon();
     
-    // Weapon attack
+    // WEAPON ATTACK LOGIC
     void Attack();
     IEnumerator AttackCoroutine();
     

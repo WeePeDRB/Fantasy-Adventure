@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TimerManager : MonoBehaviour
@@ -21,6 +22,9 @@ public class TimerManager : MonoBehaviour
     // Combat timing event
     public static event Action OnStartCombat;
     public static event Action OnEndCombat;
+
+    //
+    [SerializeField] TextMeshProUGUI timerText;
 
     //
     // PROPERTIES
@@ -80,6 +84,15 @@ public class TimerManager : MonoBehaviour
     
     private void Start()
     {
-        StartCombat();
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCombat();
+        }
+        timerText.text = currenCombatTime.ToString();
     }
 }

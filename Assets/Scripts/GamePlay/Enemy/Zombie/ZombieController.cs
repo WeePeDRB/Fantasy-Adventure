@@ -16,73 +16,20 @@ public class ZombieController : MonsterBaseController
 
         // Initial stats for zombie
         monsterStats = new MonsterStats(100,2,1,10,0.5f,0,0);
-
     }
 
     
 
     // HANDLING ZOMBIE BEHAVIOR
     // Zombie movement
-    protected override void HandleMovement()
-    {
-        if (monsterBehaviorState == MonsterBehavior.Move)
-        {
-            //Specify direction
-            Vector3 direction = (player.transform.position - this.transform.position).normalized;
-            Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
-
-            //Movement
-            transform.position += moveDirVector * monsterStats.Speed * Time.deltaTime;
-
-            //Rotation
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
-        }
-    }
 
     // Zombie attack
 
     // Zombie get hurt
-    public override void Hurt(float damageTaken)
-    {
-        if (monsterBehaviorState != MonsterBehavior.Dead)
-        {
-            monsterStats.Health -= damageTaken;
-            
-            if ( monsterStats.Health == 0 )
-            {
-                Dead();
-            }
-        }
-    }
 
     // Zombie dead
-    protected override void Dead()
-    {
-        // Disable collider
-        monsterCollider.enabled = false;
-
-        // Rigidbody
-        monsterRigidbody.useGravity = false;
-
-        // Invoke dead event
-        HandleOnMonsterDead();
-
-        // Unsub all event
-        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= InRange;
-        monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
-        
-        //
-        monsterBehaviorState = MonsterBehavior.Dead;
-    }
 
     // SUPPORT FUNCTION
-    
-    public override void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
-    {
-        
-    }
-
 
     private void Awake()
     {
