@@ -16,11 +16,11 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     // Animator parameters
     protected const string IS_MOVING = "IsMoving";
     protected const string ATTACK = "Attack";
-    protected const string IS_DEAD_TRIGGER = "DeadTrigger";
+    protected const string IS_DEAD_TRIGGER = "Dead";
 
     
     // Behavior state
-    protected MonsterBehavior monsterBehaviorState;
+    protected MonsterMovementState monsterMovementState;
 
     //
     // FUNCTIONS
@@ -30,14 +30,14 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     protected virtual void InstantiateAnimator()
     {
         animator = GetComponent<Animator>();
-        monsterBaseController = GetComponentInParent<ZombieController>();
+        monsterBaseController = GetComponentInParent<MonsterBaseController>();
     }
 
     // HANDLING MONSTER ANIMATION
     // Monster movement
     protected virtual void Move()
     {
-        if ( monsterBehaviorState == MonsterBehavior.Move )
+        if ( monsterMovementState == MonsterMovementState.Move )
         {
             animator.SetBool(IS_MOVING, true);
         }

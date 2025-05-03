@@ -15,7 +15,7 @@ public class ZombieController : MonsterBaseController
         base.InstantiateMonster();
 
         // Initial stats for zombie
-        monsterStats = new MonsterStats(100,2,1,10,0.5f,0,0);
+        monsterStats = new MonsterStats(100,1,1,10,0.5f,0,0);
     }
 
     
@@ -36,8 +36,22 @@ public class ZombieController : MonsterBaseController
         InstantiateMonster();
     }
 
+
     private void Update()
     {
-        HandleMovement();
+        if (monsterHealthState == MonsterHealthState.Alive)
+        {
+            HandleRotation();
+            DistanceCheck(.8f);
+        }
+        
+    }
+
+    private void FixedUpdate()
+    {
+        if (monsterHealthState == MonsterHealthState.Alive) 
+        {
+            HandleMovement();
+        }
     }
 }
