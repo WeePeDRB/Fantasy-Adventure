@@ -80,7 +80,7 @@ public class MonsterSpawnManager : MonoBehaviour
                     GameObject monsterGameObj = ZombieObjectPool.Instance.GetObject(monster.transform);
                     MonsterBaseController monsterBaseController = monsterGameObj.GetComponent<MonsterBaseController>();
                     monsterBaseController.OnMonsterDead += OnMonsterDead;
-                    if (monsterBaseController.MonsterBeHaviorState == MonsterBehavior.Dead) monsterBaseController.ResetMonsterState();
+                    if (monsterBaseController.MonsterHealthState == MonsterHealthState.Dead) monsterBaseController.ResetMonsterState();
                     break;
             case 1:
                     //

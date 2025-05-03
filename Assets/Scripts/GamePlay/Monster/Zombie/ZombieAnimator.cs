@@ -10,9 +10,9 @@ public class ZombieAnimator : MonsterBaseAnimator
     //
 
     // Monster attack
-    protected void AttackHit()
+    protected void ApplyDamage()
     {
-        monsterBaseController.Attack();
+        monsterBaseController.ApplyDamage();
     }
 
     private void Start()
@@ -27,7 +27,7 @@ public class ZombieAnimator : MonsterBaseAnimator
 
     private void Update()
     {
-        monsterBehaviorState = monsterBaseController.MonsterBeHaviorState;
+        monsterMovementState = monsterBaseController.MonsterMovementState;
         Move();
     }
 }

@@ -14,11 +14,14 @@ public abstract class MonsterBaseController : MonoBehaviour
     // MONSTER DATA
     [SerializeField] protected SO_Monster monsterData;
 
-    // MONSTER BEHAVIOR STATE
-    protected MonsterBehavior monsterBehaviorState;
+    // MONSTER STATE
+    protected MonsterMovementState monsterMovementState;
+    protected MonsterAttackState monsterAttackState;
+    protected MonsterHealthState monsterHealthState;
 
     // CHECKING FLAGS
-    protected bool isPlayerInside;
+    protected bool isPlayerInsideAttackHitBox;
+    protected bool isPlayerInsideAttackRange;
 
     // MONSTER STATS
     protected MonsterStats monsterStats;
@@ -43,7 +46,7 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // REFERENCE 
     protected MonsterBaseHitBox monsterBaseHitBox;
-    protected HeroBaseController player;
+    protected HeroBaseController heroBaseController;
     
     // Custom class for event args
     public class OnMonsterDeadEventArgs : EventArgs
@@ -62,9 +65,17 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         get { return monsterStats; }
     }
-    public MonsterBehavior MonsterBeHaviorState 
+    public MonsterMovementState MonsterMovementState 
     { 
-        get { return monsterBehaviorState; } 
+        get { return monsterMovementState; } 
+    }
+    public MonsterAttackState MonsterAttackState
+    {
+        get { return monsterAttackState; }
+    }
+    public MonsterHealthState MonsterHealthState
+    {
+        get { return monsterHealthState; }
     }
 
     // INITIAL SET UP FOR MONSTER
@@ -72,13 +83,15 @@ public abstract class MonsterBaseController : MonoBehaviour
     public virtual void InstantiateMonster()
     {
         // Set variables
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
+        heroBaseController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         monsterCollider = GetComponent<CapsuleCollider>();
         monsterRigidbody = GetComponent<Rigidbody>();
-        monsterBaseHitBox = GetComponentInChildren<ZombieHitBox>();
+        monsterBaseHitBox = GetComponentInChildren<MonsterBaseHitBox>();
 
-        // Set behavior state
-        monsterBehaviorState = MonsterBehavior.Move;
+        // Set monster state
+        monsterMovementState = MonsterMovementState.Move;
+        monsterAttackState = MonsterAttackState.Standby;
+        monsterHealthState = MonsterHealthState.Alive;
 
         // Listen to HitBox events
         monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += InRange;
@@ -88,7 +101,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Reset after get monster out from pool
     public virtual void ResetMonsterState()
     {
-        if (monsterBehaviorState == MonsterBehavior.Dead)
+        if (monsterHealthState == MonsterHealthState.Dead)
         {
             // Enable the collider
             monsterCollider.enabled = true;
@@ -101,7 +114,9 @@ public abstract class MonsterBaseController : MonoBehaviour
             monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
             
             // Set behavior state
-            monsterBehaviorState = MonsterBehavior.Move;
+            monsterMovementState = MonsterMovementState.Move;
+            monsterAttackState = MonsterAttackState.Standby;
+            monsterHealthState = MonsterHealthState.Alive;
 
 
             // Set health
@@ -113,15 +128,32 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Monster movement
     protected virtual void HandleMovement()
     {
-        if (monsterBehaviorState == MonsterBehavior.Move)
+        if (monsterMovementState == MonsterMovementState.Move)
         {
             //Specify direction
-            Vector3 direction = (player.transform.position - this.transform.position).normalized;
+            Vector3 direction = (heroBaseController.transform.position - this.transform.position).normalized;
             Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
 
             //Movement
-            transform.position += moveDirVector * monsterStats.Speed * Time.deltaTime;
+            Vector3 targetPos = transform.position + moveDirVector * monsterStats.Speed * Time.deltaTime;
+            monsterRigidbody.MovePosition(targetPos);
 
+            //transform.position += moveDirVector * monsterStats.Speed * Time.deltaTime;
+
+            //Rotation
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
+        }
+    }
+    // Monster rotation
+    protected virtual void HandleRotation()
+    {
+        if (monsterMovementState == MonsterMovementState.Rotate)
+        {
+            //Specify direction
+            Vector3 direction = (heroBaseController.transform.position - this.transform.position).normalized;
+            Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
+            
             //Rotation
             float rotateSpeed = 10f;
             transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
@@ -133,7 +165,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected virtual void InRange()
     {
         // Set flag
-        isPlayerInside = true;
+        isPlayerInsideAttackHitBox = true;
         //
         ReadyToAttack();
     }
@@ -142,23 +174,27 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected virtual void ReadyToAttack()
     {
         // Set behavior state
-        monsterBehaviorState = MonsterBehavior.ReadyToAttack;
+        monsterAttackState = MonsterAttackState.ReadyToAttack;
+        monsterMovementState = MonsterMovementState.Rotate;
+
         // Handling coroutine
         if (readyAttackCoroutine == null)
         {
             readyAttackCoroutine = StartCoroutine(ReadyToAttackCoroutine());
+            
         }
 
     }
     protected virtual IEnumerator ReadyToAttackCoroutine()
     {
         float elapsedTime = 0f;
-        float waitTime = monsterStats.AttackSpeed * 0.7f;
+        float waitTime = monsterStats.AttackSpeed * 0.3f;
 
         while (elapsedTime < waitTime)
         {
-            if (monsterBehaviorState == MonsterBehavior.Move) 
+            if (monsterMovementState == MonsterMovementState.Move) 
             {   
+                Debug.Log("Cancel attack coroutine");
                 StopCoroutine(readyAttackCoroutine);
                 readyAttackCoroutine = null;
                 yield break;
@@ -168,7 +204,7 @@ public abstract class MonsterBaseController : MonoBehaviour
             yield return null;
         }
 
-        monsterBehaviorState = MonsterBehavior.Attack;
+        monsterAttackState = MonsterAttackState.Attack;
         // Start coroutine
         if (attackCoroutine == null)
         {
@@ -177,11 +213,11 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
 
     // Attack state: This is the attack state can't be interupt untill monster attack
-    public virtual void Attack()
+    public virtual void ApplyDamage()
     {
-        if (isPlayerInside)
+        if (isPlayerInsideAttackHitBox)
         {
-            player.Hurt(monsterStats.Damage);
+            heroBaseController.Hurt(monsterStats.Damage);
         }
     }
     protected virtual IEnumerator AttackCoroutine()
@@ -191,30 +227,52 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
     public virtual void ResetAttack()
     {
-        if (isPlayerInside == true)
+        // 
+        readyAttackCoroutine = null;
+        attackCoroutine = null;
+        
+        //
+        if (isPlayerInsideAttackHitBox == true)
         {
-            readyAttackCoroutine = null;
-            attackCoroutine = null;
             ReadyToAttack();
             return;
         }
-        readyAttackCoroutine = null;
-        attackCoroutine = null;
-        monsterBehaviorState = MonsterBehavior.Move;
+        else
+        {
+            if (isPlayerInsideAttackRange)
+            {
+                monsterMovementState = MonsterMovementState.Rotate;
+            }
+            else
+            {
+                monsterMovementState = MonsterMovementState.Move;
+            }
+        }
+        
     }
 
     // OutOfRange
     protected virtual void OutOfRange()
     {
-        isPlayerInside = false;
-        if (monsterBehaviorState == MonsterBehavior.Attack) return;
-        monsterBehaviorState = MonsterBehavior.Move;
+        isPlayerInsideAttackHitBox = false;
+        if (monsterAttackState == MonsterAttackState.Attack) return;
+        else
+        {
+            if (isPlayerInsideAttackRange == true)
+            {
+                monsterMovementState = MonsterMovementState.Rotate;
+            }
+            else if (isPlayerInsideAttackRange == false)
+            {
+                monsterMovementState = MonsterMovementState.Move;
+            }
+        }
     }
 
     // Monster get hurt
     public virtual void Hurt(float damageTaken)
     {
-        if (monsterBehaviorState != MonsterBehavior.Dead)
+        if (monsterHealthState == MonsterHealthState.Alive)
         {
             monsterStats.Health -= damageTaken;
 
@@ -244,7 +302,7 @@ public abstract class MonsterBaseController : MonoBehaviour
             monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
             
             // Set behavior state
-            monsterBehaviorState = MonsterBehavior.Dead;
+            monsterHealthState = MonsterHealthState.Dead;
         }
     }
 
@@ -309,5 +367,22 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected void HandleOnMonsterDead()
     {
         OnMonsterDead?.Invoke(this, new OnMonsterDeadEventArgs{ monsterBaseController = this});
+    }
+
+    // Distance checking 
+    protected void DistanceCheck(float requreDistance)
+    {
+        Vector3 heroPosition = heroBaseController.transform.position;
+        
+        float distance = Vector3.Distance(heroPosition, transform.position);
+
+        if (distance <= requreDistance)
+        {
+            isPlayerInsideAttackRange = true;
+        }
+        else 
+        {
+            isPlayerInsideAttackRange = false; 
+        }
     }
 }
