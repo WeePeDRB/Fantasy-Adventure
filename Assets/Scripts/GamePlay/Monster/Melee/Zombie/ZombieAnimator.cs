@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EliteZombieAnimator : MonsterBaseAnimator
+public class ZombieAnimator : MonsterBaseAnimator
 {
     //
     // FUNCTIONS
@@ -11,7 +12,7 @@ public class EliteZombieAnimator : MonsterBaseAnimator
     // Monster attack
     protected void ApplyDamage()
     {
-        monsterBaseController.ApplyDamage();
+        //monsterBaseController.ApplyDamage();
     }
 
     private void Start()

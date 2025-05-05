@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieController : MonsterBaseController
+public class ZombieController : MeleeMonsterController
 {
     //
     // FUNCTIONS
@@ -36,22 +36,31 @@ public class ZombieController : MonsterBaseController
         InstantiateMonster();
     }
 
+    private void Start()
+    {
+        InvokeRepeating(nameof(UpdateHeroTarget), UnityEngine.Random.Range(0f, 0.2f), 0.5f);
+    }
 
     private void Update()
     {
-        if (monsterHealthState == MonsterHealthState.Alive)
+        if (monsterHealthState == MonsterHealthState.Alive) 
         {
-            HandleRotation();
-            DistanceCheck(.8f);
+            if (heroTarget != null)
+            {
+                HandleRotation();
+                DistanceCheck(8.5f);
+            }
         }
-        
     }
-
     private void FixedUpdate()
     {
         if (monsterHealthState == MonsterHealthState.Alive) 
         {
-            HandleMovement();
+            if (heroTarget != null)
+            {
+
+                HandleMovement();
+            }
         }
     }
 }
