@@ -10,21 +10,15 @@ public class MonsterSpawnManager : MonoBehaviour
     // FIELDS
     //
 
-    //
-    private bool isInCombat;
+    // Initialize hero list
+    private List<HeroBaseController> heroList;
 
-    // Reference
+    // Spawning monster logic
     private HeroBaseController heroBaseController;
-
-    // 
-    [SerializeField]private int monsterMaxQuantity;
+    private bool isInCombat;
+    private int monsterMaxQuantity;
     private int monsterQuantity;
-    private List<MonsterBaseController> monsterList;
-
-    // Coroutine
     private Coroutine spawnCoroutine;
-    
-    //
     [SerializeField] private LayerMask groundLayer;
 
 
@@ -32,7 +26,24 @@ public class MonsterSpawnManager : MonoBehaviour
     // FUNCTIONS
     //
 
-    // Control combat duration
+    // INITIALIZE HERO LIST
+    private void InitializeHeroList()
+    {
+        GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
+        heroList = new List<HeroBaseController>();
+
+        foreach (var obj in heroObjects)
+        {
+            HeroBaseController hero = obj.GetComponent<HeroBaseController>();
+            if (hero != null)
+            {
+                heroList.Add(hero);
+                Debug.Log(hero);
+            }
+        }   
+    }
+    
+    // CONTROL COMBAT DURATION
     private void StartCombat()
     {
         isInCombat = true;
@@ -51,7 +62,7 @@ public class MonsterSpawnManager : MonoBehaviour
         }
     }
 
-    // Control spawn monster logic
+    // CONTROL MONSTER SPAWN
     // Spawn logic
     private IEnumerator SpawnMonsterCoroutine()
     {
@@ -79,8 +90,10 @@ public class MonsterSpawnManager : MonoBehaviour
                     // 
                     GameObject monsterGameObj = ZombieObjectPool.Instance.GetObject(monster.transform);
                     MonsterBaseController monsterBaseController = monsterGameObj.GetComponent<MonsterBaseController>();
+                    monsterBaseController.GetHeroList(heroList);
                     monsterBaseController.OnMonsterDead += OnMonsterDead;
                     if (monsterBaseController.MonsterHealthState == MonsterHealthState.Dead) monsterBaseController.ResetMonsterState();
+                    
                     break;
             case 1:
                     //
@@ -88,10 +101,9 @@ public class MonsterSpawnManager : MonoBehaviour
                     break;
         }
         monsterQuantity ++;
-        
     }
-    // Return monster logic
-    //  
+
+    // RETURN MONSTER
     private void OnMonsterDead(object sender, MonsterBaseController.OnMonsterDeadEventArgs monsterDeadEventArgs)
     {
         // Take variable
@@ -110,10 +122,13 @@ public class MonsterSpawnManager : MonoBehaviour
         ZombieObjectPool.Instance.ReturnObject(returnPoolMonster);
     }
 
-    // Support function
+    // SUPPORT FUNCTIONS
     // Get random position to spawn
     private Vector3 GetRandomOffscreenPosition()
     {
+        // Get hero from list
+        GetHero();
+
         // Get postion
         Vector3 spawnPos = Vector3.zero;
         Vector3 heroPos = heroBaseController.transform.position;
@@ -159,13 +174,21 @@ public class MonsterSpawnManager : MonoBehaviour
         return false;
     }
 
+    // Get random hero
+    private void GetHero()
+    {
+        int randomNumber = Random.Range(0,heroList.Count - 1);
+        heroBaseController = heroList[randomNumber];
+        Debug.Log(heroBaseController);
+    }
+
     private void Start()
     {
-        //
-        heroBaseController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
-
+        InitializeHeroList();
         //
         TimerManager.OnStartCombat += StartCombat;
         TimerManager.OnEndCombat += EndCombat;
+
+        monsterMaxQuantity = 5;
     }
 }

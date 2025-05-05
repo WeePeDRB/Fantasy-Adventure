@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EliteZombieController : MonsterBaseController
+public class EliteZombieController : MeleeMonsterController
 {
     //
     // FUNCTIONS
@@ -35,20 +35,31 @@ public class EliteZombieController : MonsterBaseController
         InstantiateMonster();
     }
 
+    private void Start()
+    {
+        InvokeRepeating(nameof(UpdateHeroTarget), Random.Range(0f, 0.2f), 0.5f);
+    }
+
     private void Update()
     {
         if (monsterHealthState == MonsterHealthState.Alive) 
         {
-            HandleRotation();
-            DistanceCheck(1.5f);
+            if (heroTarget != null)
+            {
+                HandleRotation();
+                DistanceCheck(8.5f);
+            }
         }
     }
-
     private void FixedUpdate()
     {
         if (monsterHealthState == MonsterHealthState.Alive) 
         {
-            HandleMovement();
+            if (heroTarget != null)
+            {
+
+                HandleMovement();
+            }
         }
     }
 }

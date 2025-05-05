@@ -1,22 +1,29 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAnimator : MonsterBaseAnimator
+public class WitchAnimator : MonsterBaseAnimator
 {
+    //
+    // FIELDS
+    //
+    private WitchController witchController;
+
     //
     // FUNCTIONS
     //
 
-    // Monster attack
-    protected void ApplyDamage()
+    // Monster attack    
+    public void SpawnProjectile()
     {
-        monsterBaseController.ApplyDamage();
+        witchController.SpawnProjectile();
     }
 
     private void Start()
     {
+        //
+        witchController = GetComponentInParent<WitchController>();
+
         // 
         InstantiateAnimator();
 

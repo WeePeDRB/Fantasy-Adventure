@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MonsterBaseProjectile : MonoBehaviour
+public abstract class RangedMonsterProjectile : MonoBehaviour
 {
     //
     // FIELDS
@@ -26,11 +26,11 @@ public abstract class MonsterBaseProjectile : MonoBehaviour
     public class OnProjectileHitEventArgs : EventArgs
     {
         public HeroBaseController heroBaseController;
-        public MonsterBaseProjectile monsterBaseProjectile;
+        public RangedMonsterProjectile monsterBaseProjectile;
     }
     public class OnProjectileReachDestinationEventArgs : EventArgs
     {
-        public MonsterBaseProjectile monsterBaseProjectile;
+        public RangedMonsterProjectile monsterBaseProjectile;
     }
 
     //
@@ -76,7 +76,14 @@ public abstract class MonsterBaseProjectile : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            OnProjectileHit?.Invoke(this, new OnProjectileHitEventArgs{ heroBaseController = collider.gameObject.GetComponent<HeroBaseController>(), monsterBaseProjectile = this});
+            OnProjectileHit?.Invoke(
+                this, 
+                new OnProjectileHitEventArgs
+                { 
+                    heroBaseController = collider.gameObject.GetComponent<HeroBaseController>(), 
+                    monsterBaseProjectile = this
+                }
+            );
         }
     }
 }
