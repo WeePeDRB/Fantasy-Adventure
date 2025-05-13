@@ -14,9 +14,8 @@ public class PaladinAnimator : HeroBaseAnimator
     private PaladinController paladinController;
 
     // Animator parameters
-    private const string IS_MOVING = "IsMoving"; // Parameter name
-    private bool isMoving; // Parameter value
-
+    private const string IS_MOVING = "Move"; 
+    private const string DEAD = "Dead";
     private const string DASH = "Dash";
     private const string SPECIAL = "Special";
     private const string ULTIMATE = "Ultimate";
@@ -36,15 +35,14 @@ public class PaladinAnimator : HeroBaseAnimator
     protected override void MoveAnimate()
     {
         Vector2 inputVector = GameInput.GetMovementVectorNormalized();
-        if(inputVector != Vector2.zero) isMoving = true;
-        else isMoving = false;
-        animator.SetBool(IS_MOVING, isMoving);
+        if(inputVector != Vector2.zero) animator.SetBool(IS_MOVING, true);
+        else animator.SetBool(IS_MOVING, false);
     }
 
     // Paladin dead
     protected override void DeadAnimate()
     {
-
+        animator.SetTrigger(DEAD);
     }
 
     // Paladin dash
@@ -62,7 +60,7 @@ public class PaladinAnimator : HeroBaseAnimator
     // This function will handle the special skill effect
     protected void SpecialSkillActivate()
     {
-        paladinController.SpecialSkillActivate();
+            
     }
 
     //Paladin ultimate
@@ -87,6 +85,7 @@ public class PaladinAnimator : HeroBaseAnimator
         paladinController.OnHeroDash += DashSkillAnimate;
         paladinController.OnHeroSpecial += SpecialSkillAnimate;
         paladinController.OnHeroUltimate += UltimateSkillAnimate;
+        paladinController.OnHeroDead += DeadAnimate;
     }
 
     // Update is called once per frame

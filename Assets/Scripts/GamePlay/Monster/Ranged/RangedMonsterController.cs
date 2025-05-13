@@ -17,7 +17,6 @@ public class RangedMonsterController : MonsterBaseController
 
     // HANDLING MONSTER BEHAVIOR
     // Monster attack 
-
     // Checking hit box
     protected override void InRange()
     {

@@ -12,7 +12,7 @@ public class WitchController : RangedMonsterController
     public override void InstantiateMonster()
     {
         base.InstantiateMonster();
-
+    
         // Initial stats for witch
         monsterStats = new MonsterStats(60,3,1,40,2f,0,0);
     }
@@ -23,17 +23,25 @@ public class WitchController : RangedMonsterController
     // Witch movement
 
     // Witch attack
-    public void GetDataFromPorjectile(object sender, RangedMonsterProjectile.OnProjectileHitEventArgs onProjectileHitEventArgs)
+    public void GetDataFromPorjectile(object sender, WitchProjectile.OnProjectileHitEventArgs onProjectileHitEventArgs)
     {
-        
+        WitchProjectile witchProjectile = onProjectileHitEventArgs.witchProjectile;
+        witchProjectile.OnProjectileHit -= GetDataFromPorjectile;
+        witchProjectile.OnProjectileReturn -= GetDataFromPorjectile;
+        if (onProjectileHitEventArgs.heroBaseController != null) ApplyDamage(onProjectileHitEventArgs.heroBaseController);
     }
     public override void SpawnProjectile()
     {
+        // Get projectile from pool
         GameObject projectileObject = WitchProjectileObjectPool.Instance.GetObject(projectileSpawn);
         WitchProjectile witchProjectile = projectileObject.GetComponent<WitchProjectile>();
         
-        witchProjectile.HeroPositionLocate();
-        witchProjectile.ResetProjectileState();
+        // Initialize for projectile
+        witchProjectile.InitializeProjectile(9, heroTarget.transform.position,7);
+
+        // Subscribe to event for data return
+        witchProjectile.OnProjectileHit += GetDataFromPorjectile;
+        witchProjectile.OnProjectileReturn += GetDataFromPorjectile;
     }
     // Witch get hurt
 

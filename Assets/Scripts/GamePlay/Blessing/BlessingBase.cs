@@ -1,18 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BlessingBase : MonoBehaviour
+public abstract class BlessingBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //
+    // FIELDS
+    //
 
-    // Update is called once per frame
-    void Update()
+    // Essential information
+    protected string blessingName;
+    protected int blessingLevel;
+
+    //
+    // PROPERTIES
+    // 
+
+    //
+    public string BlessingName { get { return blessingName; } }
+    public int BlessingLevel { get { return blessingLevel; } }
+
+    //
+    // FUNCIONS
+    //
+
+    // Apply blessing to hero
+    public abstract void ApplyBlessingOnHero(HeroBaseController hero);
+    // Level up
+    public virtual void BlessingLevelUp()
     {
+        if (blessingLevel < 5) blessingLevel ++;
         
     }
 }

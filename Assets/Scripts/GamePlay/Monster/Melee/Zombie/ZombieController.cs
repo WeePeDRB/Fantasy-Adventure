@@ -48,7 +48,7 @@ public class ZombieController : MeleeMonsterController
             if (heroTarget != null)
             {
                 HandleRotation();
-                DistanceCheck(8.5f);
+                DistanceCheck(0.5f);
             }
         }
     }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public interface IWeapon
 {
+    // INITIALIZE STATS FOR WEAPON
+    void InitializeWeapon();
+
     // EQUIP WEAPON
     void EquipWeapon();
     
@@ -11,7 +14,6 @@ public interface IWeapon
     void UpgradeWeapon();
     
     // WEAPON ATTACK LOGIC
-    void Attack();
     IEnumerator AttackCoroutine();
     
 }

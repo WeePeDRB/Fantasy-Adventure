@@ -10,7 +10,7 @@ public class SO_Weapon : ScriptableObject
     public int id;
 
     // Weapon projectile prefab for the instantiate
-    public Transform projectilePrefab;
+    public GameObject weaponPrefab;
 
     // Weapon stats
     public int weaponLevel;
