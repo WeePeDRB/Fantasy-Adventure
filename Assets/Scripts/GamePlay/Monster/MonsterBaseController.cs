@@ -56,6 +56,10 @@ public abstract class MonsterBaseController : MonoBehaviour
     //
     // PROPERTIES
     //
+    public HeroBaseController HeroTarget
+    {
+        get { return heroTarget; }
+    }
     public SO_Monster MonsterData
     {
         get { return monsterData; }
@@ -184,24 +188,23 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Monster dead
     protected virtual void Dead()
     {
-        if (monsterStats.Health <= 0)
-        {
-            // Disable collider
-            monsterCollider.enabled = false;
 
-            // Disable gravity in rigidbody
-            monsterRigidbody.useGravity = false;
+        // Disable collider
+        monsterCollider.enabled = false;
 
-            // Invoke dead event
-            HandleOnMonsterDead();
+        // Disable gravity in rigidbody
+        monsterRigidbody.useGravity = false;
 
-            // Unsubscribe HitBox events
-            monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= InRange;
-            monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
+        // Invoke dead event
+        HandleOnMonsterDead();
+
+        // Unsubscribe HitBox events
+        monsterBaseHitBox.OnPlayerEnterMonsterAttackRange -= InRange;
+        monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
             
-            // Set behavior state
-            monsterHealthState = MonsterHealthState.Dead;
-        }
+        // Set behavior state
+        monsterHealthState = MonsterHealthState.Dead;
+        
     }
 
     public virtual void DropExp()
@@ -283,34 +286,9 @@ public abstract class MonsterBaseController : MonoBehaviour
         }
     }
 
-    // Checking 
-    public HeroBaseController FindClosestHero(List<HeroBaseController> heroList)
-    {
-        if (heroList == null || heroList.Count == 0)
-            return null;
-
-        HeroBaseController closestHero = null;
-        float closestDistance = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-
-        foreach (var hero in heroList)
-        {
-            if (hero == null) continue;
-
-            float distance = Vector3.SqrMagnitude(hero.gameObject.transform.position - currentPosition); // dùng SqrMagnitude cho hiệu suất tốt hơn
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestHero = hero;
-            }
-        }
-
-        return closestHero;
-    }
     public void UpdateHeroTarget()
     {
-        heroTarget = FindClosestHero(heroList);
+        heroTarget = GameUtility.FindClosestHero(heroList, this);
     }
 
     // 

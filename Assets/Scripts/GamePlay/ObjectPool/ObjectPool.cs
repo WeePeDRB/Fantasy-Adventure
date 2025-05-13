@@ -4,9 +4,8 @@ using UnityEngine;
 
 public abstract class ObjectPool : MonoBehaviour
 {
-
     //
-    // Monster object pool
+    // FIELDS
     //
     
     // The Queue that will store monster game object
@@ -16,10 +15,12 @@ public abstract class ObjectPool : MonoBehaviour
     // Max monster quantity
     protected int objectPoolSize;
 
-
+    //
+    // FUNCTIONS
+    //
 
     // Instantiate monster pool values
-    public void InstantiatePoolValue(GameObject objectPrefab, int poolSize)
+    public virtual void InstantiatePoolValue(GameObject objectPrefab, int poolSize)
     {   
         objectPool = new Queue<GameObject>();
         objectPoolSize = poolSize;
@@ -27,7 +28,7 @@ public abstract class ObjectPool : MonoBehaviour
     }
 
     // Create object pool
-    public void CreatePool()
+    public virtual void CreatePool()
     {
         for (int i = 0; i < objectPoolSize; i ++)
         {
@@ -38,7 +39,7 @@ public abstract class ObjectPool : MonoBehaviour
     } 
 
     // Get object from pool
-    public GameObject GetObject(Transform objectTransform)
+    public virtual GameObject GetObject(Transform objectTransform)
     {
         if (objectPool.Count > 0)
         {
@@ -51,7 +52,7 @@ public abstract class ObjectPool : MonoBehaviour
     }
 
     // Return object to pool;
-    public void ReturnObject(GameObject obj)
+    public virtual void ReturnObject(GameObject obj)
     {   
         obj.SetActive(false);
         objectPool.Enqueue(obj);

@@ -48,6 +48,7 @@ public class HeroStats : CharacterStats
     public float MaxAmor
     {
         get { return maxAmor; }
+        set { maxAmor = Mathf.Clamp(value, 50f, maxAmor);}
     }
     public float Amor
     {

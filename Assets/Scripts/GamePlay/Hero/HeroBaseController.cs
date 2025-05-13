@@ -13,21 +13,25 @@ public abstract class HeroBaseController : MonoBehaviour
     // HERO DATA
     [SerializeField] protected SO_Hero heroData;
 
-    // HERO BEHAVIOR STATE
-    protected HeroBehavior heroBehaviorState; 
+    // HERO STATE
+    protected HeroMovementState heroMovementState; 
+    protected HeroHealthState heroHealthState;
 
     // CHECKING FLAGS
     protected bool canAmorRegen;
     protected bool canDash;  
     protected bool canSpecial;
     protected bool canUltimate;
-    protected bool isDead;
 
     // HERO STATS
     protected HeroStats heroStats;
 
     // HERO EFFECT STATUS
     protected HeroEffectStatus heroEffectStatus; 
+
+    // HERO PHYSICS
+    protected Rigidbody heroRigidBody;
+    protected CapsuleCollider heroCollider;
 
     // COROUTINE VALUE
     protected Coroutine regenCooldownCoroutine;
@@ -39,6 +43,9 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // LEVEL UP EVENTS
     public event Action OnLevelUp;
+
+    // DEAD EVENTS
+    public event Action OnHeroDead;
 
     // HERO INVENTORY SYSTEM
     // Weapon system
@@ -66,9 +73,9 @@ public abstract class HeroBaseController : MonoBehaviour
         get { return heroStats; }
     }
 
-    public HeroBehavior HeroBehavior
+    public HeroMovementState HeroMovementState
     {
-        get { return heroBehaviorState; }
+        get { return heroMovementState; }
     }
 
     //
@@ -76,17 +83,20 @@ public abstract class HeroBaseController : MonoBehaviour
     //
 
     // INITIAL VALUES FOR HERO
+    //
+    public abstract void InitilizeValue();
+
     // Hero stats 
-    public abstract void InstantiateStats();
+    public abstract void InitializeStats();
 
     // Hero effect status
-    public abstract void InstantiateEffectStatus();
+    public abstract void InitializeEffectStatus();
 
     // Hero inventory
-    public abstract void InstantiateCharacterInventory();
+    public abstract void InitializeCharacterBlessing();
 
     // Hero dash values
-    public abstract void InstantiateDash(    float instantiateDashDistance, float instantiateDashSpeed, 
+    public abstract void InitializeDash(    float instantiateDashDistance, float instantiateDashSpeed, 
                                              float instantiateSpecialEffectDuration   );
 
 
@@ -136,16 +146,11 @@ public abstract class HeroBaseController : MonoBehaviour
         }
     }
     
-    // HANDLING ITEM USE
-    protected abstract void UsetItem1();
-    protected abstract void UsetItem2();
-    protected abstract void UsetItem3();
-
     // SUPPORT FUNCTIONS
     // Set hero state to normal
     public void ReturnNormalState()
     {
-        heroBehaviorState = HeroBehavior.Normal;
+        heroMovementState = HeroMovementState.Normal;
     }
 
     // Special effect handling
@@ -198,24 +203,8 @@ public abstract class HeroBaseController : MonoBehaviour
     {
         OnHeroUltimate?.Invoke();
     }
-
-    // Collision detect
-    protected void OnCollisionEnter(Collision collision)
+    protected void HandleOnHeroDead()
     {
-        if (heroBehaviorState == HeroBehavior.Dashing && collision.gameObject.CompareTag("Wall"))
-        {
-            heroBehaviorState = HeroBehavior.Normal;
-        }
-        
-        if (collision.gameObject.CompareTag("Coin"))
-        {
-            coin ++ ;
-        }
-
-        if (collision.gameObject.CompareTag("ExpGem"))
-        {
-            heroStats.Exp += 10;
-            LevelUp();
-        }
+        OnHeroDead?.Invoke();
     }
 }

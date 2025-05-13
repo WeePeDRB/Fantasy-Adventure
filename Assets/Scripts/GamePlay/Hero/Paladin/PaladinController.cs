@@ -17,7 +17,7 @@ public class PaladinController : HeroBaseController
     private Vector3 dashTarget; // The position that player will dash to
 
     // Special skill
-    
+
 
     // EVENTS
 
@@ -27,29 +27,44 @@ public class PaladinController : HeroBaseController
     //
 
     // INITIAL VALUES FOR PALADIN
+    //
+    public override void InitilizeValue()
+    {
+        //
+        canSpecial = true;
+        canUltimate = true;
+
+        //
+        heroHealthState = HeroHealthState.Alive;
+
+        //
+        heroRigidBody = GetComponent<Rigidbody>();
+        heroCollider = GetComponent<CapsuleCollider>();
+    }
+
     // Paladin stats 
-    public override void InstantiateStats()
+    public override void InitializeStats()
     {
         heroStats = new HeroStats(  heroData.maxHealth, heroData.speed, heroData.level, heroData.maxAmor, 
                                     heroData.resistance, heroData.damageAmplifier, heroData.abilityHaste    );
     }
 
     // Paladin effect status
-    public override void InstantiateEffectStatus()
+    public override void InitializeEffectStatus()
     {
         heroEffectStatus = new HeroEffectStatus();
         heroEffectStatus.hero = this;
     }
 
     // Paladin inventory
-    public override void InstantiateCharacterInventory()
+    public override void InitializeCharacterBlessing()
     {
 
     }
 
     // Paladin dash values
-    public override void InstantiateDash(   float instantiateDashDistance, float instantiateDashSpeed
-                                            , float instantiateSpecialEffectDuration)
+    public override void InitializeDash(   float instantiateDashDistance, float instantiateDashSpeed
+                                        , float instantiateSpecialEffectDuration)
     {
         dashDistance = instantiateDashDistance;
         dashSpeed = instantiateDashSpeed;
@@ -62,25 +77,23 @@ public class PaladinController : HeroBaseController
     // Paladin movement function
     protected override void HandleMovement()
     {
-        if ( !isDead )
+        if ( heroMovementState == HeroMovementState.Normal)
         {
-            if ( heroBehaviorState == HeroBehavior.Normal)
-            {
-                //Handle Input
-                Vector2 inputVector = GameInput.GetMovementVectorNormalized();
-                Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
-                //Move
-                transform.position += moveDirVector * heroStats.Speed * Time.deltaTime;
+            //Handle Input
+            Vector2 inputVector = GameInput.GetMovementVectorNormalized();
+            Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
+            //Move
+            transform.position += moveDirVector * heroStats.Speed * Time.deltaTime;
                 
-                //Rotation
-                float rotateSpeed = 10f;
-                transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
-            }
-            else if (heroBehaviorState == HeroBehavior.Dashing)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
-            }    
+            //Rotation
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
         }
+        else if (heroMovementState == HeroMovementState.Dashing)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
+        }    
+        
     }
 
     // Paladin hurt function
@@ -104,6 +117,7 @@ public class PaladinController : HeroBaseController
 
             damageAfterResistance = damageLeft - (damageLeft * heroStats.Resistance / 100f);
             heroStats.Health -= damageAfterResistance;
+            if (heroStats.Health == 0) Dead();
         }
 
         
@@ -117,7 +131,13 @@ public class PaladinController : HeroBaseController
     // Paladin dead function
     protected override void Dead()
     {
+        //
+        heroHealthState = HeroHealthState.Dead;
+        HandleOnHeroDead();
 
+        //
+        heroRigidBody.useGravity = false;
+        heroCollider.enabled = false;
     }
 
     // HANDLING PALADIN SKILLS
@@ -127,7 +147,7 @@ public class PaladinController : HeroBaseController
         if ( canDash )
         {
             // Change the behavior state
-            heroBehaviorState = HeroBehavior.Dashing;
+            heroMovementState = HeroMovementState.Dashing;
 
             // Invoke the dash event
             HandleOnHeroDash();
@@ -150,7 +170,7 @@ public class PaladinController : HeroBaseController
         if ( canSpecial )
         {
             // Change the behavior state
-            heroBehaviorState = HeroBehavior.Casting;
+            heroMovementState = HeroMovementState.Casting;
 
             // Invoke the special event
             HandleOnHeroSpecial();
@@ -162,11 +182,6 @@ public class PaladinController : HeroBaseController
             StartCoroutine(ResetSpecialSkill(heroData.specialSkill.skillCooldown));
         }
     }
-    // This function will handle the special skill effect
-    public void SpecialSkillActivate()
-    {
-        
-    }
 
     // Handle the ultimate skill
     // This function will invoke the event and start the cooldown coroutine
@@ -175,7 +190,7 @@ public class PaladinController : HeroBaseController
         if ( canUltimate )
         {
             // Change the behavior state
-            heroBehaviorState = HeroBehavior.Casting;
+            heroMovementState = HeroMovementState.Casting;
 
             // Invoke the ultimate event
             HandleOnHeroUltimate();
@@ -188,57 +203,66 @@ public class PaladinController : HeroBaseController
         }
     }
 
-    // This function will handle the ultimate skill effect
-    public void UltimateSkillActivate()
+    // SUPPORT FUNCTIONS
+    // Collision check
+    private void OnCollisionEnter(Collision collision)
     {
+        if (heroMovementState == HeroMovementState.Dashing)
+        {
+            if (collision.gameObject.CompareTag("Wall")) heroMovementState = HeroMovementState.Normal;
+            else if (collision.gameObject.CompareTag("Monster"))
+            {
+                MonsterBaseController monsterBaseController = collision.gameObject.GetComponent<MonsterBaseController>();
+                monsterBaseController.Hurt(20f);
+            }
+        }
+        
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            coin ++ ;
+        }
 
+        if (collision.gameObject.CompareTag("ExpGem"))
+        {
+            heroStats.Exp += 10;
+            LevelUp();
+        }
     }
 
-    // SUPPORT FUNCTIONS
     private void TestCharacterStats()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Debug.Log("This is player current exp: " + heroStats.Exp);
-            Debug.Log("This is player require exp: " + heroStats.ExpRequire);
-            Debug.Log("");
+            heroStats.Exp += 10;
         }
     }
 
     private void Awake()
     {
-        InstantiateStats();
-        InstantiateEffectStatus();
-        InstantiateDash(5,18,3);
-
-        canSpecial = true;
-        canUltimate = true;
-
         //Set a subscriber for gameinput
         GameInput.OnDashAction += HandleDashSkill;
         GameInput.OnSpecialAction += HandleSpecialSkill;
         GameInput.OnUltimateAction += HandleUltimateSkill;
 
         //
+        InitilizeValue();
+        InitializeStats();
+        InitializeEffectStatus();
+        InitializeDash(5,18,3);
+    }
+
+    private void Start()
+    {
     }
 
     private void Update()
     {
-        HandleMovement();
-        UpdateSpecialEffect();
-        AmorRegen();
-        TestCharacterStats();
-    }
-
-    protected override void UsetItem1()
-    {
-    }
-
-    protected override void UsetItem2()
-    {
-    }
-
-    protected override void UsetItem3()
-    {
+        if (heroHealthState == HeroHealthState.Alive)
+        {
+            HandleMovement();
+            UpdateSpecialEffect();
+            AmorRegen();
+            TestCharacterStats();
+        }
     }
 }

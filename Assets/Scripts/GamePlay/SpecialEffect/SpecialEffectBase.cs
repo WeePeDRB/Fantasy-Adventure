@@ -1,13 +1,9 @@
-using System;
-using UnityEngine;
-
 public abstract class SpecialEffectBase
 {
     //
     // FIELDS
     //
 
-    // SET UP VALUES FOR SPECIAL EFFECT
     // Essential information
     protected string effectName; // Effect name
     protected float duration; // Effect duration

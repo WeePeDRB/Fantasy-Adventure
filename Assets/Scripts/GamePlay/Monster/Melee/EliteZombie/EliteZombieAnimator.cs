@@ -11,7 +11,7 @@ public class EliteZombieAnimator : MonsterBaseAnimator
     // Monster attack
     protected void ApplyDamage()
     {
-        //monsterBaseController.ApplyDamage();
+        monsterBaseController.ApplyDamage(monsterBaseController.HeroTarget);
     }
 
     private void Start()

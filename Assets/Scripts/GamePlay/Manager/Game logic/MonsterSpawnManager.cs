@@ -26,23 +26,6 @@ public class MonsterSpawnManager : MonoBehaviour
     // FUNCTIONS
     //
 
-    // INITIALIZE HERO LIST
-    private void InitializeHeroList()
-    {
-        GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
-        heroList = new List<HeroBaseController>();
-
-        foreach (var obj in heroObjects)
-        {
-            HeroBaseController hero = obj.GetComponent<HeroBaseController>();
-            if (hero != null)
-            {
-                heroList.Add(hero);
-                Debug.Log(hero);
-            }
-        }   
-    }
-    
     // CONTROL COMBAT DURATION
     private void StartCombat()
     {
@@ -80,27 +63,34 @@ public class MonsterSpawnManager : MonoBehaviour
         //
         GameObject monster = new GameObject();
         monster.transform.position = GetRandomOffscreenPosition();
-        
-        //
-        int monsterType = Random.Range(0,1);
-        
+        GameObject monsterGameObj = null;
+
+        int monsterType = 2;// Random.Range(0, 2); // 0 - Default, 1 - Elite, 2 - Witch
+
         switch (monsterType)
         {
             case 0:
-                    // 
-                    GameObject monsterGameObj = ZombieObjectPool.Instance.GetObject(monster.transform);
-                    MonsterBaseController monsterBaseController = monsterGameObj.GetComponent<MonsterBaseController>();
-                    monsterBaseController.GetHeroList(heroList);
-                    monsterBaseController.OnMonsterDead += OnMonsterDead;
-                    if (monsterBaseController.MonsterHealthState == MonsterHealthState.Dead) monsterBaseController.ResetMonsterState();
-                    
-                    break;
+                monsterGameObj = DefaultZombieObjectPool.Instance.GetObject(monster.transform);
+                break;
+
             case 1:
-                    //
-                    Debug.Log("Monster 2 is not ready !");
-                    break;
+                monsterGameObj = EliteZombieObjectPool.Instance.GetObject(monster.transform);
+                break;
+
+            case 2:
+                monsterGameObj = WitchObjectPool.Instance.GetObject(monster.transform);
+                break;
         }
-        monsterQuantity ++;
+
+        if (monsterGameObj != null)
+        {
+            MonsterBaseController monsterBaseController = monsterGameObj.GetComponent<MonsterBaseController>();
+            monsterBaseController.GetHeroList(heroList);
+            monsterBaseController.OnMonsterDead += OnMonsterDead;
+            monsterBaseController.ResetMonsterState();
+        }
+
+        monsterQuantity++;
     }
 
     // RETURN MONSTER
@@ -111,15 +101,26 @@ public class MonsterSpawnManager : MonoBehaviour
         // Unsub the event
         monsterBaseController.OnMonsterDead -= OnMonsterDead;
         // Return the object to pool
-        StartCoroutine(ReturnMonsterCoroutine(monsterBaseController.gameObject));
+        StartCoroutine(ReturnMonsterCoroutine(monsterBaseController));
         // Adjust the quantity
         monsterQuantity --;
     }
     //
-    private IEnumerator ReturnMonsterCoroutine(GameObject returnPoolMonster)
+    private IEnumerator ReturnMonsterCoroutine(MonsterBaseController monsterBaseController)
     {
         yield return new WaitForSeconds(3.5f);
-        ZombieObjectPool.Instance.ReturnObject(returnPoolMonster);
+        if (monsterBaseController is ZombieController)
+        {
+            DefaultZombieObjectPool.Instance.ReturnObject(monsterBaseController.gameObject);
+        }
+        else if (monsterBaseController is EliteZombieController)
+        {
+            EliteZombieObjectPool.Instance.ReturnObject(monsterBaseController.gameObject);
+        }
+        else if (monsterBaseController is WitchController)
+        {
+            WitchObjectPool.Instance.ReturnObject(monsterBaseController.gameObject);
+        }
     }
 
     // SUPPORT FUNCTIONS
@@ -179,16 +180,15 @@ public class MonsterSpawnManager : MonoBehaviour
     {
         int randomNumber = Random.Range(0,heroList.Count - 1);
         heroBaseController = heroList[randomNumber];
-        Debug.Log(heroBaseController);
     }
 
     private void Start()
     {
-        InitializeHeroList();
+        heroList = GameUtility.InitializeHeroList();
         //
         TimerManager.OnStartCombat += StartCombat;
         TimerManager.OnEndCombat += EndCombat;
 
-        monsterMaxQuantity = 5;
+        monsterMaxQuantity = 3;
     }
 }

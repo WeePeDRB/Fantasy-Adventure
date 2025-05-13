@@ -47,7 +47,7 @@ public class EliteZombieController : MeleeMonsterController
             if (heroTarget != null)
             {
                 HandleRotation();
-                DistanceCheck(8.5f);
+                DistanceCheck(2f);
             }
         }
     }

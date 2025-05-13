@@ -41,6 +41,7 @@ public abstract class CharacterStats
     public float MaxHealth
     {
         get { return maxHealth; }
+        set { maxHealth = Mathf.Clamp(value, 50f, maxHealth);}
     }
 
     // Special stats
