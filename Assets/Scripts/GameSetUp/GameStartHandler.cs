@@ -10,7 +10,7 @@ public class GameStartHandler : MonoBehaviour
 
     private void OnChangeCharacterHandler(object sender, CharacterSelection.HeroData heroData)
     {   
-        characterId = heroData.heroData.id;
+        //characterId = heroData.heroData.id;
     }
 
     private void OnChaneDifficultyHandler(object sender, DifficultySelection.Difficulty difficulty)

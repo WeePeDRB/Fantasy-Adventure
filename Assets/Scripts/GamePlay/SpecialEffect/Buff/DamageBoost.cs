@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class DamageBoost : SpecialEffectBase
 {
     //
@@ -15,7 +11,7 @@ public class DamageBoost : SpecialEffectBase
     //
     public DamageBoost(float amount, float duration, EffectTarget effectTarget)
     {
-        effectName = "DamageBoost";
+        effectName = "Damage Boost";
         this.duration = duration;
         this.effectTarget = effectTarget;
         timeRemaining = duration;

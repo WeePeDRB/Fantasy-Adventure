@@ -8,7 +8,7 @@ public class HealthBoost : SpecialEffectBase
 
     public HealthBoost(float amount, float duration, EffectTarget effectTarget) 
     {
-        effectName = "HealthBoost";
+        effectName = "Health Boost";
         this.duration = duration;
         this.effectTarget = effectTarget;
         timeRemaining = duration;

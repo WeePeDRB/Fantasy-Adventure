@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class UpgradeManager : MonoBehaviour
 {
@@ -11,93 +12,202 @@ public class UpgradeManager : MonoBehaviour
     public static UpgradeManager Instance;
 
     // Reference
-    private List<HeroBaseController> heroList;
-    private HeroBaseController heroBaseController;
+    private List<HeroBaseController> heroList; // Get all hero instance that exist in the map
 
-    public List<SO_Upgrade> upgradeData;
-    private List<SO_Upgrade> randomUpgrade;
+    // Sending data to UI
+    public List<SO_Upgrade> upgradeDataSO; // Upgrade datas
+    public List<UpgradeData> upgradeData;
 
-    // Event
     public event EventHandler<OnRandomUpgradeEventArgs> OnRandomUpgrade;
 
-    // Custom class
-    public class OnRandomUpgradeEventArgs : EventArgs
+    // Receive data from UI
+
+    public event EventHandler<WeaponDataEventArgs> OnSelectWeapon;
+    public event EventHandler<BlessingDataEventArgs> OnSelectBlessing;
+
+    //
+    // FUNCTIONSs
+    //
+
+    // Create a copy of the upgrade data
+    private void CreateUpgradeData()
     {
-        public List<SO_Upgrade> randomUpgradeList;
+        upgradeData = new List<UpgradeData>();
+
+        foreach (SO_Upgrade so_Upgrade in upgradeDataSO)
+        {
+            UpgradeData upgrade = new UpgradeData
+            {
+                id = so_Upgrade.id,
+                upgradeType = so_Upgrade.upgradeType,
+                upgradeSprite = so_Upgrade.upgradeSprite,
+                upgradeName = so_Upgrade.upgradeName,
+                upgradeDescription = so_Upgrade.upgradeDescription,
+                weaponData = so_Upgrade.weaponData,
+                blessingData = so_Upgrade.blessingData
+            };
+            upgradeData.Add(upgrade);
+        }
     }
 
-    //
-    // FUNCTIONS
-    //
-
-    //
-    private int[] RandomNumbers()
+    // Hero level up event 
+    private void HandleHeroLevelUp()
     {
-        int[] randomNumbers = new int[3];
-        int count = 0;
+        List<UpgradeData> randomUpgradeList = GetRamdomUpgrade(3);
+        OnRandomUpgrade?.Invoke(this, new OnRandomUpgradeEventArgs { randomUpgradeList = randomUpgradeList });
+    }
 
-        while (count < 3)
+    // Weapon related events
+    private void HandleWeaponMaxLevel(object sender, WeaponDataEventArgs weaponDataEventArgs)
+    {
+        //
+        SO_Weapon weaponData = weaponDataEventArgs.weaponData;
+
+        for (int i = upgradeData.Count-1; i >= 0; i--)
         {
-            int randomNum = UnityEngine.Random.Range(0, upgradeData.Count);
-            bool isDuplicate = false;
-            for (int i = 0; i < count; i++)
-            {
-                if (randomNumbers[i] == randomNum)
+            if (upgradeData[i].upgradeType != UpgradeType.Weapon) continue;
+            else
+            {                
+                if (upgradeData[i].id == weaponData.id)
                 {
-                    isDuplicate = true;
+                    upgradeData.Remove(upgradeData[i]);
                     break;
                 }
             }
-
-            if (!isDuplicate)
+        }
+    }
+    private void HandleWeaponListFull(object sender, WeaponListEventArgs weaponListEventArgs)
+    {
+        //
+        List<SO_Weapon> weaponList = weaponListEventArgs.weaponDataList;
+        int maxR = upgradeData.Count;
+        for (int i = maxR-1, y = 0; i >= 0; i--)
+        {
+            if (y < weaponList.Count)
             {
-                randomNumbers[count] = randomNum;
-                count++;
+                if (upgradeData[i].upgradeType != UpgradeType.Weapon) continue;
+                else
+                {
+                    upgradeData[i].id = weaponList[y].id;
+                    //
+                    upgradeData[i].weaponData = weaponList[y];
+                    //
+                    upgradeData[i].upgradeSprite = weaponList[y].weaponSprite;
+                    upgradeData[i].upgradeName = weaponList[y].weaponName;
+                    upgradeData[i].upgradeDescription = weaponList[y].weaponDescription;
+                    y++;
+                }
+            }
+            else
+            {
+                if (upgradeData[i].upgradeType != UpgradeType.Weapon) continue;
+                else
+                {
+                    upgradeData.Remove(upgradeData[i]);
+                }
             }
         }
-
-        return randomNumbers;
-        
     }
-    private void GetUpgrade()
-    {
-        int[] randomNumbers = RandomNumbers();
 
-        for (int i = 0; i < 3; i++)
+    // Blessing realted events
+    private void HandleBlessingMaxLevel(object sender, BlessingDataEventArgs blessingDataEventArgs)
+    {
+        //
+        SO_Blessing blessingData = blessingDataEventArgs.blessingData;
+
+        for (int i = upgradeData.Count-1; i >= 0; i--)
         {
-            randomUpgrade.Add(upgradeData[randomNumbers[i]]);
+            if (upgradeData[i].upgradeType != UpgradeType.Blessing) continue;
+            else
+            {                
+                if (upgradeData[i].id == blessingData.id)
+                {
+                    upgradeData.Remove(upgradeData[i]);
+                    break;
+                }
+            }
         }
-        OnRandomUpgrade?.Invoke(this, new OnRandomUpgradeEventArgs{ randomUpgradeList = randomUpgrade});
-        randomUpgrade = new List<SO_Upgrade>();
-    }
-
-    //
-    public void GetUpgradeForHero()
+    }  
+    private void HandleBlessingListFull(object sender, BlessingListEventArgs blessingListEventArgs)
     {
-        
+        //
+        List<SO_Blessing> blessingList = blessingListEventArgs.blessingDataList;
+        int maxR = upgradeData.Count;
+        for (int i = maxR-1, y = 0; i >= 0; i--)
+        {
+            if (y < blessingList.Count)
+            {
+                if (upgradeData[i].upgradeType != UpgradeType.Blessing) continue;
+                else
+                {
+                    upgradeData[i].id = blessingList[y].id;
+                    //
+                    upgradeData[i].blessingData = blessingList[y];
+                    //
+                    upgradeData[i].upgradeSprite = blessingList[y].blessingSprite;
+                    upgradeData[i].upgradeName = blessingList[y].blessingName;
+                    upgradeData[i].upgradeDescription = blessingList[y].blessingDescription;
+                    y++;
+                }
+            }
+            else
+            {
+                if (upgradeData[i].upgradeType != UpgradeType.Blessing) continue;
+                else
+                {
+                    upgradeData.Remove(upgradeData[i]);
+                }
+            }
+        }   
     }
 
-    //
+    private List<UpgradeData> GetRamdomUpgrade(int count)
+    {
+        List<UpgradeData> copy = new List<UpgradeData>(upgradeData);
+        List<UpgradeData> result = new List<UpgradeData>();
+
+        while (result.Count < count && copy.Count > 0)
+        {
+            int index = Random.Range(0, copy.Count);
+            result.Add(copy[index]);
+            copy.RemoveAt(index);
+        }
+        return result;
+    }
+    public void ReceiveSelectedUpgrade(UpgradeData upgradeData)
+    {
+        switch (upgradeData.upgradeType)
+        {
+            case UpgradeType.Weapon:
+                OnSelectWeapon?.Invoke(this, new WeaponDataEventArgs { weaponData = upgradeData.weaponData });
+                break;
+            case UpgradeType.Blessing:
+                OnSelectBlessing?.Invoke(this, new BlessingDataEventArgs { blessingData = upgradeData.blessingData });
+                break;
+        }
+    }
+
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        if (Instance == null)Instance = this;
+        else Destroy(this);
     }
 
     private void Start()
     {
-        randomUpgrade = new List<SO_Upgrade>();
+        CreateUpgradeData();
+        HeroBaseController heroBaseController;
         heroList = GameUtility.InitializeHeroList();
-        for (int i = 0 ; i < heroList.Count; i ++) 
+        for (int i = 0; i < heroList.Count; i++)
         {
             heroBaseController = heroList[i];
-            heroBaseController.OnLevelUp += GetUpgrade;
+            heroBaseController.OnLevelUp += HandleHeroLevelUp;
+            // Weapon
+            heroBaseController.OnWeaponListFull += HandleWeaponListFull;
+            heroBaseController.OnWeaponMaxLevel += HandleWeaponMaxLevel;
+            // Blessing
+            heroBaseController.OnBlessingListFull += HandleBlessingListFull;
+            heroBaseController.OnBlessingMaxLevel += HandleBlessingMaxLevel;
         }
     }
 }

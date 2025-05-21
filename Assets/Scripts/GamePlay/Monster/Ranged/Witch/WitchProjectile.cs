@@ -8,15 +8,8 @@ public class WitchProjectile : Projectile
     //
     // FIELDS
     //
-    public event EventHandler<OnProjectileHitEventArgs> OnProjectileHit;
-    public event EventHandler<OnProjectileHitEventArgs> OnProjectileReturn;
-
-    // Custom class for event args
-    public class OnProjectileHitEventArgs : EventArgs
-    {
-        public HeroBaseController heroBaseController;
-        public WitchProjectile witchProjectile;
-    }
+    public event EventHandler<OnWitchProjectileHitEventArgs> OnProjectileHit;
+    public event EventHandler<OnWitchProjectileHitEventArgs> OnProjectileReturn;
 
     //
     // FUNCTIONS
@@ -24,7 +17,7 @@ public class WitchProjectile : Projectile
 
     protected override void ReturnObject()
     {
-        OnProjectileReturn?.Invoke(this, new OnProjectileHitEventArgs{ heroBaseController = null, witchProjectile = this});
+        OnProjectileReturn?.Invoke(this, new OnWitchProjectileHitEventArgs{ heroBaseController = null, witchProjectile = this});
         WitchProjectileObjectPool.Instance.ReturnObject(this.gameObject);
     }
 
@@ -35,7 +28,7 @@ public class WitchProjectile : Projectile
         {
             StopCoroutine(returnCoroutine);
             returnCoroutine = null;
-            OnProjectileHit?.Invoke(this, new OnProjectileHitEventArgs{ heroBaseController = collider.gameObject.GetComponent<HeroBaseController>(), witchProjectile = this});
+            OnProjectileHit?.Invoke(this, new OnWitchProjectileHitEventArgs{ heroBaseController = collider.gameObject.GetComponent<HeroBaseController>(), witchProjectile = this});
             WitchProjectileObjectPool.Instance.ReturnObject(this.gameObject);
         }
     }

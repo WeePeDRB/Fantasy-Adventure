@@ -15,7 +15,7 @@ public class ResistanceBoost : SpecialEffectBase
     //
     public ResistanceBoost(float amount, float duration, EffectTarget effectTarget) 
     {
-        effectName = "ResistanceBoost";
+        effectName = "Resistance Boost";
         this.duration = duration;
         this.effectTarget = effectTarget;
         timeRemaining = duration;

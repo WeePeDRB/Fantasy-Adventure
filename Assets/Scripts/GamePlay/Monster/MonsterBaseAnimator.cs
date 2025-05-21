@@ -58,7 +58,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     }
 
     // Monster dead
-    protected virtual void Dead(object sender, MonsterBaseController.OnMonsterDeadEventArgs monsterDeadEventArgs)
+    protected virtual void Dead(object sender, OnMonsterDeadEventArgs monsterDeadEventArgs)
     {
         animator.SetTrigger(IS_DEAD_TRIGGER);
     }
