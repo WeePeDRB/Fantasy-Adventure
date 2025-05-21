@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class PaladinController : HeroBaseController
 {
@@ -52,14 +48,14 @@ public class PaladinController : HeroBaseController
     // Paladin effect status
     public override void InitializeEffectStatus()
     {
-        heroEffectStatus = new HeroEffectStatus();
-        heroEffectStatus.hero = this;
+        heroSpecialEffectSystem = new HeroSpecialEffectSystem();
+        heroSpecialEffectSystem.hero = this;
     }
 
     // Paladin inventory
-    public override void InitializeCharacterBlessing()
+    public override void InitializeBlessingStatus()
     {
-
+        //heroBlessingStatus = new CharacterBlessingStatus();
     }
 
     // Paladin dash values
@@ -233,7 +229,7 @@ public class PaladinController : HeroBaseController
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            heroStats.Exp += 10;
+            HandleOnlevelUp();
         }
     }
 
@@ -244,6 +240,7 @@ public class PaladinController : HeroBaseController
         GameInput.OnSpecialAction += HandleSpecialSkill;
         GameInput.OnUltimateAction += HandleUltimateSkill;
 
+
         //
         InitilizeValue();
         InitializeStats();
@@ -253,6 +250,11 @@ public class PaladinController : HeroBaseController
 
     private void Start()
     {
+        //
+        heroWeaponSystem = new HeroWeaponSystem();
+        heroBlessingSystem = new HeroBlessingSystem();
+        UpgradeManager.Instance.OnSelectWeapon += ReceiveWeapon;
+        UpgradeManager.Instance.OnSelectBlessing += ReceiveBlessing;
     }
 
     private void Update()

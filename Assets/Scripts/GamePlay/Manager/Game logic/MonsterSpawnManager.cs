@@ -94,7 +94,7 @@ public class MonsterSpawnManager : MonoBehaviour
     }
 
     // RETURN MONSTER
-    private void OnMonsterDead(object sender, MonsterBaseController.OnMonsterDeadEventArgs monsterDeadEventArgs)
+    private void OnMonsterDead(object sender, OnMonsterDeadEventArgs monsterDeadEventArgs)
     {
         // Take variable
         MonsterBaseController monsterBaseController = monsterDeadEventArgs.monsterBaseController;

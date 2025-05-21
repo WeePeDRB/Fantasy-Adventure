@@ -34,16 +34,16 @@ public class UI_SkillManager : MonoBehaviour
     // FUNCTIONS
     //
 
-    // INSTANTIATE
+    // INITIALIZE
     // Data
-    private void InstantiateSkillManagerData()
+    private void InitializeSkillManagerData()
     {
         // Take hero controller reference
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
 
     }
     // UI 
-    private void InstantiateSkillUI()
+    private void InitializeSkillUI()
     {
         // Dash
         dashSkillIcon.sprite = heroController.HeroData.dashSkill.skillSprite;
@@ -97,8 +97,8 @@ public class UI_SkillManager : MonoBehaviour
     private void Start()
     {
         // Instantiate 
-        InstantiateSkillManagerData();
-        InstantiateSkillUI();
+        InitializeSkillManagerData();
+        InitializeSkillUI();
 
         // Event subscribe
         heroController.OnHeroDash += OnHeroDash;

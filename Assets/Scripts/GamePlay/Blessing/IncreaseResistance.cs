@@ -1,21 +1,23 @@
 public class IncreaseResistance : BlessingBase
 {
-    //
-    // CONTRUCTOR
-    //
-
     public IncreaseResistance()
     {
-        blessingName = "Increase Resistance";
-        blessingLevel = 1;
+
     }
 
+    public IncreaseResistance(SO_Blessing blessingData)
+    {
+        id = blessingData.id;
+        blessingName = blessingData.blessingName;
+        blessingLevel = blessingData.blessingLevel;
+        blessingValue = blessingData.blessingValue;
+    }
     //
     // FUNCTIONS
     //
 
     public override void ApplyBlessingOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.Resistance += 10;
+        hero.HeroStats.Resistance += blessingValue;
     }
 }

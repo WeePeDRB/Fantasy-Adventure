@@ -27,7 +27,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected MonsterStats monsterStats;
 
     // MONSTER EFFECT STATUS
-    protected MonsterEffectStatus monsterEffectStatus;
+    protected MonsterSpecialEffectSystem monsterSpecialEffectSystem;
 
     // COROUTINE VALUE
     protected Coroutine readyAttackCoroutine;
@@ -47,12 +47,6 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected HeroBaseController heroTarget;
     protected List<HeroBaseController> heroList;
     
-    // Custom class for event args
-    public class OnMonsterDeadEventArgs : EventArgs
-    {
-        public MonsterBaseController monsterBaseController;
-    }
-
     //
     // PROPERTIES
     //
@@ -248,11 +242,11 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Update special effect
     public virtual void UpdateSpecialEffect()
     {
-        if (monsterEffectStatus.IsDictionaryEmpty())
+        if (monsterSpecialEffectSystem.IsDictionaryEmpty())
         {
             return;
         }
-        monsterEffectStatus.UpdateEffects(Time.deltaTime);
+        monsterSpecialEffectSystem.UpdateEffects(Time.deltaTime);
     }
 
     // Invoke event

@@ -1,13 +1,16 @@
 public class DamageAmplifier : BlessingBase
 {
-    //
-    // CONTRUCTOR
-    //
-
     public DamageAmplifier()
     {
-        blessingName = "Damage Amplifier";
-        blessingLevel = 1;
+
+    }
+    
+    public DamageAmplifier(SO_Blessing blessingData)
+    {
+        id = blessingData.id;
+        blessingName = blessingData.blessingName;
+        blessingLevel = blessingData.blessingLevel;
+        blessingValue = blessingData.blessingValue;
     }
 
     //
@@ -16,6 +19,7 @@ public class DamageAmplifier : BlessingBase
 
     public override void ApplyBlessingOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.DamageAmplifier += 10;
+        hero.HeroStats.DamageAmplifier += blessingValue;
     }
+
 }

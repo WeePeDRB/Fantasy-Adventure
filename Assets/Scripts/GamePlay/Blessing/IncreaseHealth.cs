@@ -1,13 +1,19 @@
+
+using UnityEngine;
+
 public class IncreaseHealth : BlessingBase
 {
-    //
-    // CONTRUCTOR
-    //
-
     public IncreaseHealth()
     {
-        blessingName = "Increase Health";
-        blessingLevel = 1;
+
+    }
+
+    public IncreaseHealth(SO_Blessing blessingData)
+    {
+        id = blessingData.id;
+        blessingName = blessingData.blessingName;
+        blessingLevel = blessingData.blessingLevel;
+        blessingValue = blessingData.blessingValue;
     }
 
     //
@@ -16,6 +22,6 @@ public class IncreaseHealth : BlessingBase
 
     public override void ApplyBlessingOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.MaxHealth += 50;
+        hero.HeroStats.MaxHealth += blessingValue;
     }
 }

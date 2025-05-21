@@ -32,9 +32,9 @@ public class PaladinUltimateSkill : SkillBase
         paladinController = GetComponentInParent<PaladinController>();
 
         // Instantiate special effect
-        resistanceBoost = new ResistanceBoost(100, 10f, EffectTarget.Character);
-        healthBoost = new HealthBoost(0.1f, 8f, EffectTarget.Character);
-        damageBoost = new DamageBoost(50 , 10f, EffectTarget.Character);
+        resistanceBoost = new ResistanceBoost(100, 10f, EffectTarget.Hero);
+        healthBoost = new HealthBoost(0.1f, 8f, EffectTarget.Hero);
+        damageBoost = new DamageBoost(50 , 10f, EffectTarget.Hero);
 
         //
         paladinController.OnHeroUltimate += SkillActivate;

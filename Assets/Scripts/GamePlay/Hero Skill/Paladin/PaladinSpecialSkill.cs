@@ -29,7 +29,7 @@ public class PaladinSpecialSkill : SkillBase
         paladinController = GetComponentInParent<PaladinController>();
 
         // Instantiate special effect
-        damageBoost = new DamageBoost(20, 10f, EffectTarget.Character);
+        damageBoost = new DamageBoost(20, 10f, EffectTarget.Hero);
 
         //
         paladinController.OnHeroSpecial += SkillActivate;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class CharacterStats 
@@ -41,7 +39,7 @@ public abstract class CharacterStats
     public float MaxHealth
     {
         get { return maxHealth; }
-        set { maxHealth = Mathf.Clamp(value, 50f, maxHealth);}
+        set { maxHealth = Mathf.Max(value, 50f);}
     }
 
     // Special stats

@@ -15,7 +15,7 @@ public class CharacterSelection : MonoBehaviour
     {
         public SO_Hero heroData;
     }
-    [SerializeField] private SO_HeroList heroDataList;
+    //[SerializeField] private SO_HeroList heroDataList;
     private SO_Hero heroData;
 
     //
@@ -28,20 +28,20 @@ public class CharacterSelection : MonoBehaviour
     // Instantiate character model from the character list scriptable object
     private void InstantiateCharacterList()
     {
-        heroSelectionList = new List<GameObject>();
-        foreach (SO_Hero characterData in heroDataList.heroList)
-        {
-            GameObject characterModel = Instantiate(characterData.heroPrefab);
-            characterModel.transform.position = Vector3.zero;
-            heroSelectionList.Add(characterModel);
-        }
+        // heroSelectionList = new List<GameObject>();
+        // foreach (SO_Hero characterData in heroDataList.heroList)
+        // {
+        //     GameObject characterModel = Instantiate(characterData.heroPrefab);
+        //     characterModel.transform.position = Vector3.zero;
+        //     heroSelectionList.Add(characterModel);
+        // }
     }
 
     // This function will update CharacterData whenever the user selects a different 
     // character and send this data to DisplayUI through the OnChangeCharacter event.
     private void OnChangeCharacterHandler()
     {
-        heroData = heroDataList.GetCharacterById(currentHeroId);
+        //heroData = heroDataList.GetCharacterById(currentHeroId);
         OnChangeHero?.Invoke(this, new HeroData{heroData = heroData});
     }
 

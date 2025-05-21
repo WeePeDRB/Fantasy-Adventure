@@ -2,5 +2,6 @@
 public enum EffectTarget
 {
     Monster,
-    Character
+    Hero,
+    All
 }

@@ -21,9 +21,8 @@ public class WitchController : RangedMonsterController
 
     // HANDLING WITCH BEHAVIOR
     // Witch movement
-
     // Witch attack
-    public void GetDataFromPorjectile(object sender, WitchProjectile.OnProjectileHitEventArgs onProjectileHitEventArgs)
+    public void GetDataFromPorjectile(object sender, OnWitchProjectileHitEventArgs onProjectileHitEventArgs)
     {
         WitchProjectile witchProjectile = onProjectileHitEventArgs.witchProjectile;
         witchProjectile.OnProjectileHit -= GetDataFromPorjectile;

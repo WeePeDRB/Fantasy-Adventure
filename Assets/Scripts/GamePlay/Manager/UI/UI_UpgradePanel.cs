@@ -11,7 +11,7 @@ public class UI_UpgradePanel : MonoBehaviour
     //
 
     //
-    private List<SO_Upgrade> upgradeData;
+    private List<UpgradeData> upgradeData;
 
     // Upgrade UI component
     [SerializeField] private GameObject upgradePanel;
@@ -33,7 +33,7 @@ public class UI_UpgradePanel : MonoBehaviour
     //
 
     // Get/Set data for upgrade panel
-    private void GetUpgradeData(object sender, UpgradeManager.OnRandomUpgradeEventArgs onRandomUpgradeEventArgs)
+    private void GetUpgradeData(object sender, OnRandomUpgradeEventArgs onRandomUpgradeEventArgs)
     {
         upgradeData = onRandomUpgradeEventArgs.randomUpgradeList;
         SetUpgradeData();
@@ -58,7 +58,7 @@ public class UI_UpgradePanel : MonoBehaviour
     //
     public void OnButtonClick(int number)
     {
-        
+        UpgradeManager.Instance.ReceiveSelectedUpgrade(upgradeData[number]);
         upgradePanel.SetActive(false);
     }
 
@@ -68,3 +68,4 @@ public class UI_UpgradePanel : MonoBehaviour
         UpgradeManager.Instance.OnRandomUpgrade += GetUpgradeData;
     }
 }
+

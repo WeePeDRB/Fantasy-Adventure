@@ -26,9 +26,6 @@ public abstract class HeroBaseController : MonoBehaviour
     // HERO STATS
     protected HeroStats heroStats;
 
-    // HERO EFFECT STATUS
-    protected HeroEffectStatus heroEffectStatus; 
-
     // HERO PHYSICS
     protected Rigidbody heroRigidBody;
     protected CapsuleCollider heroCollider;
@@ -47,19 +44,25 @@ public abstract class HeroBaseController : MonoBehaviour
     // DEAD EVENTS
     public event Action OnHeroDead;
 
+    // RECEIVE UPGRADE
+    public event EventHandler<WeaponEventArgs> OnReceiveWeapon;
+    public event EventHandler<BlessingEventArgs> OnReceiveBlessing;
+    public event EventHandler<WeaponDataEventArgs> OnWeaponMaxLevel;
+    public event EventHandler<BlessingDataEventArgs> OnBlessingMaxLevel;
+    public event EventHandler<WeaponListEventArgs> OnWeaponListFull;
+    public event EventHandler<BlessingListEventArgs> OnBlessingListFull;
+
     // HERO INVENTORY SYSTEM
     // Weapon system
-    protected IWeapon primaryWeapon; // Primary weapon for each hero
-    protected List<IWeapon> weapons; // Weapon list
-    protected int maxWeapon; // Ammount of weapon
-    
-    // Blessing system
-    protected List<BlessingBase> blessings; // Blessing list
-    protected int maxBlessing; // Ammount of blessing
+    protected HeroWeaponSystem heroWeaponSystem;
+    // Hero effect status
+    protected HeroSpecialEffectSystem heroSpecialEffectSystem; 
+    // Hero blessing status
+    protected HeroBlessingSystem heroBlessingSystem;
 
     // Inventory
-    protected int coin; 
-    
+    protected int coin;
+
     //
     // PROPERTIES
     //
@@ -92,8 +95,8 @@ public abstract class HeroBaseController : MonoBehaviour
     // Hero effect status
     public abstract void InitializeEffectStatus();
 
-    // Hero inventory
-    public abstract void InitializeCharacterBlessing();
+    // Hero blessing
+    public abstract void InitializeBlessingStatus();
 
     // Hero dash values
     public abstract void InitializeDash(    float instantiateDashDistance, float instantiateDashSpeed, 
@@ -119,6 +122,7 @@ public abstract class HeroBaseController : MonoBehaviour
     {
         yield return new WaitForSeconds(10f);
         canAmorRegen = true;
+        
     }
 
     // HANDLING HERO SKILLS
@@ -142,7 +146,7 @@ public abstract class HeroBaseController : MonoBehaviour
             heroStats.Exp = 0;
 
             // Invoke level up event
-            OnLevelUp?.Invoke();
+            HandleOnlevelUp();
         }
     }
     
@@ -157,17 +161,80 @@ public abstract class HeroBaseController : MonoBehaviour
     // Receive special effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
-        heroEffectStatus.ReceiveEffect(specialEffect);
+        heroSpecialEffectSystem.ReceiveEffect(specialEffect);
     }
     // Update special effect
     public virtual void UpdateSpecialEffect()
     {
-        if (heroEffectStatus.IsDictionaryEmpty())
+        if (heroSpecialEffectSystem.IsDictionaryEmpty())
         {
             return;
         }
-        heroEffectStatus.UpdateEffects(Time.deltaTime);
-    } 
+        heroSpecialEffectSystem.UpdateEffects(Time.deltaTime);
+    }
+
+    // Receive upgrade
+    protected void ReceiveWeapon(object sender, WeaponDataEventArgs weaponDataEventArgs)
+    {
+        //
+        SO_Weapon _weaponData = weaponDataEventArgs.weaponData;
+
+        if (heroWeaponSystem.IsWeaponExist(_weaponData))
+        {
+            // Weapon level up
+            heroWeaponSystem.WeaponLevelUp(_weaponData);
+
+            // Check if weapon reach max level
+            WeaponBase weapon = heroWeaponSystem.GetWeapon(_weaponData);
+            // If reach max level send data to upgrade manager 
+            if (weapon.WeaponLevel == 5) OnWeaponMaxLevel?.Invoke(this, new WeaponDataEventArgs { weaponData = _weaponData });
+        }
+        else
+        {
+            // Instantiate weapon game object
+            GameObject weapon = Instantiate(_weaponData.weaponPrefab, transform.position, transform.rotation, transform);
+
+            if (weapon.TryGetComponent(out WeaponBase weaponBase))
+            {
+                weaponBase.InitializeWeapon(_weaponData);
+                heroWeaponSystem.ReceiveWeapon(_weaponData, weaponBase);
+                if (heroWeaponSystem.IsWeaponQuantityMax())
+                {
+                    OnWeaponListFull?.Invoke(this, new WeaponListEventArgs { weaponDataList = heroWeaponSystem.GetWeaponList()});
+                }
+            }
+            else
+            {
+                Debug.LogError("The weapon prefab don't have WeaponBase component !");
+            }
+        }
+        OnReceiveWeapon?.Invoke(this, new WeaponEventArgs { weapon = heroWeaponSystem.GetWeapon(_weaponData), weaponData = _weaponData});
+    }
+    protected void ReceiveBlessing(object sender, BlessingDataEventArgs blessingDataEventArgs)
+    {
+        SO_Blessing _blessingData = blessingDataEventArgs.blessingData;
+
+        if (heroBlessingSystem.IsBlessingExist(_blessingData))
+        {
+            // Blessing level up
+            heroBlessingSystem.BlessingLevelUp(_blessingData, this);
+
+            //
+            BlessingBase blessing = heroBlessingSystem.GetBlessing(_blessingData);
+            if (blessing.BlessingLevel == 5) OnBlessingMaxLevel?.Invoke(this, new BlessingDataEventArgs { blessingData = _blessingData });
+        }
+        else
+        {
+            BlessingBase blessing = UpgradeFactory.CreateBlessing(_blessingData);
+            heroBlessingSystem.ReceiveBlessing(_blessingData, blessing, this);
+
+            if (heroBlessingSystem.IsBlessingQuantityMax())
+            {
+                OnBlessingListFull?.Invoke(this, new BlessingListEventArgs { blessingDataList = heroBlessingSystem.GetBLessingList() });
+            }
+        }
+        OnReceiveBlessing?.Invoke(this, new BlessingEventArgs { blessing = heroBlessingSystem.GetBlessing(_blessingData), blessingData = _blessingData });
+    }
 
     // Reset dash skill
     protected IEnumerator ResetDashSkill(float dashSkillCooldown)
@@ -206,5 +273,9 @@ public abstract class HeroBaseController : MonoBehaviour
     protected void HandleOnHeroDead()
     {
         OnHeroDead?.Invoke();
+    }
+    protected void HandleOnlevelUp()
+    {
+        OnLevelUp?.Invoke();
     }
 }

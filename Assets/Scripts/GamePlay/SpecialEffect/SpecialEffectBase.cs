@@ -5,6 +5,7 @@ public abstract class SpecialEffectBase
     //
 
     // Essential information
+    protected string id; 
     protected string effectName; // Effect name
     protected float duration; // Effect duration
     protected float timeRemaining; // Time remaining 
@@ -15,6 +16,7 @@ public abstract class SpecialEffectBase
     //
     
     //
+    public string ID { get { return id; } }
     public string EffectName { get { return effectName; } }
     public float TimeRemaining { get { return timeRemaining; } }
     public float Duration { get { return duration; } }
