@@ -13,6 +13,8 @@ public class PaladinAnimator : HeroBaseAnimator
     private Animator animator;
     private PaladinController paladinController;
 
+    private PaladinSpecialSkill paladinSpecialSkill;
+
     // Animator parameters
     private const string IS_MOVING = "Move"; 
     private const string DEAD = "Dead";
@@ -28,6 +30,8 @@ public class PaladinAnimator : HeroBaseAnimator
     {
         animator = GetComponent<Animator>();
         paladinController = GetComponentInParent<PaladinController>();
+
+        paladinSpecialSkill = paladinController.GetComponentInChildren<PaladinSpecialSkill>();
     }
 
     // HANDLING PALADIN ANIMATION
@@ -60,7 +64,7 @@ public class PaladinAnimator : HeroBaseAnimator
     // This function will handle the special skill effect
     protected void SpecialSkillActivate()
     {
-            
+        paladinSpecialSkill.SkillActivate();    
     }
 
     //Paladin ultimate

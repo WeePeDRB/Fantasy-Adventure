@@ -24,7 +24,7 @@ public class PaladinController : HeroBaseController
 
     // INITIAL VALUES FOR PALADIN
     //
-    public override void InitilizeValue()
+    protected override void InitilizeValue()
     {
         //
         canSpecial = true;
@@ -38,28 +38,34 @@ public class PaladinController : HeroBaseController
         heroCollider = GetComponent<CapsuleCollider>();
     }
 
-    // Paladin stats 
-    public override void InitializeStats()
+    // 
+    protected override void InitializeStats()
     {
         heroStats = new HeroStats(  heroData.maxHealth, heroData.speed, heroData.level, heroData.maxAmor, 
                                     heroData.resistance, heroData.damageAmplifier, heroData.abilityHaste    );
     }
 
-    // Paladin effect status
-    public override void InitializeEffectStatus()
+    //
+    protected override void InitializeEffectSystem()
     {
         heroSpecialEffectSystem = new HeroSpecialEffectSystem();
         heroSpecialEffectSystem.hero = this;
     }
 
-    // Paladin inventory
-    public override void InitializeBlessingStatus()
+    //
+    protected override void InitializeBlessingSystem()
     {
-        //heroBlessingStatus = new CharacterBlessingStatus();
+        heroBlessingSystem = new HeroBlessingSystem();
+    }
+
+    //
+    protected override void InitializeWeaponSystem()
+    {
+        heroWeaponSystem = new HeroWeaponSystem();
     }
 
     // Paladin dash values
-    public override void InitializeDash(   float instantiateDashDistance, float instantiateDashSpeed
+    public override void InitializeDash(float instantiateDashDistance, float instantiateDashSpeed
                                         , float instantiateSpecialEffectDuration)
     {
         dashDistance = instantiateDashDistance;
@@ -129,7 +135,7 @@ public class PaladinController : HeroBaseController
     {
         //
         heroHealthState = HeroHealthState.Dead;
-        HandleOnHeroDead();
+        InvokeOnHeroDead();
 
         //
         heroRigidBody.useGravity = false;
@@ -146,7 +152,7 @@ public class PaladinController : HeroBaseController
             heroMovementState = HeroMovementState.Dashing;
 
             // Invoke the dash event
-            HandleOnHeroDash();
+            InvokeOnHeroDash();
 
             // Set up the position for the dash
             dashTarget = transform.position + transform.forward * dashDistance;
@@ -169,7 +175,7 @@ public class PaladinController : HeroBaseController
             heroMovementState = HeroMovementState.Casting;
 
             // Invoke the special event
-            HandleOnHeroSpecial();
+            InvokeOnHeroSpecial();
 
             // Set special flag
             canSpecial = false;
@@ -183,20 +189,18 @@ public class PaladinController : HeroBaseController
     // This function will invoke the event and start the cooldown coroutine
     protected override void HandleUltimateSkill()
     {
-        if ( canUltimate )
-        {
-            // Change the behavior state
-            heroMovementState = HeroMovementState.Casting;
 
-            // Invoke the ultimate event
-            HandleOnHeroUltimate();
-
-            // Set ultimate flag
-            canUltimate = false;
-
-            // Reset the skill
-            StartCoroutine(ResetUltimateSkill(heroData.ultimateSkill.skillCooldown));
-        }
+        if (canUltimate)
+            {
+                // Change the behavior state
+                heroMovementState = HeroMovementState.Casting;
+                // Invoke the ultimate event
+                InvokeOnHeroUltimate();
+                // Set ultimate flag
+                canUltimate = false;
+                // Reset the skill
+                StartCoroutine(ResetUltimateSkill(heroData.ultimateSkill.skillCooldown));
+            }
     }
 
     // SUPPORT FUNCTIONS
@@ -229,30 +233,31 @@ public class PaladinController : HeroBaseController
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            HandleOnlevelUp();
+            InvokeOnlevelUp();
         }
     }
 
     private void Awake()
     {
-        //Set a subscriber for gameinput
+    }
+
+    private void Start()
+    {
+        //Subscribe to game input
         GameInput.OnDashAction += HandleDashSkill;
         GameInput.OnSpecialAction += HandleSpecialSkill;
         GameInput.OnUltimateAction += HandleUltimateSkill;
 
 
-        //
+        // Initialize hero data
         InitilizeValue();
         InitializeStats();
-        InitializeEffectStatus();
+        InitializeEffectSystem();
+        InitializeBlessingSystem();
+        InitializeWeaponSystem();
         InitializeDash(5,18,3);
-    }
 
-    private void Start()
-    {
-        //
-        heroWeaponSystem = new HeroWeaponSystem();
-        heroBlessingSystem = new HeroBlessingSystem();
+        // Subscribe to upgrade manager
         UpgradeManager.Instance.OnSelectWeapon += ReceiveWeapon;
         UpgradeManager.Instance.OnSelectBlessing += ReceiveBlessing;
     }

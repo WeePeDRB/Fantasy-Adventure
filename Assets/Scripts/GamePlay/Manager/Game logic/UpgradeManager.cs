@@ -51,9 +51,14 @@ public class UpgradeManager : MonoBehaviour
     }
 
     // Hero level up event 
+    private int GetUpgradeQuantity()
+    {
+        if (upgradeData.Count >= 3) return 3;
+        else return upgradeData.Count;
+    }
     private void HandleHeroLevelUp()
     {
-        List<UpgradeData> randomUpgradeList = GetRamdomUpgrade(3);
+        List<UpgradeData> randomUpgradeList = GetRamdomUpgrade(GetUpgradeQuantity());
         OnRandomUpgrade?.Invoke(this, new OnRandomUpgradeEventArgs { randomUpgradeList = randomUpgradeList });
     }
 

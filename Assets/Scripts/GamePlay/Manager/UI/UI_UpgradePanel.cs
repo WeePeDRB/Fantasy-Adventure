@@ -15,18 +15,8 @@ public class UI_UpgradePanel : MonoBehaviour
 
     // Upgrade UI component
     [SerializeField] private GameObject upgradePanel;
-    // Upgrade 1
-    [SerializeField] private TextMeshProUGUI upgradeDescription1;
-    [SerializeField] private TextMeshProUGUI upgradeName1;
-    [SerializeField] private Image upgradeImage1;
-    // Upgrade 2
-    [SerializeField] private TextMeshProUGUI upgradeDescription2;
-    [SerializeField] private TextMeshProUGUI upgradeName2;
-    [SerializeField] private Image upgradeImage2;
-    // Upgrade 3
-    [SerializeField] private TextMeshProUGUI upgradeDescription3;
-    [SerializeField] private TextMeshProUGUI upgradeName3;
-    [SerializeField] private Image upgradeImage3;
+
+    [SerializeField] private List<UpgradeUI> upgradeUIList;
 
     //
     // FUNCTIONS
@@ -41,23 +31,26 @@ public class UI_UpgradePanel : MonoBehaviour
     private void SetUpgradeData()
     {
         upgradePanel.SetActive(true);
-        // Upgrade 1
-        upgradeDescription1.text = upgradeData[0].upgradeDescription;
-        upgradeName1.text = upgradeData[0].upgradeName;
-        upgradeImage1.sprite = upgradeData[0].upgradeSprite;
-        // Upgrade 2
-        upgradeDescription2.text = upgradeData[1].upgradeDescription;
-        upgradeName2.text = upgradeData[1].upgradeName;
-        upgradeImage2.sprite = upgradeData[1].upgradeSprite;
-        // Upgrade 3
-        upgradeDescription3.text = upgradeData[2].upgradeDescription;
-        upgradeName3.text = upgradeData[2].upgradeName;
-        upgradeImage3.sprite = upgradeData[2].upgradeSprite;
+
+        for (int i = 0; i < upgradeData.Count; i++)
+        {
+            upgradeUIList[i].upgradeGameObj.SetActive(true);
+            upgradeUIList[i].upgradeDescription.text = upgradeData[i].upgradeDescription;
+            upgradeUIList[i].upgradeName.text = upgradeData[i].upgradeName;
+            upgradeUIList[i].upgradeImage.sprite = upgradeData[i].upgradeSprite;
+        }
     }
 
     //
     public void OnButtonClick(int number)
     {
+        for (int i = 0; i < 3; i++)
+        {
+            if (upgradeUIList[i].upgradeGameObj.active)
+            {
+                upgradeUIList[i].upgradeGameObj.SetActive(false);
+            }
+        }
         UpgradeManager.Instance.ReceiveSelectedUpgrade(upgradeData[number]);
         upgradePanel.SetActive(false);
     }
@@ -69,3 +62,11 @@ public class UI_UpgradePanel : MonoBehaviour
     }
 }
 
+[System.Serializable]
+public class UpgradeUI
+{
+    public GameObject upgradeGameObj;
+    public Image upgradeImage;
+    public TextMeshProUGUI upgradeName;
+    public TextMeshProUGUI upgradeDescription;
+}

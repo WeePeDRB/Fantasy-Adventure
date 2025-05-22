@@ -15,33 +15,33 @@ public class PaladinUltimateSkill : SkillBase
 
 
     // Special effect
+    [SerializeField] private SO_SpecialEffect resistanceBoostData;
+    [SerializeField] private SO_SpecialEffect healthBoostData;
     private ResistanceBoost resistanceBoost;
     private HealthBoost healthBoost;
-    private DamageBoost damageBoost;
 
     //
     // FUNCTIONS
     //
 
     // Instantiate skill
-    protected override void InstantiateSkill()
+    protected override void InitializeSkill()
     {
         // Instantiate references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
         paladinController = GetComponentInParent<PaladinController>();
 
-        // Instantiate special effect
-        resistanceBoost = new ResistanceBoost(100, 10f, EffectTarget.Hero);
-        healthBoost = new HealthBoost(0.1f, 8f, EffectTarget.Hero);
-        damageBoost = new DamageBoost(50 , 10f, EffectTarget.Hero);
+        // Initialize special effect
+        resistanceBoost = new ResistanceBoost(resistanceBoostData);
+        healthBoost = new HealthBoost(healthBoostData);
 
         //
         paladinController.OnHeroUltimate += SkillActivate;
     }
 
     // Activate skill
-    protected override void SkillActivate()
+    public override void SkillActivate()
     {
         // Apply special effect to other hero
         foreach (HeroBaseController character in heroListInRange)
@@ -51,7 +51,6 @@ public class PaladinUltimateSkill : SkillBase
 
         // Apply special effect to paladin
         paladinController.ReceiveSpecialEffect(resistanceBoost);
-        paladinController.ReceiveSpecialEffect(damageBoost);
         paladinController.ReceiveSpecialEffect(healthBoost);
     }
 
@@ -75,6 +74,6 @@ public class PaladinUltimateSkill : SkillBase
     // Start is called before the first frame update
     void Start()
     {
-        InstantiateSkill();
+        InitializeSkill();
     }
 }

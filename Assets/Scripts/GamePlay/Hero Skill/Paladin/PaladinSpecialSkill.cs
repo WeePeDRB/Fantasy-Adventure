@@ -12,8 +12,10 @@ public class PaladinSpecialSkill : SkillBase
     private List<MonsterBaseController> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
     private PaladinController paladinController;
+    public ParticleSystem skillParticle;
 
     // Special effect
+    [SerializeField] private SO_SpecialEffect damageBoostData;
     private DamageBoost damageBoost;
 
     //
@@ -21,23 +23,21 @@ public class PaladinSpecialSkill : SkillBase
     //
 
     // Instantiate skill
-    protected override void InstantiateSkill()
+    protected override void InitializeSkill()
     {
         // Instantiate references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
         paladinController = GetComponentInParent<PaladinController>();
 
-        // Instantiate special effect
-        damageBoost = new DamageBoost(20, 10f, EffectTarget.Hero);
-
-        //
-        paladinController.OnHeroSpecial += SkillActivate;
+        // Initialize special effect
+        damageBoost = new DamageBoost(damageBoostData);
     }
 
     // Activate skill
-    protected override void SkillActivate()
+    public override void SkillActivate()
     {
+        Debug.Log("special skill activate");
         foreach (MonsterBaseController monster in monsterListInHitBox)
         {
             monster.Hurt(monster.MonsterStats.Health * 30 / 100);
@@ -46,6 +46,8 @@ public class PaladinSpecialSkill : SkillBase
         {
             hero.ReceiveSpecialEffect(damageBoost);
         }
+        paladinController.ReceiveSpecialEffect(damageBoost);
+        skillParticle.Play();
     }
 
     //
@@ -68,7 +70,7 @@ public class PaladinSpecialSkill : SkillBase
     // Start is called before the first frame update
     void Start()
     {
-        InstantiateSkill();
+        InitializeSkill();
     }
 
 }

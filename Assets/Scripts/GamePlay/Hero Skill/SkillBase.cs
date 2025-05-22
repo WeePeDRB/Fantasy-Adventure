@@ -9,8 +9,8 @@ public abstract class SkillBase : MonoBehaviour
     //
 
     // Instantiate skill
-    protected abstract void InstantiateSkill();
+    protected abstract void InitializeSkill();
 
     // Activate skill
-    protected abstract void SkillActivate();
+    public abstract void SkillActivate();
 }

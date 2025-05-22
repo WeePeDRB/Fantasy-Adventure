@@ -1,3 +1,4 @@
+[System.Serializable]
 public abstract class SpecialEffectBase
 {
     //
@@ -5,16 +6,16 @@ public abstract class SpecialEffectBase
     //
 
     // Essential information
-    protected string id; 
+    protected string id;
     protected string effectName; // Effect name
     protected float duration; // Effect duration
     protected float timeRemaining; // Time remaining 
-    protected EffectTarget effectTarget; 
+    protected EffectTarget effectTarget;
 
     //
     // PROPERTIES
     //
-    
+
     //
     public string ID { get { return id; } }
     public string EffectName { get { return effectName; } }
@@ -36,7 +37,7 @@ public abstract class SpecialEffectBase
     // Refresh duration
     public void Refresh()
     {
-        timeRemaining = duration; 
+        timeRemaining = duration;
     }
 
     // Apply effect to hero

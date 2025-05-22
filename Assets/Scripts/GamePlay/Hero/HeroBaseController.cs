@@ -87,20 +87,23 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // INITIAL VALUES FOR HERO
     //
-    public abstract void InitilizeValue();
+    protected abstract void InitilizeValue();
 
     // Hero stats 
-    public abstract void InitializeStats();
+    protected abstract void InitializeStats();
 
-    // Hero effect status
-    public abstract void InitializeEffectStatus();
+    // Hero effect system
+    protected abstract void InitializeEffectSystem();
 
-    // Hero blessing
-    public abstract void InitializeBlessingStatus();
+    // Hero blessing system
+    protected abstract void InitializeBlessingSystem();
+
+    // Hero weapon system
+    protected abstract void InitializeWeaponSystem();
 
     // Hero dash values
-    public abstract void InitializeDash(    float instantiateDashDistance, float instantiateDashSpeed, 
-                                             float instantiateSpecialEffectDuration   );
+    public abstract void InitializeDash(float instantiateDashDistance, float instantiateDashSpeed,
+                                             float instantiateSpecialEffectDuration);
 
 
     // HANDLING HERO BEHAVIOR
@@ -146,7 +149,7 @@ public abstract class HeroBaseController : MonoBehaviour
             heroStats.Exp = 0;
 
             // Invoke level up event
-            HandleOnlevelUp();
+            InvokeOnlevelUp();
         }
     }
     
@@ -161,6 +164,7 @@ public abstract class HeroBaseController : MonoBehaviour
     // Receive special effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
+        Debug.Log("Hero receive effect");
         heroSpecialEffectSystem.ReceiveEffect(specialEffect);
     }
     // Update special effect
@@ -258,23 +262,23 @@ public abstract class HeroBaseController : MonoBehaviour
     }
 
     // Invoke event
-    protected void HandleOnHeroDash()
+    protected void InvokeOnHeroDash()
     {
         OnHeroDash?.Invoke();
     }
-    protected void HandleOnHeroSpecial()
+    protected void InvokeOnHeroSpecial()
     {
         OnHeroSpecial?.Invoke();
     }
-    protected void HandleOnHeroUltimate()
+    protected void InvokeOnHeroUltimate()
     {
         OnHeroUltimate?.Invoke();
     }
-    protected void HandleOnHeroDead()
+    protected void InvokeOnHeroDead()
     {
         OnHeroDead?.Invoke();
     }
-    protected void HandleOnlevelUp()
+    protected void InvokeOnlevelUp()
     {
         OnLevelUp?.Invoke();
     }
