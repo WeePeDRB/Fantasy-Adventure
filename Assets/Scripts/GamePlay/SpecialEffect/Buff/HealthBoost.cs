@@ -6,13 +6,17 @@ public class HealthBoost : SpecialEffectBase
 {
     private float healthIncrease;
 
-    public HealthBoost(float amount, float duration, EffectTarget effectTarget) 
+    //
+    // CONSTRUCTOR
+    //
+    public HealthBoost(SO_SpecialEffect specialEffectData)
     {
-        effectName = "Health Boost";
-        this.duration = duration;
-        this.effectTarget = effectTarget;
+        id = specialEffectData.id;
+        effectName = specialEffectData.specialEffectName;
+        duration = specialEffectData.specialEffectDuration;
         timeRemaining = duration;
-        healthIncrease = amount;
+        effectTarget = specialEffectData.specialEffectTarget;
+        healthIncrease = specialEffectData.specialEffectValue;
     }
 
     // Apply effect to hero

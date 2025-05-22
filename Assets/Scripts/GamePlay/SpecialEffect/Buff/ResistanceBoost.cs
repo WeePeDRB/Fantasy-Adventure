@@ -13,13 +13,14 @@ public class ResistanceBoost : SpecialEffectBase
     //
     // CONTRUCTOR
     //
-    public ResistanceBoost(float amount, float duration, EffectTarget effectTarget) 
+    public ResistanceBoost(SO_SpecialEffect specialEffectData)
     {
-        effectName = "Resistance Boost";
-        this.duration = duration;
-        this.effectTarget = effectTarget;
+        id = specialEffectData.id;
+        effectName = specialEffectData.specialEffectName;
+        duration = specialEffectData.specialEffectDuration;
         timeRemaining = duration;
-        resistance = amount;
+        effectTarget = specialEffectData.specialEffectTarget;
+        resistance = specialEffectData.specialEffectValue;
     }
 
     //

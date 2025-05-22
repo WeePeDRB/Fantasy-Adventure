@@ -5,17 +5,22 @@ public class DamageBoost : SpecialEffectBase
     //
 
     private float damageAmplifier;
-
-    //
-    // CONTRUCTOR
-    //
-    public DamageBoost(float amount, float duration, EffectTarget effectTarget)
+    public float DamageAmplifier
     {
-        effectName = "Damage Boost";
-        this.duration = duration;
-        this.effectTarget = effectTarget;
+        get { return damageAmplifier; }
+    }
+    
+    //
+    // CONSTRUCTOR
+    //
+    public DamageBoost(SO_SpecialEffect specialEffectData)
+    {
+        id = specialEffectData.id;
+        effectName = specialEffectData.specialEffectName;
+        duration = specialEffectData.specialEffectDuration;
         timeRemaining = duration;
-        damageAmplifier = amount;
+        effectTarget = specialEffectData.specialEffectTarget;
+        damageAmplifier = specialEffectData.specialEffectValue;
     }
 
     //
@@ -38,11 +43,11 @@ public class DamageBoost : SpecialEffectBase
     // Apply effect to monster
     public override void ApplyEffectOnMonster(MonsterBaseController monster)
     {
-        throw new System.NotImplementedException();
+        monster.MonsterStats.DamageAmplifier = damageAmplifier;
     }
     // Remove effect to monster
     public override void RemoveEffectOnMonster(MonsterBaseController monster)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

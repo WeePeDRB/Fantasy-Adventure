@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
 {
     //
@@ -39,4 +41,5 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
             RemoveEffect(effectName);
         }
     }
+
 }
