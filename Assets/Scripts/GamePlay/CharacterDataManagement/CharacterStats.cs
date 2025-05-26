@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 
-public abstract class CharacterStats 
+[Serializable]
+public abstract class CharacterStats
 {
     //
     // FIELDS
@@ -39,7 +41,7 @@ public abstract class CharacterStats
     public float MaxHealth
     {
         get { return maxHealth; }
-        set { maxHealth = Mathf.Max(value, 50f);}
+        set { maxHealth = Mathf.Max(value, 50f); }
     }
 
     // Special stats
@@ -52,5 +54,5 @@ public abstract class CharacterStats
     {
         get { return damageAmplifier; }
         set { damageAmplifier = Mathf.Max(0f, value); } // Ensure damage amplifier can't be negative
-    } 
+    }
 }

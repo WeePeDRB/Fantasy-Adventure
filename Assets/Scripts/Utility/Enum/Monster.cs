@@ -1,15 +1,8 @@
 // This will show the curren behavior of monster
-public enum MonsterMovementState
+public enum MonsterBehaviorState
 {
     Move,
-    Rotate,
-    Stay
-}
-
-public enum MonsterAttackState
-{
-    Standby,
-    ReadyToAttack,
+    Idle,
     Attack
 }
 

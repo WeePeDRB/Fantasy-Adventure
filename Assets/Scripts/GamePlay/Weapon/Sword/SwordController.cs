@@ -29,9 +29,14 @@ public class SwordController : WeaponBase
     // Deal damage to monster
     public void ApplyDamage()
     {
+        float bonusDamage = 0f;
+        if (heroBaseController.HeroStats.DamageAmplifier != 0)
+        {
+            bonusDamage = weaponAttackDamage * heroBaseController.HeroStats.DamageAmplifier / 100;
+        }
         for (int i = 0; i < monsterListInHitBox.Count; i++)
         {
-            monsterListInHitBox[i].Hurt(weaponAttackDamage);
+            monsterListInHitBox[i].Hurt(weaponAttackDamage + bonusDamage);
         }
     }
     // Attack coroutine

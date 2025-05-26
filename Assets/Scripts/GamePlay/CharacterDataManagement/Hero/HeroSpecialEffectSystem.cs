@@ -10,36 +10,65 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
     // FIELD
     //
     public HeroBaseController hero;
+    public event EventHandler<OnReceiveSpecialEffectEventArgs> OnReceiveSpecialEffect;
 
     //
     // FUNCTION
     //
+    public override void ReceiveEffect(SpecialEffectBase effect, SO_SpecialEffect specialEffectData)
+    {
 
-    public override void UpdateEffects(float deltaTime)
+        // If an effect already exists in the dictionary, refresh its duration
+        if (activeEffects.ContainsKey(effect.ID))
+        {
+            activeEffects[effect.ID].Refresh();
+        }
+        // Else add it to dictionary
+        else
+        {
+            activeEffects.Add(effect.ID, effect);
+            if (effect.EffectType == EffectType.Instant)
+            {
+                effect.ApplyEffectOnHero(hero);
+            }
+        }
+    
+        OnReceiveSpecialEffect?.Invoke(this, new OnReceiveSpecialEffectEventArgs { specialEffectData = specialEffectData });
+    }
+
+
+    public override void UpdateEffectsTime(float deltaTime)
     {
         // Effect to remove list
-        List<string> effectsToRemove = new List<string>();
+        List<SpecialEffectBase> effectsToRemove = new List<SpecialEffectBase>();
 
         // 
         foreach (var effect in activeEffects.Values)
         {
             if (effect.TimeRemaining <= 0)
             {
-                effectsToRemove.Add(effect.EffectName);
-                effect.RemoveEffectOnHero(hero);
+                effectsToRemove.Add(effect);
             }
             else
             {
                 effect.UpdateTime(deltaTime);
-                effect.ApplyEffectOnHero(hero);
+                if (effect.EffectType == EffectType.Overtime)
+                {
+                    effect.ApplyEffectOnHero(hero);
+                }
             }
         }
 
         //
-        foreach (var effectName in effectsToRemove)
+        for (int i = effectsToRemove.Count - 1; i >= 0; i--)
         {
-            RemoveEffect(effectName);
+            if (effectsToRemove[i].EffectType == EffectType.Instant)
+            {
+                Debug.Log("This is remove effect on hero");
+                effectsToRemove[i].RemoveEffectOnHero(hero);
+            }
+            RemoveEffect(effectsToRemove[i].ID);
+            effectsToRemove.Remove(effectsToRemove[i]);
         }
     }
-
 }

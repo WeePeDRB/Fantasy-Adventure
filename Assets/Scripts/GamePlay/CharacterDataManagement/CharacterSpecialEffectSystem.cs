@@ -16,30 +16,18 @@ public abstract class CharacterSpecialEffectSystem
 
     // CONTROL EFFECTS   
     // Receive effect function
-    public void ReceiveEffect(SpecialEffectBase effect)
-    {
-        // If an effect already exists in the dictionary, refresh its duration
-        if (activeEffects.ContainsKey(effect.ID))
-        {
-            activeEffects[effect.ID].Refresh();
-        }
-        // Else add it to dictionary
-        else
-        {
-            activeEffects.Add(effect.ID, effect);
-        }
-    }
+    public abstract void ReceiveEffect(SpecialEffectBase effect, SO_SpecialEffect specialEffectData);
 
     // Update effect function
-    public abstract void UpdateEffects(float deltaTime);
+    public abstract void UpdateEffectsTime(float deltaTime);
 
 
     // Remove effect function
-    public void RemoveEffect(string effectName)
+    public void RemoveEffect(string effectId)
     {
-        if (activeEffects.ContainsKey(effectName))
+        if (activeEffects.ContainsKey(effectId))
         {
-            activeEffects.Remove(effectName);
+            activeEffects.Remove(effectId);
         }
     }
 

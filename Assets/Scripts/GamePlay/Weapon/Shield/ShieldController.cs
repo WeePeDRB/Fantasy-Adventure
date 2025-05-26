@@ -25,10 +25,15 @@ public class ShieldController : WeaponBase
     // Deal damage to monster
     public void ApplyDamage()
     {
-        for (int i = 0; i < monsterListInHitBox.Count; i++)
+        float bonusDamage = 0f;
+        if (heroBaseController.HeroStats.DamageAmplifier != 0)
         {
-            monsterListInHitBox[i].Hurt(weaponAttackDamage);
+            bonusDamage = weaponAttackDamage * heroBaseController.HeroStats.DamageAmplifier / 100;
         }
+        for (int i = 0; i < monsterListInHitBox.Count; i++)
+            {
+                monsterListInHitBox[i].Hurt(weaponAttackDamage + bonusDamage);
+            }
     }
     // Attack coroutine
     public override IEnumerator AttackCoroutine()
@@ -87,6 +92,5 @@ public class ShieldController : WeaponBase
         monsterListInHitBox = new List<MonsterBaseController>();
         heroBaseController = GetComponentInParent<HeroBaseController>();
         StartCoroutine(AttackCoroutine());
-                Debug.Log("Weapon start");
     }
 }

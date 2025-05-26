@@ -59,14 +59,7 @@ public class WitchController : RangedMonsterController
     
     private void Update()
     {
-        if (monsterHealthState == MonsterHealthState.Alive) 
-        {
-            if (heroTarget != null)
-            {
-                HandleRotation();
-                DistanceCheck(8.5f);
-            }
-        }
+
     }
     private void FixedUpdate()
     {

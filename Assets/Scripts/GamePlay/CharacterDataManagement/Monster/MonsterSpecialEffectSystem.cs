@@ -13,11 +13,30 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
     // FUNCTION
     //
     
-    public override void UpdateEffects(float deltaTime)
+    public override void ReceiveEffect(SpecialEffectBase effect, SO_SpecialEffect specialEffectData)
+    {
+
+        // If an effect already exists in the dictionary, refresh its duration
+        if (activeEffects.ContainsKey(effect.ID))
+        {
+            activeEffects[effect.ID].Refresh();
+        }
+        // Else add it to dictionary
+        else
+        {
+            activeEffects.Add(effect.ID, effect);
+            if (effect.EffectType == EffectType.Instant)
+            {
+                effect.ApplyEffectOnMonster(monster);
+            }
+        }
+    }
+    
+    public override void UpdateEffectsTime(float deltaTime)
     {
         // Effect to remove list
         List<string> effectsToRemove = new List<string>();
-        
+
         foreach (var effect in activeEffects.Values)
         {
             if (effect.TimeRemaining <= 0)
@@ -28,9 +47,9 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
             else
             {
                 effect.UpdateTime(deltaTime);
-                effect.ApplyEffectOnMonster(monster);   
+                effect.ApplyEffectOnMonster(monster);
             }
-        }    
+        }
 
         //
         foreach (var effectName in effectsToRemove)

@@ -8,7 +8,6 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     // FIELDS
     //
 
-    // ANIMATOR
     // References
     protected Animator animator;
     protected MonsterBaseController monsterBaseController;
@@ -20,7 +19,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
 
     
     // Behavior state
-    protected MonsterMovementState monsterMovementState;
+    protected MonsterBehaviorState monsterBehaviorState;
 
     //
     // FUNCTIONS
@@ -37,7 +36,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     // Monster movement
     protected virtual void Move()
     {
-        if ( monsterMovementState == MonsterMovementState.Move )
+        if ( monsterBehaviorState == MonsterBehaviorState.Move )
         {
             animator.SetBool(IS_MOVING, true);
         }
@@ -54,7 +53,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     }
     protected virtual void ResetAttack()
     {
-        monsterBaseController.ResetAttack();
+        StartCoroutine(monsterBaseController.AttackRecover());
     }
 
     // Monster dead

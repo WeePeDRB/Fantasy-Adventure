@@ -20,99 +20,59 @@ public class RangedMonsterController : MonsterBaseController
     // Checking hit box
     protected override void InRange()
     {
-        isPlayerInsideAttackHitBox = true; 
-        ReadyToAttack();
+        isPlayerInsideAttackHitBox = true;
+        if (attackCoroutine == null) attackCoroutine = StartCoroutine(AttackCoroutine());
     }
     protected override void OutOfRange()
     {
         isPlayerInsideAttackHitBox = false;
-        if (monsterAttackState == MonsterAttackState.Attack) return;
-        else
+        if (attackCoroutine != null)
         {
-            if (isPlayerInsideAttackRange == true)
-            {
-                monsterMovementState = MonsterMovementState.Rotate;
-            }
-            else if (isPlayerInsideAttackRange == false)
-            {
-                monsterMovementState = MonsterMovementState.Move;
-            }
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
         }
-    }
-
-    // Attack process
-    protected override void ReadyToAttack()
-    {
-        // Set behavior state
-        monsterAttackState = MonsterAttackState.ReadyToAttack;
-        monsterMovementState = MonsterMovementState.Rotate;
-
-        // Handling coroutine
-        if (readyAttackCoroutine == null)
-        {
-            readyAttackCoroutine = StartCoroutine(ReadyToAttackCoroutine());
-        }
-    }
-    protected override IEnumerator ReadyToAttackCoroutine()
-    {
-        float elapsedTime = 0f;
-        float waitTime = monsterStats.AttackSpeed * 0.3f;
-
-        while (elapsedTime < waitTime)
-        {
-            if (monsterMovementState == MonsterMovementState.Move) 
-            {   
-                StopCoroutine(readyAttackCoroutine);
-                readyAttackCoroutine = null;
-                yield break;
-            }
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        monsterAttackState = MonsterAttackState.Attack;
-        
-        // Start coroutine
-        if (attackCoroutine == null)
-        {
-            attackCoroutine = StartCoroutine(AttackCoroutine());
-        }  
     }
     protected override IEnumerator AttackCoroutine()
     {
-        yield return new WaitForSeconds(monsterStats.AttackSpeed * 0.3f);
-        HandleOnMonsterAttack();
-    }
-    public override void ApplyDamage(HeroBaseController heroHit)
-    {
-        if (isPlayerInsideAttackHitBox)
+        while (monsterHealthState == MonsterHealthState.Alive)
         {
-            heroHit.Hurt(monsterStats.Damage);
+            monsterBehaviorState = MonsterBehaviorState.Attack;
+            yield return new WaitForSeconds(.1f);
+            if (isReadyToAttack) Attack();
         }
     }
-    public override void ResetAttack()
+    protected override void Attack()
     {
-        // 
-        readyAttackCoroutine = null;
-        attackCoroutine = null;
-        
-        //
-        if (isPlayerInsideAttackHitBox == true)
+        HandleOnMonsterAttack();
+        isReadyToAttack = false;
+    }
+
+    public override IEnumerator AttackRecover()
+    {
+        monsterBehaviorState = MonsterBehaviorState.Idle;
+        yield return new WaitForSeconds(monsterStats.AttackSpeed);
+        ReadyToAttack();
+    }
+
+    protected override void ReadyToAttack()
+    {
+        isReadyToAttack = true;
+        if (isPlayerInsideAttackHitBox)
         {
-            ReadyToAttack();
-            return;
+            monsterBehaviorState = MonsterBehaviorState.Idle;
         }
         else
         {
-            if (isPlayerInsideAttackRange)
-            {
-                monsterMovementState = MonsterMovementState.Rotate;
-            }
-            else
-            {
-                monsterMovementState = MonsterMovementState.Move;
-            }
+            monsterBehaviorState = MonsterBehaviorState.Move;
         }
-    }   
-    public virtual void SpawnProjectile(){}
+        
+    }
+
+    public override void ApplyDamage(HeroBaseController heroHit)
+    {
+        heroHit.Hurt(monsterStats.Damage);
+    }
+
+    public virtual void SpawnProjectile() { }
 }
+

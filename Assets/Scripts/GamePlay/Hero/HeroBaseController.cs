@@ -81,6 +81,11 @@ public abstract class HeroBaseController : MonoBehaviour
         get { return heroMovementState; }
     }
 
+    public HeroSpecialEffectSystem HeroSpecialEffectSystem
+    {
+        get { return heroSpecialEffectSystem;  }
+    }
+
     //
     // FUNCTIONS
     //
@@ -162,10 +167,10 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // Special effect handling
     // Receive special effect
-    public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
+    public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect, SO_SpecialEffect specialEffectData)
     {
-        Debug.Log("Hero receive effect");
-        heroSpecialEffectSystem.ReceiveEffect(specialEffect);
+        Debug.Log("Hero receive effect :" + specialEffect.EffectName);
+        heroSpecialEffectSystem.ReceiveEffect(specialEffect, specialEffectData);
     }
     // Update special effect
     public virtual void UpdateSpecialEffect()
@@ -174,7 +179,7 @@ public abstract class HeroBaseController : MonoBehaviour
         {
             return;
         }
-        heroSpecialEffectSystem.UpdateEffects(Time.deltaTime);
+        heroSpecialEffectSystem.UpdateEffectsTime(Time.deltaTime);
     }
 
     // Receive upgrade

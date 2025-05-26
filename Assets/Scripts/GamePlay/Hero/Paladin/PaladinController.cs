@@ -146,7 +146,7 @@ public class PaladinController : HeroBaseController
     // Handle the dash skill 
     protected override void HandleDashSkill()
     {
-        if ( canDash )
+        if ( canDash && HeroMovementState == HeroMovementState.Normal)
         {
             // Change the behavior state
             heroMovementState = HeroMovementState.Dashing;
@@ -169,7 +169,7 @@ public class PaladinController : HeroBaseController
     // This function will invoke the event and start the cooldown coroutine
     protected override void HandleSpecialSkill()
     {
-        if ( canSpecial )
+        if ( canSpecial && HeroMovementState == HeroMovementState.Normal)
         {
             // Change the behavior state
             heroMovementState = HeroMovementState.Casting;
@@ -190,7 +190,7 @@ public class PaladinController : HeroBaseController
     protected override void HandleUltimateSkill()
     {
 
-        if (canUltimate)
+        if (canUltimate && HeroMovementState == HeroMovementState.Normal)
             {
                 // Change the behavior state
                 heroMovementState = HeroMovementState.Casting;
@@ -239,16 +239,6 @@ public class PaladinController : HeroBaseController
 
     private void Awake()
     {
-    }
-
-    private void Start()
-    {
-        //Subscribe to game input
-        GameInput.OnDashAction += HandleDashSkill;
-        GameInput.OnSpecialAction += HandleSpecialSkill;
-        GameInput.OnUltimateAction += HandleUltimateSkill;
-
-
         // Initialize hero data
         InitilizeValue();
         InitializeStats();
@@ -256,6 +246,15 @@ public class PaladinController : HeroBaseController
         InitializeBlessingSystem();
         InitializeWeaponSystem();
         InitializeDash(5,18,3);
+    }
+
+    private void Start()
+    {
+
+        //Subscribe to game input
+        GameInput.OnDashAction += HandleDashSkill;
+        GameInput.OnSpecialAction += HandleSpecialSkill;
+        GameInput.OnUltimateAction += HandleUltimateSkill;
 
         // Subscribe to upgrade manager
         UpgradeManager.Instance.OnSelectWeapon += ReceiveWeapon;

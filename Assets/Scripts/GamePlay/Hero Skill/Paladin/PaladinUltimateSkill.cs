@@ -43,15 +43,19 @@ public class PaladinUltimateSkill : SkillBase
     // Activate skill
     public override void SkillActivate()
     {
+        // Refresh special effect
+        resistanceBoost.Refresh();
+        healthBoost.Refresh();
+        
         // Apply special effect to other hero
         foreach (HeroBaseController character in heroListInRange)
         {
-            character.ReceiveSpecialEffect(healthBoost);
+            character.ReceiveSpecialEffect(healthBoost, healthBoostData);
         }
 
         // Apply special effect to paladin
-        paladinController.ReceiveSpecialEffect(resistanceBoost);
-        paladinController.ReceiveSpecialEffect(healthBoost);
+        paladinController.ReceiveSpecialEffect(resistanceBoost, resistanceBoostData);
+        paladinController.ReceiveSpecialEffect(healthBoost, healthBoostData);
     }
 
     //

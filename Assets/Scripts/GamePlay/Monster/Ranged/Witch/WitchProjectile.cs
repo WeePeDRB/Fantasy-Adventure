@@ -17,7 +17,7 @@ public class WitchProjectile : Projectile
 
     protected override void ReturnObject()
     {
-        OnProjectileReturn?.Invoke(this, new OnWitchProjectileHitEventArgs{ heroBaseController = null, witchProjectile = this});
+        OnProjectileReturn?.Invoke(this, new OnWitchProjectileHitEventArgs { heroBaseController = null, witchProjectile = this });
         WitchProjectileObjectPool.Instance.ReturnObject(this.gameObject);
     }
 
@@ -26,6 +26,7 @@ public class WitchProjectile : Projectile
     {
         if (collider.gameObject.CompareTag("Player"))
         {
+
             StopCoroutine(returnCoroutine);
             returnCoroutine = null;
             OnProjectileHit?.Invoke(this, new OnWitchProjectileHitEventArgs{ heroBaseController = collider.gameObject.GetComponent<HeroBaseController>(), witchProjectile = this});

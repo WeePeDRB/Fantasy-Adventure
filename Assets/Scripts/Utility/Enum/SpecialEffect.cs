@@ -5,3 +5,9 @@ public enum EffectTarget
     Hero,
     All
 }
+
+public enum EffectType
+{
+    Instant,
+    Overtime
+}
