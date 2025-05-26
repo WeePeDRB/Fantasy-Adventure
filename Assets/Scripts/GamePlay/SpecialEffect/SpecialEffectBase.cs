@@ -10,7 +10,9 @@ public abstract class SpecialEffectBase
     protected string effectName; // Effect name
     protected float duration; // Effect duration
     protected float timeRemaining; // Time remaining 
+    protected EffectType effectType;
     protected EffectTarget effectTarget;
+    protected float value;
 
     //
     // PROPERTIES
@@ -21,7 +23,9 @@ public abstract class SpecialEffectBase
     public string EffectName { get { return effectName; } }
     public float TimeRemaining { get { return timeRemaining; } }
     public float Duration { get { return duration; } }
+    public EffectType EffectType { get { return effectType;  } }
     public EffectTarget EffectTarget { get { return effectTarget; } }
+    public float Value { get { return value;  } }
 
     //
     // FUNCTIONS

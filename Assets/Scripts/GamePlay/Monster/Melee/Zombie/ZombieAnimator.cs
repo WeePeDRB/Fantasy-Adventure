@@ -27,7 +27,7 @@ public class ZombieAnimator : MonsterBaseAnimator
 
     private void Update()
     {
-        monsterMovementState = monsterBaseController.MonsterMovementState;
+        monsterBehaviorState = monsterBaseController.MonsterBehaviorState;
         Move();
     }
 }

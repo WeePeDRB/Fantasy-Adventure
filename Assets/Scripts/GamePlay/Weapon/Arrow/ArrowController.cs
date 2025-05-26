@@ -26,7 +26,14 @@ public class ArrowController :  WeaponBase
     // Deal damage to monster
     public void ApplyDamage(MonsterBaseController monsterBaseController)
     {
-        monsterBaseController.Hurt(weaponAttackDamage);
+        float bonusDamage = 0f;
+        Debug.Log("Apply damage running : " + bonusDamage);
+        if (heroBaseController.HeroStats.DamageAmplifier != 0)
+        {
+            bonusDamage = weaponAttackDamage * heroBaseController.HeroStats.DamageAmplifier / 100;
+            Debug.Log("Bonus damage : " + bonusDamage);
+        }
+        monsterBaseController.Hurt(weaponAttackDamage + bonusDamage);
     }
     // Attack coroutine
     public override IEnumerator AttackCoroutine()
@@ -45,7 +52,6 @@ public class ArrowController :  WeaponBase
     // Fire projectile
     public void FireProjectile()
     {
-        Debug.Log("Fire projectile");
         // Get projectile from pool
         GameObject projectileObject = ArrowObjectPool.Instance.GetObject(spawnPosition);
         ArrowProjectile arrowProjectile = projectileObject.GetComponent<ArrowProjectile>();

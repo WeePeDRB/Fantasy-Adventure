@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
+[Serializable]
 public class MonsterStats : CharacterStats
 {
     //
@@ -16,8 +15,8 @@ public class MonsterStats : CharacterStats
     //
     // CONSTRUCTOR
     //
-    public MonsterStats (   float MaxHealth,     float Speed,       int Level,     float Damage,
-                            float AttackSpeed,   float Resistance,  float DamageAmplifier)
+    public MonsterStats(float MaxHealth, float Speed, int Level, float Damage,
+                            float AttackSpeed, float Resistance, float DamageAmplifier)
     {
         // Instantiate basic stats
         maxHealth = MaxHealth;
@@ -53,7 +52,7 @@ public class MonsterStats : CharacterStats
     // FUNCTIONS
     //
 
-    public void  LevelUp( int Level )
+    public void LevelUp(int Level)
     {
         level = Level;
         damage = damage + level * 5;

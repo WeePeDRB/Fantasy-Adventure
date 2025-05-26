@@ -15,13 +15,12 @@ public abstract class MonsterBaseController : MonoBehaviour
     [SerializeField] protected SO_Monster monsterData;
 
     // MONSTER STATE
-    protected MonsterMovementState monsterMovementState;
-    protected MonsterAttackState monsterAttackState;
+    protected MonsterBehaviorState monsterBehaviorState;
     protected MonsterHealthState monsterHealthState;
 
     // CHECKING FLAGS
     protected bool isPlayerInsideAttackHitBox;
-    protected bool isPlayerInsideAttackRange;
+    protected bool isReadyToAttack;
 
     // MONSTER STATS
     protected MonsterStats monsterStats;
@@ -30,7 +29,6 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected MonsterSpecialEffectSystem monsterSpecialEffectSystem;
 
     // COROUTINE VALUE
-    protected Coroutine readyAttackCoroutine;
     protected Coroutine attackCoroutine;
 
     // MONSTER BEHAVIOR EVENTS
@@ -62,13 +60,9 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         get { return monsterStats; }
     }
-    public MonsterMovementState MonsterMovementState 
+    public MonsterBehaviorState MonsterBehaviorState 
     { 
-        get { return monsterMovementState; } 
-    }
-    public MonsterAttackState MonsterAttackState
-    {
-        get { return monsterAttackState; }
+        get { return monsterBehaviorState; } 
     }
     public MonsterHealthState MonsterHealthState
     {
@@ -85,8 +79,7 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBaseHitBox = GetComponentInChildren<MonsterBaseHitBox>();
 
         // Set monster state
-        monsterMovementState = MonsterMovementState.Move;
-        monsterAttackState = MonsterAttackState.Standby;
+        monsterBehaviorState = MonsterBehaviorState.Move;
         monsterHealthState = MonsterHealthState.Alive;
 
         // Listen to HitBox events
@@ -94,6 +87,7 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
 
         //
+        isReadyToAttack = true;
         heroList = new List<HeroBaseController>();
     }
 
@@ -110,9 +104,8 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += InRange;
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
             
-        // Set behavior state
-        monsterMovementState = MonsterMovementState.Move;
-        monsterAttackState = MonsterAttackState.Standby;
+        // Set monster state
+        monsterBehaviorState = MonsterBehaviorState.Move;
         monsterHealthState = MonsterHealthState.Alive;
 
         // Set health
@@ -123,34 +116,18 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Monster movement
     protected virtual void HandleMovement()
     {
-        if (monsterMovementState == MonsterMovementState.Move)
-        {
-            //Specify direction
-            Vector3 direction = (heroTarget.transform.position - this.transform.position).normalized;
-            Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
+        //Specify direction
+        Vector3 direction = (heroTarget.transform.position - this.transform.position).normalized;
+        Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
+        //Rotation
+        float rotateSpeed = 10f;
+        transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
 
+        if (monsterBehaviorState == MonsterBehaviorState.Move)
+        {
             //Movement
             Vector3 targetPos = transform.position + moveDirVector * monsterStats.Speed * Time.deltaTime;
             monsterRigidbody.MovePosition(targetPos);
-        
-
-            //Rotation
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
-        }
-    }
-    // Monster rotation
-    protected virtual void HandleRotation()
-    {
-        if (monsterMovementState == MonsterMovementState.Rotate)
-        {
-            //Specify direction
-            Vector3 direction = (heroTarget.transform.position - this.transform.position).normalized;
-            Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
-            
-            //Rotation
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
         }
     }
 
@@ -159,17 +136,25 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected abstract void InRange();
     protected abstract void OutOfRange();
     // Attack process    
-    protected abstract void ReadyToAttack();
-    protected abstract IEnumerator ReadyToAttackCoroutine();
     protected abstract IEnumerator AttackCoroutine();
+    protected abstract void Attack();
+    public abstract IEnumerator AttackRecover();
+
+    protected abstract void ReadyToAttack();
     public abstract void ApplyDamage(HeroBaseController heroHit);
-    public abstract void ResetAttack();
 
     // Monster get hurt
     public virtual void Hurt(float damageTaken)
     {
         if (monsterHealthState == MonsterHealthState.Alive)
         {
+            // Pop up text
+            GameObject text = TextPopUpObjectPool.Instance.GetObject(this.transform);
+            TextPopUp textPopUp = text.GetComponent<TextPopUp>();
+            textPopUp.ResetTextPopUp();
+            text.GetComponent<TextMesh>().text = damageTaken.ToString();
+
+            // Take damage logic
             monsterStats.Health -= damageTaken;
 
             if (monsterStats.Health <= 0)
@@ -198,9 +183,7 @@ public abstract class MonsterBaseController : MonoBehaviour
             
         // Set behavior state
         monsterHealthState = MonsterHealthState.Dead;
-        
     }
-
     public virtual void DropExp()
     {
         // Initial values
@@ -234,19 +217,17 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // SUPPORT FUNCTIONS
     // Special effect handling
-    // Receive special effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
 
     }
-    // Update special effect
     public virtual void UpdateSpecialEffect()
     {
         if (monsterSpecialEffectSystem.IsDictionaryEmpty())
         {
             return;
         }
-        monsterSpecialEffectSystem.UpdateEffects(Time.deltaTime);
+        monsterSpecialEffectSystem.UpdateEffectsTime(Time.deltaTime);
     }
 
     // Invoke event
@@ -263,23 +244,21 @@ public abstract class MonsterBaseController : MonoBehaviour
         OnMonsterDead?.Invoke(this, new OnMonsterDeadEventArgs{ monsterBaseController = this});
     }
 
-    // Distance checking for behavior state
-    protected void DistanceCheck(float requreDistance)
+    // Control behavior state
+    public void ChangeToMoveState()
     {
-        Vector3 heroPosition = heroTarget.transform.position;
-        
-        float distance = Vector3.Distance(heroPosition, transform.position);
-
-        if (distance <= requreDistance)
-        {
-            isPlayerInsideAttackRange = true;
-        }
-        else 
-        {
-            isPlayerInsideAttackRange = false; 
-        }
+        monsterBehaviorState = MonsterBehaviorState.Move;
+    }
+    public void ChangeToAttackState()
+    {
+        monsterBehaviorState = MonsterBehaviorState.Attack;
+    }
+    public void ChangeToIdleState()
+    {
+        monsterBehaviorState = MonsterBehaviorState.Idle;
     }
 
+    //
     public void UpdateHeroTarget()
     {
         heroTarget = GameUtility.FindClosestHero(heroList, this);

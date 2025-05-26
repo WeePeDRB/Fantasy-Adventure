@@ -65,7 +65,7 @@ public class MonsterSpawnManager : MonoBehaviour
         monster.transform.position = GetRandomOffscreenPosition();
         GameObject monsterGameObj = null;
 
-        int monsterType = 2;// Random.Range(0, 2); // 0 - Default, 1 - Elite, 2 - Witch
+        int monsterType = 2;//Random.Range(0, 2); // 0 - Default, 1 - Elite, 2 - Witch
 
         switch (monsterType)
         {
@@ -189,6 +189,6 @@ public class MonsterSpawnManager : MonoBehaviour
         TimerManager.OnStartCombat += StartCombat;
         TimerManager.OnEndCombat += EndCombat;
 
-        monsterMaxQuantity = 3;
+        monsterMaxQuantity = 1;
     }
 }

@@ -1,15 +1,7 @@
+using UnityEngine;
+
 public class DamageBoost : SpecialEffectBase
 {
-    //
-    // FIELDS
-    //
-
-    private float damageAmplifier;
-    public float DamageAmplifier
-    {
-        get { return damageAmplifier; }
-    }
-    
     //
     // CONSTRUCTOR
     //
@@ -20,7 +12,8 @@ public class DamageBoost : SpecialEffectBase
         duration = specialEffectData.specialEffectDuration;
         timeRemaining = duration;
         effectTarget = specialEffectData.specialEffectTarget;
-        damageAmplifier = specialEffectData.specialEffectValue;
+        value = specialEffectData.specialEffectValue;
+        effectType = EffectType.Instant;
     }
 
     //
@@ -30,20 +23,20 @@ public class DamageBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.DamageAmplifier = damageAmplifier;
+        hero.HeroStats.DamageAmplifier += value;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
         
-        hero.HeroStats.DamageAmplifier = hero.HeroData.damageAmplifier;
+        if (hero.HeroStats.DamageAmplifier != 0) hero.HeroStats.DamageAmplifier -= value;
     }
 
 
     // Apply effect to monster
     public override void ApplyEffectOnMonster(MonsterBaseController monster)
     {
-        monster.MonsterStats.DamageAmplifier = damageAmplifier;
+        monster.MonsterStats.DamageAmplifier = value;
     }
     // Remove effect to monster
     public override void RemoveEffectOnMonster(MonsterBaseController monster)

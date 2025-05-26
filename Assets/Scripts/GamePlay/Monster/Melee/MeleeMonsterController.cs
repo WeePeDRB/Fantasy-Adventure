@@ -14,69 +14,42 @@ public class MeleeMonsterController : MonsterBaseController
     // Checking hit box
     protected override void InRange()
     {
-        isPlayerInsideAttackHitBox = true; 
-        ReadyToAttack();
+        isPlayerInsideAttackHitBox = true;
     }
     protected override void OutOfRange()
     {
         isPlayerInsideAttackHitBox = false;
-        if (monsterAttackState == MonsterAttackState.Attack) return;
-        else
-        {
-            if (isPlayerInsideAttackRange == true)
-            {
-                monsterMovementState = MonsterMovementState.Rotate;
-            }
-            else if (isPlayerInsideAttackRange == false)
-            {
-                monsterMovementState = MonsterMovementState.Move;
-            }
-        }
     }
 
-    // Attack process
-    protected override void ReadyToAttack()
-    {
-        // Set behavior state
-        monsterAttackState = MonsterAttackState.ReadyToAttack;
-        monsterMovementState = MonsterMovementState.Rotate;
-
-        // Handling coroutine
-        if (readyAttackCoroutine == null)
-        {
-            readyAttackCoroutine = StartCoroutine(ReadyToAttackCoroutine());
-        }
-    }
-    protected override IEnumerator ReadyToAttackCoroutine()
-    {
-        float elapsedTime = 0f;
-        float waitTime = monsterStats.AttackSpeed * 0.3f;
-
-        while (elapsedTime < waitTime)
-        {
-            if (monsterMovementState == MonsterMovementState.Move) 
-            {   
-                StopCoroutine(readyAttackCoroutine);
-                readyAttackCoroutine = null;
-                yield break;
-            }
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        monsterAttackState = MonsterAttackState.Attack;
-        
-        // Start coroutine
-        if (attackCoroutine == null)
-        {
-            attackCoroutine = StartCoroutine(AttackCoroutine());
-        }  
-    }
     protected override IEnumerator AttackCoroutine()
     {
-        yield return new WaitForSeconds(monsterStats.AttackSpeed * 0.3f);
-        HandleOnMonsterAttack();
+        while (monsterHealthState == MonsterHealthState.Alive)
+        {
+            monsterBehaviorState = MonsterBehaviorState.Attack;
+            yield return new WaitForSeconds(.1f);
+            if (isReadyToAttack) Attack();
+        }
     }
+    protected override void Attack()
+    {
+        HandleOnMonsterAttack();
+        isReadyToAttack = false;
+    }
+
+    public override IEnumerator AttackRecover()
+    {
+        monsterBehaviorState = MonsterBehaviorState.Idle;
+        yield return new WaitForSeconds(monsterStats.AttackSpeed);
+        ReadyToAttack();
+    }
+
+    protected override void ReadyToAttack()
+    {
+        isReadyToAttack = true;
+        if (isPlayerInsideAttackHitBox) monsterBehaviorState = MonsterBehaviorState.Idle;
+        else monsterBehaviorState = MonsterBehaviorState.Move;
+    }
+
     public override void ApplyDamage(HeroBaseController heroHit)
     {
         if (isPlayerInsideAttackHitBox)
@@ -84,29 +57,25 @@ public class MeleeMonsterController : MonsterBaseController
             heroHit.Hurt(monsterStats.Damage);
         }
     }
-    public override void ResetAttack()
+
+    private void OnCollisionEnter(Collision collision)
     {
-        // 
-        readyAttackCoroutine = null;
-        attackCoroutine = null;
-        
-        //
-        if (isPlayerInsideAttackHitBox == true)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            ReadyToAttack();
-            return;
-        }
-        else
-        {
-            if (isPlayerInsideAttackRange)
+            if (attackCoroutine == null)
             {
-                monsterMovementState = MonsterMovementState.Rotate;
-            }
-            else
-            {
-                monsterMovementState = MonsterMovementState.Move;
+                attackCoroutine = StartCoroutine(AttackCoroutine());
             }
         }
-        
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
+    }
+
 }

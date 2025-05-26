@@ -37,25 +37,46 @@ public class PaladinSpecialSkill : SkillBase
     // Activate skill
     public override void SkillActivate()
     {
-        Debug.Log("special skill activate");
+        // Refresh special effect
+        damageBoost.Refresh();
+
+        //
         foreach (MonsterBaseController monster in monsterListInHitBox)
         {
             monster.Hurt(monster.MonsterStats.Health * 30 / 100);
         }
         foreach (HeroBaseController hero in heroListInRange)
         {
-            hero.ReceiveSpecialEffect(damageBoost);
+            hero.ReceiveSpecialEffect(damageBoost, damageBoostData);
         }
-        paladinController.ReceiveSpecialEffect(damageBoost);
+        paladinController.ReceiveSpecialEffect(damageBoost, damageBoostData);
         skillParticle.Play();
     }
 
+    private void CheckIfMonsterDead(object sender, OnMonsterDeadEventArgs monsterDeadEventArgs)
+    {
+        monsterDeadEventArgs.monsterBaseController.OnMonsterDead -= CheckIfMonsterDead;
+        for (int i = 0; i < monsterListInHitBox.Count; i ++)
+        {
+            if (monsterListInHitBox[i] == monsterDeadEventArgs.monsterBaseController)
+            {
+                monsterListInHitBox.Remove(monsterListInHitBox[i]);
+            }
+        }
+    }
+
     //
-    private void OnTriggerEneter(Collider collider)
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Add(collider.gameObject.GetComponent<MonsterBaseController>());
+            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+
+            // Add monster to hit box list
+            monsterListInHitBox.Add(monsterBaseController);
+
+            // Subscribe to monster dead event (Remove monster from list incase monster die)
+            monsterBaseController.OnMonsterDead += CheckIfMonsterDead;
         }
     }
 

@@ -17,19 +17,6 @@ public class EliteZombieController : MeleeMonsterController
         monsterStats = new MonsterStats(200,4.4f,1,20,0.5f,0,0);
     }
 
-    
-
-    // HANDLING ELITE ZOMBIE BEHAVIOR
-    // Elite zombie movement
-
-    // Elite zombie attack
-
-    // Elite zombie get hurt
-
-    // Elite zombie dead
-
-    // SUPPORT FUNCTION
-
     private void Awake()
     {
         InstantiateMonster();
@@ -42,14 +29,7 @@ public class EliteZombieController : MeleeMonsterController
 
     private void Update()
     {
-        if (monsterHealthState == MonsterHealthState.Alive) 
-        {
-            if (heroTarget != null)
-            {
-                HandleRotation();
-                DistanceCheck(2f);
-            }
-        }
+
     }
     private void FixedUpdate()
     {
@@ -57,7 +37,6 @@ public class EliteZombieController : MeleeMonsterController
         {
             if (heroTarget != null)
             {
-
                 HandleMovement();
             }
         }

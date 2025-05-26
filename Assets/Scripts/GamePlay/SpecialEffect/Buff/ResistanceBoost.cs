@@ -5,12 +5,6 @@ using UnityEngine;
 public class ResistanceBoost : SpecialEffectBase
 {
     //
-    // FIELDS
-    //
-
-    private float resistance;
-
-    //
     // CONTRUCTOR
     //
     public ResistanceBoost(SO_SpecialEffect specialEffectData)
@@ -20,7 +14,8 @@ public class ResistanceBoost : SpecialEffectBase
         duration = specialEffectData.specialEffectDuration;
         timeRemaining = duration;
         effectTarget = specialEffectData.specialEffectTarget;
-        resistance = specialEffectData.specialEffectValue;
+        value = specialEffectData.specialEffectValue;
+        effectType = EffectType.Instant;
     }
 
     //
@@ -30,12 +25,12 @@ public class ResistanceBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.Resistance = resistance;
+        hero.HeroStats.Resistance += value;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.Resistance = hero.HeroData.resistance;
+        if (hero.HeroStats.Resistance != 0) hero.HeroStats.Resistance -= value;
     }
 
     // Apply effect to monster

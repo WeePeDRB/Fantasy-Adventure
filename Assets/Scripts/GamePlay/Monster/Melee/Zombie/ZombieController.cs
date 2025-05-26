@@ -43,14 +43,7 @@ public class ZombieController : MeleeMonsterController
 
     private void Update()
     {
-        if (monsterHealthState == MonsterHealthState.Alive) 
-        {
-            if (heroTarget != null)
-            {
-                HandleRotation();
-                DistanceCheck(0.5f);
-            }
-        }
+
     }
     private void FixedUpdate()
     {
@@ -58,7 +51,6 @@ public class ZombieController : MeleeMonsterController
         {
             if (heroTarget != null)
             {
-
                 HandleMovement();
             }
         }

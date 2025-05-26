@@ -26,7 +26,7 @@ public class EliteZombieAnimator : MonsterBaseAnimator
 
     private void Update()
     {
-        monsterMovementState = monsterBaseController.MonsterMovementState;
+        monsterBehaviorState = monsterBaseController.MonsterBehaviorState;
         Move();
     }
 }

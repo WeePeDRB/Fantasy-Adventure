@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class HealthBoost : SpecialEffectBase
 {
-    private float healthIncrease;
-
     //
     // CONSTRUCTOR
     //
@@ -16,13 +14,14 @@ public class HealthBoost : SpecialEffectBase
         duration = specialEffectData.specialEffectDuration;
         timeRemaining = duration;
         effectTarget = specialEffectData.specialEffectTarget;
-        healthIncrease = specialEffectData.specialEffectValue;
+        value = specialEffectData.specialEffectValue;
+        effectType = EffectType.Overtime;
     }
 
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.Health += healthIncrease;
+        hero.HeroStats.Health += value;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
