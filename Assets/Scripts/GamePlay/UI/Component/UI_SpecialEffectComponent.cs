@@ -6,18 +6,30 @@ using UnityEngine.UI;
 
 public class UI_SpecialEffectComponent : MonoBehaviour
 {
-    public string specialEffectID;
-    public Image specialEffectIcon;
-    public Image specialEffectIconCover;
+    // Tooltip data 
+    private SO_SpecialEffect specialEffectData;
+    private string toolTipDataType = new string("Special Effect: ");
 
+    // UI data
+    [SerializeField] private string specialEffectID;
+    [SerializeField] private Image specialEffectIcon;
+    [SerializeField] private Image specialEffectIconCover;
     private float specialEffectCoolDown;
 
     public event EventHandler<OnSpecialEffectEndEventArgs> OnSpecialEffectEnd;
 
     private Coroutine coolDownCoroutine;
 
+    public string SpecialEffectID
+    {
+        get { return specialEffectID;  }
+    }
+
     public void SetUIComponent(SO_SpecialEffect specialEffectData)
     {
+        //
+        this.specialEffectData = specialEffectData;
+        //
         specialEffectID = specialEffectData.id;
         specialEffectIcon.sprite = specialEffectData.specialEffectSprite;
         specialEffectIconCover.sprite = specialEffectData.specialEffectSprite;

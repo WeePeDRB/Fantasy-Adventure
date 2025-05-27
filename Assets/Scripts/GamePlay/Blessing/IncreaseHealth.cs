@@ -23,5 +23,6 @@ public class IncreaseHealth : BlessingBase
     public override void ApplyBlessingOnHero(HeroBaseController hero)
     {
         hero.HeroStats.MaxHealth += blessingValue;
+        hero.HeroStats.Health += blessingValue;
     }
 }

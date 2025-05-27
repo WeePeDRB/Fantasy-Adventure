@@ -19,7 +19,7 @@ public class DamageAmplifier : BlessingBase
 
     public override void ApplyBlessingOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.DamageAmplifier += blessingValue;
+        hero.HeroStats.DamageAmplifierBase += blessingValue;
     }
 
 }

@@ -22,7 +22,7 @@ public class HeroStats : CharacterStats
     // CONSTRUCTOR
     //
     public HeroStats(   float MaxHealth,    float Speed,            int Level,          float MaxAmor,
-                        float Resistance,   float DamageAmplifier,  float AbilityHaste                  )
+                        float ResistanceBase, float DamageAmplifierBase,  float AbilityHaste                  )
     {
         // Instantiate basic stats
         maxHealth = MaxHealth;
@@ -34,8 +34,9 @@ public class HeroStats : CharacterStats
         expRequire = 100;
         exp = 0;
         // Instantiate special stats
-        resistance = Resistance;
-        damageAmplifier = DamageAmplifier;
+        resistanceBase = ResistanceBase;
+        damageAmplifierBase = DamageAmplifierBase;
+
         abilityHaste = AbilityHaste;
     }
 

@@ -14,7 +14,7 @@ public class UI_BlessingManager : MonoBehaviour
     private HeroBaseController heroBaseController;
 
     // UI Components
-    [SerializeField] private List<BlessingUI> blessingUIList;
+    [SerializeField] private List<UI_BlessingComponent> blessingUIList;
 
     //
     // FUNCTIONS
@@ -27,23 +27,19 @@ public class UI_BlessingManager : MonoBehaviour
 
     private void SetBlessingUI(object sender, BlessingEventArgs blessingEventArgs)
     {
-        foreach (BlessingUI blessingUI in blessingUIList)
+        foreach (UI_BlessingComponent blessingUI in blessingUIList)
         {
-            // Not empty
-            if (!string.IsNullOrEmpty(blessingUI.blessingId))
+            if (!string.IsNullOrEmpty(blessingUI.BlessingID))
             {
-                if (blessingUI.blessingId == blessingEventArgs.blessingData.id)
+                if (blessingUI.BlessingID == blessingEventArgs.blessingData.id)
                 {
-                    blessingUI.blessingLevel.text = blessingEventArgs.blessing.BlessingLevel.ToString();
+                    blessingUI.UpdataUIComponent(blessingEventArgs.blessing);
                     break;
                 }
             }
-            // Weapon has data
             else
             {
-                blessingUI.blessingId = blessingEventArgs.blessingData.id;
-                blessingUI.blessingIcon.sprite = blessingEventArgs.blessingData.blessingSprite;
-                blessingUI.blessingLevel.text = blessingEventArgs.blessingData.blessingLevel.ToString();
+                blessingUI.SetUIComponent(blessingEventArgs.blessingData);
                 break;
             }
         }
@@ -57,10 +53,3 @@ public class UI_BlessingManager : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class BlessingUI
-{
-    public string blessingId;
-    public Image blessingIcon;
-    public TextMeshProUGUI blessingLevel;
-}

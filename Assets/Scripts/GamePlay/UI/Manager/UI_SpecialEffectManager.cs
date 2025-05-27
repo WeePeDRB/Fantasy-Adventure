@@ -39,6 +39,7 @@ public class UI_SpecialEffectManager : MonoBehaviour
         //
         if (spEffectData != null)
         {
+            Debug.Log("Effect data not null !");
             //
             UI_SpecialEffectComponent specialEffectUI = Instantiate(UIComponentPrefab, this.transform).GetComponent<UI_SpecialEffectComponent>();
             specialEffectUI.SetUIComponent(specialEffectData);
@@ -54,7 +55,7 @@ public class UI_SpecialEffectManager : MonoBehaviour
             {
                 for (int i = specialEffectUIList.Count - 1; i >= 0; i--)
                 {
-                    if (specialEffectData.id == specialEffectUIList[i].specialEffectID)
+                    if (specialEffectData.id == specialEffectUIList[i].SpecialEffectID)
                     {
                         specialEffectUIList[i].ResetCoolDown();
                         return;
