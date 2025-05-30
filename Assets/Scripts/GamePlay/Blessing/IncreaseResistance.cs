@@ -18,6 +18,6 @@ public class IncreaseResistance : BlessingBase
 
     public override void ApplyBlessingOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.Resistance += blessingValue;
+        hero.HeroStats.ResistanceBase += blessingValue;
     }
 }

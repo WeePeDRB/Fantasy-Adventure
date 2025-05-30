@@ -169,7 +169,6 @@ public abstract class HeroBaseController : MonoBehaviour
     // Receive special effect
     public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect, SO_SpecialEffect specialEffectData)
     {
-        Debug.Log("Hero receive effect :" + specialEffect.EffectName);
         heroSpecialEffectSystem.ReceiveEffect(specialEffect, specialEffectData);
     }
     // Update special effect

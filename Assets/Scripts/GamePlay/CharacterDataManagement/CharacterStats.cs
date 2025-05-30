@@ -15,8 +15,13 @@ public abstract class CharacterStats
     protected int level; // Character level
 
     // Special stats
-    protected float resistance; // This stat will block a percentage of the damage received from monster, with a value ranging from 1 to 100.
-    protected float damageAmplifier; // This stat increases the damage dealt by weapons
+    // This stat will block a percentage of the damage received from monster, with a value ranging from 1 to 100.
+    protected float resistanceBase;
+    protected float resistanceAddition;
+
+    // This stat increases the damage dealt by weapons
+    protected float damageAmplifierBase;
+    protected float damageAmplifierAddition;
 
     //
     // PROPERTIES
@@ -47,12 +52,40 @@ public abstract class CharacterStats
     // Special stats
     public float Resistance
     {
-        get { return resistance; }
-        set { resistance = Mathf.Clamp(value, 0f, 100f); } // Ensure resistance is between 0% and 100%
+        get
+        {
+            float value = resistanceBase + resistanceAddition;
+            return Mathf.Clamp(value, 0f, 100f);
+        }
     }
+    public float ResistanceBase
+    {
+        get { return resistanceBase; }
+        set { resistanceBase = Mathf.Clamp(value, 0f, 100f); }
+    }
+    public float ResistanceAddition
+    {
+        get { return resistanceAddition; }
+        set { resistanceAddition = Mathf.Clamp(value, 0f, 100f); }
+    }
+
     public float DamageAmplifier
     {
-        get { return damageAmplifier; }
-        set { damageAmplifier = Mathf.Max(0f, value); } // Ensure damage amplifier can't be negative
+        get
+        {
+            float value = damageAmplifierBase + damageAmplifierAddition;
+            return Math.Max(value, 0f);
+        }
+
+    }
+    public float DamageAmplifierBase
+    {
+        get { return damageAmplifierBase; }
+        set { damageAmplifierBase = Mathf.Max(value, 0f); }
+    }
+    public float DamageAmplifierAddition
+    {
+        get { return damageAmplifierAddition; }
+        set { damageAmplifierAddition = Mathf.Max(value, 0f); }
     }
 }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class DamageBoost : SpecialEffectBase
 {
     //
@@ -23,20 +21,19 @@ public class DamageBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.DamageAmplifier += value;
+        hero.HeroStats.DamageAmplifierAddition += value;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
-        
-        if (hero.HeroStats.DamageAmplifier != 0) hero.HeroStats.DamageAmplifier -= value;
+        if (hero.HeroStats.DamageAmplifierAddition != 0) hero.HeroStats.DamageAmplifierAddition -= value;
     }
 
 
     // Apply effect to monster
     public override void ApplyEffectOnMonster(MonsterBaseController monster)
     {
-        monster.MonsterStats.DamageAmplifier = value;
+       //monster.MonsterStats.DamageAmplifier = value;
     }
     // Remove effect to monster
     public override void RemoveEffectOnMonster(MonsterBaseController monster)

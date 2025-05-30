@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class ResistanceBoost : SpecialEffectBase
 {
     //
@@ -25,12 +21,12 @@ public class ResistanceBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.Resistance += value;
+        hero.HeroStats.ResistanceAddition += value;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
-        if (hero.HeroStats.Resistance != 0) hero.HeroStats.Resistance -= value;
+        if (hero.HeroStats.ResistanceAddition != 0) hero.HeroStats.ResistanceAddition -= value;
     }
 
     // Apply effect to monster

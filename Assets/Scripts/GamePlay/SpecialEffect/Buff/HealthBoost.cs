@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class HealthBoost : SpecialEffectBase
 {
     //
@@ -17,6 +13,10 @@ public class HealthBoost : SpecialEffectBase
         value = specialEffectData.specialEffectValue;
         effectType = EffectType.Overtime;
     }
+
+    //
+    // FUNCTIONS
+    //
 
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)

@@ -13,7 +13,7 @@ public class UI_WeaponManager : MonoBehaviour
     private HeroBaseController heroController;
 
     // UI COMPONENTS
-    [SerializeField] private List<WeaponUI> weaponUIList;
+    [SerializeField] private List<UI_WeaponComponent> weaponUIList;
 
     //
     // FUNCTIONS
@@ -28,23 +28,19 @@ public class UI_WeaponManager : MonoBehaviour
 
     private void SetWeaponUI(object sender, WeaponEventArgs weaponEventArgs)
     {
-        foreach (WeaponUI weaponUI in weaponUIList)
+        foreach (UI_WeaponComponent weaponUI in weaponUIList)
         {
-            // If weapon UI is empty add data to its
-            if (!string.IsNullOrEmpty(weaponUI.weaponId))
+            if (!string.IsNullOrEmpty(weaponUI.WeaponID))
             {
-                if (weaponUI.weaponId == weaponEventArgs.weaponData.id)
+                if (weaponUI.WeaponID == weaponEventArgs.weaponData.id)
                 {
-                    weaponUI.weaponLevel.text = weaponEventArgs.weapon.WeaponLevel.ToString();
+                    weaponUI.UpdataUIComponent(weaponEventArgs.weapon);
                     break;
                 }
             }
-            // If weapon already exist in UI
             else
             {
-                weaponUI.weaponId = weaponEventArgs.weaponData.id;
-                weaponUI.weaponIcon.sprite = weaponEventArgs.weaponData.weaponSprite;
-                weaponUI.weaponLevel.text = weaponEventArgs.weaponData.weaponLevel.ToString();
+                weaponUI.SetUIComponent(weaponEventArgs.weaponData);
                 break;
             }
         }
@@ -58,10 +54,3 @@ public class UI_WeaponManager : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class WeaponUI
-{
-    public string weaponId;
-    public Image weaponIcon;
-    public TextMeshProUGUI weaponLevel;
-}

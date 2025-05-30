@@ -16,7 +16,7 @@ public class MonsterStats : CharacterStats
     // CONSTRUCTOR
     //
     public MonsterStats(float MaxHealth, float Speed, int Level, float Damage,
-                            float AttackSpeed, float Resistance, float DamageAmplifier)
+                            float AttackSpeed, float ResistanceBase, float DamageAmplifierBase)
     {
         // Instantiate basic stats
         maxHealth = MaxHealth;
@@ -27,8 +27,8 @@ public class MonsterStats : CharacterStats
         attackSpeed = AttackSpeed;
 
         // Instantiate special stats
-        resistance = Resistance;
-        damageAmplifier = DamageAmplifier;
+        resistanceBase = ResistanceBase;
+        damageAmplifierBase = DamageAmplifierBase;
     }
 
     //
