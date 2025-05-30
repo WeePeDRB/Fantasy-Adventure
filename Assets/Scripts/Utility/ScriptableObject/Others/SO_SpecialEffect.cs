@@ -3,15 +3,14 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class SO_SpecialEffect : ScriptableObject
 {
-    // Special effect id
+    // Special effect data
     public string id;
-
-    // Essential data
-    public Sprite specialEffectSprite;
-    public string specialEffectName;
-    public string specialEffectDescription;
-    public float specialEffectDuration;
-    public float specialEffectValue;
-    public EffectTarget specialEffectTarget;
+    public string spEffectName;
+    public string spEffectDescription;
+    public float spEffectDuration;
+    public float spEffectValue;
+    public Sprite spEffectSprite;
+    public EffectTarget spEffectTarget;
+    public EffectType spEffectType;
 }
 

@@ -33,13 +33,17 @@ public class UI_SkillManager : MonoBehaviour
     private void InitializeSkillUI()
     {
         // Dash
-        skillUIList[0].SetUIComponent(heroData.dashSkill);
+        skillUIList[0].GetHeroSkillData(heroData.dashSkill);
+        skillUIList[0].SetUIComponent();
 
         // Special
-        skillUIList[1].SetUIComponent(heroData.specialSkill);
+        skillUIList[1].GetHeroSkillData(heroData.specialSkill);
+        skillUIList[1].SetUIComponent();
 
         // Ultimate
-        skillUIList[2].SetUIComponent(heroData.ultimateSkill);
+        skillUIList[2].GetHeroSkillData(heroData.ultimateSkill);
+        skillUIList[2].SetUIComponent();
+     
     }
 
 

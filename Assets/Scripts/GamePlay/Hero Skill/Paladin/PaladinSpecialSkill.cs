@@ -18,14 +18,15 @@ public class PaladinSpecialSkill : SkillBase
     [SerializeField] private SO_SpecialEffect damageBoostData;
     private DamageBoost damageBoost;
 
+    
+
     //
     // FUNCTIONS
     //
 
-    // Instantiate skill
-    protected override void InitializeSkill()
+    protected override void InitializeSkillUniqueData()
     {
-        // Instantiate references
+        // Initialize references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
         paladinController = GetComponentInParent<PaladinController>();
@@ -34,10 +35,9 @@ public class PaladinSpecialSkill : SkillBase
         damageBoost = new DamageBoost(damageBoostData);
     }
 
-    // Activate skill
     public override void SkillActivate()
     {
-        // Refresh special effect
+        // Refresh special effect time remain
         damageBoost.Refresh();
 
         //
@@ -47,9 +47,9 @@ public class PaladinSpecialSkill : SkillBase
         }
         foreach (HeroBaseController hero in heroListInRange)
         {
-            hero.ReceiveSpecialEffect(damageBoost, damageBoostData);
+            hero.ReceiveSpecialEffect(damageBoost);
         }
-        paladinController.ReceiveSpecialEffect(damageBoost, damageBoostData);
+        paladinController.ReceiveSpecialEffect(damageBoost);
         skillParticle.Play();
     }
 
@@ -89,9 +89,9 @@ public class PaladinSpecialSkill : SkillBase
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        InitializeSkill();
+        InitializeSkillUniqueData();
     }
 
 }

@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_WeaponComponent : MonoBehaviour
+public class UI_WeaponComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Tooltip data
-    private SO_Weapon weaponData;
-    private string toolTipDataType = new string("Weapon :");
-
     // UI Data
+    private WeaponBase weapon;
     [SerializeField] private string weaponId;
     [SerializeField] private Image weaponIcon;
     [SerializeField] private TextMeshProUGUI weaponLevel;
@@ -20,17 +18,56 @@ public class UI_WeaponComponent : MonoBehaviour
         get { return weaponId; }
     }
 
-    public void SetUIComponent(SO_Weapon weaponData)
+    // UI Component logic
+    public void GetWeapon(WeaponEventArgs weaponEventArgs)
     {
-        this.weaponData = weaponData;
-
-        weaponId = weaponData.id;
-        weaponIcon.sprite = weaponData.weaponSprite;
-        weaponLevel.text = weaponData.weaponLevel.ToString();
+        if (weaponEventArgs.weapon == null)
+        {
+            Debug.Log("Weapon data is missing");
+            return;
+        }
+        weapon = weaponEventArgs.weapon;
     }
 
-    public void UpdataUIComponent(WeaponBase weapon)
+    public void SetUIComponent()
     {
+        if (weapon == null )
+        {
+            Debug.Log("Weapon data is missing");
+            return;
+        }
+        weaponId = weapon.ID;
+        weaponIcon.sprite = weapon.WeaponSprite;
         weaponLevel.text = weapon.WeaponLevel.ToString();
+    }
+
+    public void UpdataUIComponent()
+    {
+        if (weapon == null)
+        {
+            Debug.Log("Weapon data is missing");
+            return;
+        }
+        weaponLevel.text = weapon.WeaponLevel.ToString();
+    }
+
+    // Tooltip logic
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (weapon == null)
+        {
+            Debug.Log("This weapon data is missing.");
+            return;
+        }
+        UI_TooltipManager.Instance.ShowWeaponTooltip(weapon.WeaponSprite, weapon.WeaponName, weapon.WeaponLevel, weapon.WeaponAttackDamage, weapon.WeaponAttackSpeed, weapon.WeaponDescription);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (weapon == null)
+        {
+            Debug.Log("This weapon data is missing.");
+            return;
+        }
+        UI_TooltipManager.Instance.HideWeaponTooltip();
     }
 }

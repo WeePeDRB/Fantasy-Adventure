@@ -2,23 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_SkillComponent : MonoBehaviour
+public class UI_SkillComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Tooltip data
-    private SO_HeroSkill heroSkillData;
-    private string tooltipDataType = new string("Skill: ");
-
     // UI Data
+    private SO_HeroSkill heroSkillData;
     [SerializeField] private Image skillIcon;
     [SerializeField] private Image skillIconCover;
     [SerializeField] private TextMeshProUGUI skillCoolDownCount;
 
-    public void SetUIComponent(SO_HeroSkill heroSkillData)
+    // UI Component logic
+    public void GetHeroSkillData(SO_HeroSkill heroSkillData)
     {
+        if (heroSkillData == null)
+        {
+            Debug.Log("Hero skill data is missing");
+            return;
+        }
         this.heroSkillData = heroSkillData;
+    }
 
+    public void SetUIComponent()
+    {
+        if (heroSkillData == null)
+        {
+            Debug.Log("Hero skill data is missing");
+            return;
+        }
         skillIcon.sprite = heroSkillData.skillSprite;
         skillIconCover.sprite = heroSkillData.skillSprite;
         skillCoolDownCount.enabled = false;
@@ -26,6 +38,11 @@ public class UI_SkillComponent : MonoBehaviour
 
     public void SkillActivate()
     {
+        if (heroSkillData == null)
+        {
+            Debug.Log("Hero skill data is missing");
+            return;
+        }
         skillCoolDownCount.enabled = true;
         skillIconCover.fillAmount = 1;
         StartCoroutine(SkillTextCoolDown(heroSkillData.skillCooldown));
@@ -57,4 +74,26 @@ public class UI_SkillComponent : MonoBehaviour
 
         skillIconCover.fillAmount = 0;
     }
+
+    // Tooltip logic
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (heroSkillData == null)
+        {
+            Debug.Log("This hero skill data is missing.");
+            return;
+        }
+        UI_TooltipManager.Instance.ShowSKillTooltip(heroSkillData.skillSprite, heroSkillData.skillKeyword, heroSkillData.skillName, heroSkillData.skillCooldown, heroSkillData.skillDescription);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (heroSkillData == null)
+        {
+            Debug.Log("This hero skill data is missing.");
+            return;
+        }
+        UI_TooltipManager.Instance.HideSkillTooltip();
+    }
+
+
 }

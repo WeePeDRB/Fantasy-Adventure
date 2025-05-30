@@ -21,12 +21,10 @@ public class BlessingDataEventArgs : EventArgs
 public class WeaponEventArgs : EventArgs
 {
     public WeaponBase weapon;
-    public SO_Weapon weaponData;
 }
 public class BlessingEventArgs : EventArgs
 {
     public BlessingBase blessing;
-    public SO_Blessing blessingData;
 }
 
 // These event args use to store weapon list when reach max quantity

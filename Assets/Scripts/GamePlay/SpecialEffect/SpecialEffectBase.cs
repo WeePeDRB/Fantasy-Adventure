@@ -1,4 +1,6 @@
-[System.Serializable]
+using UnityEngine;
+
+
 public abstract class SpecialEffectBase
 {
     //
@@ -7,12 +9,14 @@ public abstract class SpecialEffectBase
 
     // Essential information
     protected string id;
-    protected string effectName; // Effect name
-    protected float duration; // Effect duration
-    protected float timeRemaining; // Time remaining 
-    protected EffectType effectType;
-    protected EffectTarget effectTarget;
-    protected float value;
+    protected string spEffectName;
+    protected string spEffectDescription; 
+    protected float spEffectDuration; 
+    protected float spEffectTimeRemaining; 
+    protected float spEffectValue;
+    protected Sprite spEffectSprite;
+    protected EffectType spEffectType;
+    protected EffectTarget spEffectTarget;
 
     //
     // PROPERTIES
@@ -20,12 +24,14 @@ public abstract class SpecialEffectBase
 
     //
     public string ID { get { return id; } }
-    public string EffectName { get { return effectName; } }
-    public float TimeRemaining { get { return timeRemaining; } }
-    public float Duration { get { return duration; } }
-    public EffectType EffectType { get { return effectType;  } }
-    public EffectTarget EffectTarget { get { return effectTarget; } }
-    public float Value { get { return value;  } }
+    public string SpEffectName { get { return spEffectName; } }
+    public string SpEffectDescription { get { return spEffectDescription; } }
+    public float SpEffectDuration { get { return spEffectDuration; } }
+    public float SpEffectTimeRemaining { get { return spEffectTimeRemaining; } }
+    public float SpEffectValue { get { return spEffectValue;  } }
+    public Sprite SpEffectSprite { get { return spEffectSprite; }}
+    public EffectType SpEffectType { get { return spEffectType; } }
+    public EffectTarget SpEffectTarget { get { return spEffectTarget; } }
 
     //
     // FUNCTIONS
@@ -35,13 +41,13 @@ public abstract class SpecialEffectBase
     // Update effect
     public void UpdateTime(float deltaTime)
     {
-        timeRemaining -= deltaTime;
+        spEffectTimeRemaining -= deltaTime;
     }
 
     // Refresh duration
     public void Refresh()
     {
-        timeRemaining = duration;
+        spEffectTimeRemaining = spEffectDuration; 
     }
 
     // Apply effect to hero

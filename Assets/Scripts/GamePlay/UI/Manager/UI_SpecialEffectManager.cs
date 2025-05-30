@@ -32,17 +32,19 @@ public class UI_SpecialEffectManager : MonoBehaviour
     }
 
     //
-    private void GetSpEffectData(object sender, OnReceiveSpecialEffectEventArgs spEffectData)
+    private void GetSpEffectData(object sender, OnReceiveSpecialEffectEventArgs spEffect)
     {
         //
-        SO_SpecialEffect specialEffectData = spEffectData.specialEffectData;
+        SpecialEffectBase specialEffect = spEffect.specialEffect;
         //
-        if (spEffectData != null)
+        if (specialEffect != null)
         {
             Debug.Log("Effect data not null !");
             //
-            UI_SpecialEffectComponent specialEffectUI = Instantiate(UIComponentPrefab, this.transform).GetComponent<UI_SpecialEffectComponent>();
-            specialEffectUI.SetUIComponent(specialEffectData);
+            UI_SpecialEffectComponent specialEffectUI = Instantiate(UIComponentPrefab, transform).GetComponent<UI_SpecialEffectComponent>();
+
+            specialEffectUI.GetSpecialEffect(specialEffect);
+            specialEffectUI.SetUIComponent();
             specialEffectUI.OnSpecialEffectEnd += DeleteSpEffect;
 
             //
@@ -55,7 +57,7 @@ public class UI_SpecialEffectManager : MonoBehaviour
             {
                 for (int i = specialEffectUIList.Count - 1; i >= 0; i--)
                 {
-                    if (specialEffectData.id == specialEffectUIList[i].SpecialEffectID)
+                    if (specialEffect.ID == specialEffectUIList[i].SpecialEffectID)
                     {
                         specialEffectUIList[i].ResetCoolDown();
                         return;

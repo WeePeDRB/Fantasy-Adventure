@@ -2,7 +2,7 @@ using System;
 
 public class OnReceiveSpecialEffectEventArgs : EventArgs
 {
-    public SO_SpecialEffect specialEffectData;
+    public SpecialEffectBase specialEffect;
 }
 
 public class OnSpecialEffectEndEventArgs : EventArgs

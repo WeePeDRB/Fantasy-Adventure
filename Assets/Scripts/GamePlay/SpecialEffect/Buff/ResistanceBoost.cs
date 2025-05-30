@@ -1,3 +1,4 @@
+[System.Serializable]
 public class ResistanceBoost : SpecialEffectBase
 {
     //
@@ -6,12 +7,14 @@ public class ResistanceBoost : SpecialEffectBase
     public ResistanceBoost(SO_SpecialEffect specialEffectData)
     {
         id = specialEffectData.id;
-        effectName = specialEffectData.specialEffectName;
-        duration = specialEffectData.specialEffectDuration;
-        timeRemaining = duration;
-        effectTarget = specialEffectData.specialEffectTarget;
-        value = specialEffectData.specialEffectValue;
-        effectType = EffectType.Instant;
+        spEffectName = specialEffectData.spEffectName;
+        spEffectDescription = specialEffectData.spEffectDescription;
+        spEffectDuration = specialEffectData.spEffectDuration;
+        spEffectTimeRemaining = spEffectDuration;
+        spEffectValue = specialEffectData.spEffectValue;
+        spEffectSprite = specialEffectData.spEffectSprite;
+        spEffectType = specialEffectData.spEffectType;
+        spEffectTarget = specialEffectData.spEffectTarget;
     }
 
     //
@@ -21,12 +24,12 @@ public class ResistanceBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.ResistanceAddition += value;
+        hero.HeroStats.ResistanceAddition += spEffectValue;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
-        if (hero.HeroStats.ResistanceAddition != 0) hero.HeroStats.ResistanceAddition -= value;
+        if (hero.HeroStats.ResistanceAddition != 0) hero.HeroStats.ResistanceAddition -= spEffectValue;
     }
 
     // Apply effect to monster

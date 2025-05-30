@@ -16,7 +16,7 @@ public abstract class CharacterSpecialEffectSystem
 
     // CONTROL EFFECTS   
     // Receive effect function
-    public abstract void ReceiveEffect(SpecialEffectBase effect, SO_SpecialEffect specialEffectData);
+    public abstract void ReceiveEffect(SpecialEffectBase effect);
 
     // Update effect function
     public abstract void UpdateEffectsTime(float deltaTime);

@@ -10,18 +10,10 @@ public class UpgradeManager : MonoBehaviour
     // FIELDS
     //
     public static UpgradeManager Instance;
-
-    // Reference
     private List<HeroBaseController> heroList; // Get all hero instance that exist in the map
-
-    // Sending data to UI
-    public List<SO_Upgrade> upgradeDataSO; // Upgrade datas
-    public List<UpgradeData> upgradeData;
-
+    public List<SO_Upgrade> upgradeDataSO; // Upgrade data 
+    private List<UpgradeData> upgradeData;
     public event EventHandler<OnRandomUpgradeEventArgs> OnRandomUpgrade;
-
-    // Receive data from UI
-
     public event EventHandler<WeaponDataEventArgs> OnSelectWeapon;
     public event EventHandler<BlessingDataEventArgs> OnSelectBlessing;
 
@@ -56,10 +48,39 @@ public class UpgradeManager : MonoBehaviour
         if (upgradeData.Count >= 3) return 3;
         else return upgradeData.Count;
     }
+
+    //
+    private List<UpgradeData> GetRamdomUpgrade(int count)
+    {
+        List<UpgradeData> copy = new List<UpgradeData>(upgradeData);
+        List<UpgradeData> result = new List<UpgradeData>();
+
+        while (result.Count < count && copy.Count > 0)
+        {
+            int index = Random.Range(0, copy.Count);
+            result.Add(copy[index]);
+            copy.RemoveAt(index);
+        }
+        return result;
+    }
+
     private void HandleHeroLevelUp()
     {
         List<UpgradeData> randomUpgradeList = GetRamdomUpgrade(GetUpgradeQuantity());
         OnRandomUpgrade?.Invoke(this, new OnRandomUpgradeEventArgs { randomUpgradeList = randomUpgradeList });
+    }
+
+    public void ReceiveSelectedUpgrade(UpgradeData upgradeData)
+    {
+        switch (upgradeData.upgradeType)
+        {
+            case UpgradeType.Weapon:
+                OnSelectWeapon?.Invoke(this, new WeaponDataEventArgs { weaponData = upgradeData.weaponData });
+                break;
+            case UpgradeType.Blessing:
+                OnSelectBlessing?.Invoke(this, new BlessingDataEventArgs { blessingData = upgradeData.blessingData });
+                break;
+        }
     }
 
     // Weapon related events
@@ -114,7 +135,7 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    // Blessing realted events
+    // Blessing related events
     private void HandleBlessingMaxLevel(object sender, BlessingDataEventArgs blessingDataEventArgs)
     {
         //
@@ -166,31 +187,6 @@ public class UpgradeManager : MonoBehaviour
         }   
     }
 
-    private List<UpgradeData> GetRamdomUpgrade(int count)
-    {
-        List<UpgradeData> copy = new List<UpgradeData>(upgradeData);
-        List<UpgradeData> result = new List<UpgradeData>();
-
-        while (result.Count < count && copy.Count > 0)
-        {
-            int index = Random.Range(0, copy.Count);
-            result.Add(copy[index]);
-            copy.RemoveAt(index);
-        }
-        return result;
-    }
-    public void ReceiveSelectedUpgrade(UpgradeData upgradeData)
-    {
-        switch (upgradeData.upgradeType)
-        {
-            case UpgradeType.Weapon:
-                OnSelectWeapon?.Invoke(this, new WeaponDataEventArgs { weaponData = upgradeData.weaponData });
-                break;
-            case UpgradeType.Blessing:
-                OnSelectBlessing?.Invoke(this, new BlessingDataEventArgs { blessingData = upgradeData.blessingData });
-                break;
-        }
-    }
 
     private void Awake()
     {
