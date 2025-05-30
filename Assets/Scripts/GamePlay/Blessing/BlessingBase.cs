@@ -1,29 +1,31 @@
+using System;
 using UnityEngine;
-
+[Serializable]
 public abstract class BlessingBase
 {
     //
     // FIELDS
     //
-
-    // Essential information
     protected string id;
     protected string blessingName;
+    protected string blessingDescription;
     protected int blessingLevel;
     protected float blessingValue;
+    protected Sprite blessingSprite;
 
     //
     // PROPERTIES
     // 
-
-    //
     public string ID { get { return id; } }
     public string BlessingName { get { return blessingName; } }
-    public int BlessingLevel 
-    { 
-        get { return blessingLevel; } 
-        set { blessingLevel = Mathf.Max(1, blessingLevel);}    
+    public string BlessingDescription { get { return blessingDescription; }}
+    public int BlessingLevel
+    {
+        get { return blessingLevel; }
+        set { blessingLevel = Mathf.Max(1, blessingLevel); }
     }
+    public float BlessingValue { get { return blessingValue; }}
+    public Sprite BlessingSprite { get { return blessingSprite; }}
 
     //
     // FUNCIONS

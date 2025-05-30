@@ -1,19 +1,13 @@
-
-using UnityEngine;
-
 public class IncreaseHealth : BlessingBase
 {
-    public IncreaseHealth()
-    {
-
-    }
-
     public IncreaseHealth(SO_Blessing blessingData)
     {
         id = blessingData.id;
         blessingName = blessingData.blessingName;
+        blessingDescription = blessingData.blessingDescription;
         blessingLevel = blessingData.blessingLevel;
         blessingValue = blessingData.blessingValue;
+        blessingSprite = blessingData.blessingSprite;
     }
 
     //

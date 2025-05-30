@@ -6,23 +6,22 @@ public class PaladinController : HeroBaseController
     // FIELDS
     //
 
-    // PALADIN SKILLS
+    // Paladin skills
     // Dash skill 
-    private float dashDistance; // How far is the dash
-    private float dashSpeed; // How fast is the dash
     private Vector3 dashTarget; // The position that player will dash to
-
+    [SerializeField] private PaladinDashSkill paladinDashSkill;
     // Special skill
-
-
-    // EVENTS
+    [SerializeField] private PaladinSpecialSkill paladinSpecialSkill;
+    // Ultimate skill
+    [SerializeField] private PaladinUltimateSkill paladinUltimateSkill;
 
 
     //
     // FUNCTIONS
     //
 
-    // INITIAL VALUES FOR PALADIN
+    // Initialize paldin data
+
     //
     protected override void InitilizeValue()
     {
@@ -64,38 +63,50 @@ public class PaladinController : HeroBaseController
         heroWeaponSystem = new HeroWeaponSystem();
     }
 
-    // Paladin dash values
+    // 
     public override void InitializeDash(float instantiateDashDistance, float instantiateDashSpeed
                                         , float instantiateSpecialEffectDuration)
     {
-        dashDistance = instantiateDashDistance;
-        dashSpeed = instantiateDashSpeed;
+        paladinDashSkill.InitializeSkillData(heroData.dashSkill);
+
+        paladinDashSkill.DashDistance = instantiateDashDistance;
+        paladinDashSkill.DashSpeed = instantiateDashSpeed;
         canDash = true;
     }
 
-    
+    //
+    public override void InitializeSpecial()
+    {
+        paladinSpecialSkill.InitializeSkillData(heroData.specialSkill);
+    }
+
+    //
+    public override void InitializeUltimate()
+    {
+        paladinUltimateSkill.InitializeSkillData(heroData.ultimateSkill);
+    }
 
     // HANDLING PALADIN BEHAVIOR
     // Paladin movement function
     protected override void HandleMovement()
     {
-        if ( heroMovementState == HeroMovementState.Normal)
+        if (heroMovementState == HeroMovementState.Normal)
         {
             //Handle Input
             Vector2 inputVector = GameInput.GetMovementVectorNormalized();
             Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
             //Move
             transform.position += moveDirVector * heroStats.Speed * Time.deltaTime;
-                
+
             //Rotation
             float rotateSpeed = 10f;
             transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
         }
         else if (heroMovementState == HeroMovementState.Dashing)
         {
-            transform.position = Vector3.MoveTowards(transform.position, dashTarget, dashSpeed * Time.deltaTime);
-        }    
-        
+            transform.position = Vector3.MoveTowards(transform.position, dashTarget, paladinDashSkill.DashSpeed * Time.deltaTime);
+        }
+
     }
 
     // Paladin hurt function
@@ -155,13 +166,13 @@ public class PaladinController : HeroBaseController
             InvokeOnHeroDash();
 
             // Set up the position for the dash
-            dashTarget = transform.position + transform.forward * dashDistance;
+            dashTarget = transform.position + transform.forward * paladinDashSkill.DashDistance;
             
             //Set the dashing flag
             canDash = false;
 
             //Reset the skill and special effect
-            StartCoroutine(ResetDashSkill(heroData.dashSkill.skillCooldown));
+            StartCoroutine(ResetDashSkill(paladinDashSkill.SkillCooldown));
         }
     }
 
@@ -181,7 +192,7 @@ public class PaladinController : HeroBaseController
             canSpecial = false;
 
             // Reset the skill
-            StartCoroutine(ResetSpecialSkill(heroData.specialSkill.skillCooldown));
+            StartCoroutine(ResetSpecialSkill(paladinSpecialSkill.SkillCooldown));
         }
     }
 
@@ -199,7 +210,7 @@ public class PaladinController : HeroBaseController
                 // Set ultimate flag
                 canUltimate = false;
                 // Reset the skill
-                StartCoroutine(ResetUltimateSkill(heroData.ultimateSkill.skillCooldown));
+                StartCoroutine(ResetUltimateSkill(paladinUltimateSkill.SkillCooldown));
             }
     }
 
@@ -245,7 +256,9 @@ public class PaladinController : HeroBaseController
         InitializeEffectSystem();
         InitializeBlessingSystem();
         InitializeWeaponSystem();
-        InitializeDash(5,18,3);
+        InitializeDash(5, 18, 3);
+        InitializeSpecial();
+        InitializeUltimate();
     }
 
     private void Start()

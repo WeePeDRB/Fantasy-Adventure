@@ -1,3 +1,4 @@
+[System.Serializable]
 public class DamageBoost : SpecialEffectBase
 {
     //
@@ -6,12 +7,14 @@ public class DamageBoost : SpecialEffectBase
     public DamageBoost(SO_SpecialEffect specialEffectData)
     {
         id = specialEffectData.id;
-        effectName = specialEffectData.specialEffectName;
-        duration = specialEffectData.specialEffectDuration;
-        timeRemaining = duration;
-        effectTarget = specialEffectData.specialEffectTarget;
-        value = specialEffectData.specialEffectValue;
-        effectType = EffectType.Instant;
+        spEffectName = specialEffectData.spEffectName;
+        spEffectDescription = specialEffectData.spEffectDescription;
+        spEffectDuration = specialEffectData.spEffectDuration;
+        spEffectTimeRemaining = spEffectDuration;
+        spEffectValue = specialEffectData.spEffectValue;
+        spEffectSprite = specialEffectData.spEffectSprite;
+        spEffectType = specialEffectData.spEffectType;
+        spEffectTarget = specialEffectData.spEffectTarget;
     }
 
     //
@@ -21,23 +24,23 @@ public class DamageBoost : SpecialEffectBase
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroBaseController hero)
     {
-        hero.HeroStats.DamageAmplifierAddition += value;
+        hero.HeroStats.DamageAmplifierAddition += spEffectValue;
     }
     // Remove effect to hero
     public override void RemoveEffectOnHero(HeroBaseController hero)
     {
-        if (hero.HeroStats.DamageAmplifierAddition != 0) hero.HeroStats.DamageAmplifierAddition -= value;
+        if (hero.HeroStats.DamageAmplifierAddition != 0) hero.HeroStats.DamageAmplifierAddition -= spEffectValue;
     }
 
 
     // Apply effect to monster
     public override void ApplyEffectOnMonster(MonsterBaseController monster)
     {
-       //monster.MonsterStats.DamageAmplifier = value;
+        //monster.MonsterStats.DamageAmplifier = value;
     }
     // Remove effect to monster
     public override void RemoveEffectOnMonster(MonsterBaseController monster)
     {
-        
+
     }
 }

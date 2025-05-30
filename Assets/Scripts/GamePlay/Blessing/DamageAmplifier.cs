@@ -1,16 +1,13 @@
 public class DamageAmplifier : BlessingBase
 {
-    public DamageAmplifier()
-    {
-
-    }
-    
     public DamageAmplifier(SO_Blessing blessingData)
     {
         id = blessingData.id;
         blessingName = blessingData.blessingName;
+        blessingDescription = blessingData.blessingDescription;
         blessingLevel = blessingData.blessingLevel;
         blessingValue = blessingData.blessingValue;
+        blessingSprite = blessingData.blessingSprite;
     }
 
     //

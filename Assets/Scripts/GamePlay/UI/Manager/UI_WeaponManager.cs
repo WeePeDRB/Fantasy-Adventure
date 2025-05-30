@@ -19,10 +19,8 @@ public class UI_WeaponManager : MonoBehaviour
     // FUNCTIONS
     //
 
-    // INITIALIZE
     private void InitializeWeaponManager()
     {
-        // Take hero controller reference
         heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
     }
 
@@ -32,15 +30,16 @@ public class UI_WeaponManager : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(weaponUI.WeaponID))
             {
-                if (weaponUI.WeaponID == weaponEventArgs.weaponData.id)
+                if (weaponUI.WeaponID == weaponEventArgs.weapon.ID)
                 {
-                    weaponUI.UpdataUIComponent(weaponEventArgs.weapon);
+                    weaponUI.UpdataUIComponent();
                     break;
                 }
             }
             else
             {
-                weaponUI.SetUIComponent(weaponEventArgs.weaponData);
+                weaponUI.GetWeapon(weaponEventArgs);
+                weaponUI.SetUIComponent();
                 break;
             }
         }

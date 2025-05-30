@@ -2,15 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_SpecialEffectComponent : MonoBehaviour
+public class UI_SpecialEffectComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Tooltip data 
-    private SO_SpecialEffect specialEffectData;
-    private string toolTipDataType = new string("Special Effect: ");
 
     // UI data
+    private SpecialEffectBase spEffect;
     [SerializeField] private string specialEffectID;
     [SerializeField] private Image specialEffectIcon;
     [SerializeField] private Image specialEffectIconCover;
@@ -22,18 +21,25 @@ public class UI_SpecialEffectComponent : MonoBehaviour
 
     public string SpecialEffectID
     {
-        get { return specialEffectID;  }
+        get { return specialEffectID; }
     }
 
-    public void SetUIComponent(SO_SpecialEffect specialEffectData)
+    public void GetSpecialEffect(SpecialEffectBase specialEffect)
     {
-        //
-        this.specialEffectData = specialEffectData;
-        //
-        specialEffectID = specialEffectData.id;
-        specialEffectIcon.sprite = specialEffectData.specialEffectSprite;
-        specialEffectIconCover.sprite = specialEffectData.specialEffectSprite;
-        specialEffectCoolDown = specialEffectData.specialEffectDuration;
+        if (specialEffect == null)
+        {
+            Debug.LogError("Special effect data is missing.");
+            return;
+        }
+        spEffect = specialEffect;
+    }
+
+    public void SetUIComponent()
+    {
+        specialEffectID = spEffect.ID;
+        specialEffectIcon.sprite = spEffect.SpEffectSprite;
+        specialEffectIconCover.sprite = spEffect.SpEffectSprite;
+        specialEffectCoolDown = spEffect.SpEffectDuration;
     }
 
     public void StartCoolDownCoroutine()
@@ -75,5 +81,18 @@ public class UI_SpecialEffectComponent : MonoBehaviour
     private void EndCoolDown()
     {
         OnSpecialEffectEnd?.Invoke(this, new OnSpecialEffectEndEventArgs { specialEffectComponent = this });
+        UI_TooltipManager.Instance.HideSpecialEffectTooltip();
     }
+
+    // Tooltip logic
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        UI_TooltipManager.Instance.ShowSpecialEffectTooltip(spEffect.SpEffectName, spEffect.SpEffectDescription, spEffect.SpEffectSprite);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UI_TooltipManager.Instance.HideSpecialEffectTooltip();
+    }
+
 }

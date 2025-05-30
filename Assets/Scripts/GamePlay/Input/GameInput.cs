@@ -22,11 +22,6 @@ public class GameInput : MonoBehaviour
     public static event Action OnSpecialAction;  //For the speacial skill
     public static event Action OnUltimateAction; //For the ultimate skill
 
-    // Events for using items
-    public static event Action OnUseItem1;
-    public static event Action OnUseItem2;
-    public static event Action OnUseItem3;
-
     // Read, normalized and return the  value from player input  
     public static Vector2 GetMovementVectorNormalized()
     {
@@ -56,18 +51,6 @@ public class GameInput : MonoBehaviour
         OnUltimateAction?.Invoke();
     }
 
-    private void Item1_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnUseItem1?.Invoke();
-    }
-    private void Item2_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnUseItem2?.Invoke();
-    }
-    private void Item3_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnUseItem3?.Invoke();
-    }
     //
     //
     //
@@ -80,10 +63,5 @@ public class GameInput : MonoBehaviour
         inputManager.Player.DashSkill.performed +=  DashSkill_Performed;        
         inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;   
         inputManager.Player.UltimateSkill.performed += UltimateSkill_Performed;
-
-        // 
-        inputManager.Player.UseItem1.performed += Item1_Performed;
-        inputManager.Player.UseItem2.performed += Item2_Performed;
-        inputManager.Player.UseItem3.performed += Item3_Performed;
     }
 }

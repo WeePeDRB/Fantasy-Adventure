@@ -10,58 +10,46 @@ public abstract class HeroBaseController : MonoBehaviour
     // FIELDS
     //
 
-    // HERO DATA
+    // Hero data
     [SerializeField] protected SO_Hero heroData;
 
-    // HERO STATE
+    // Hero state
     protected HeroMovementState heroMovementState; 
     protected HeroHealthState heroHealthState;
 
-    // CHECKING FLAGS
+
+    // Hero data management
+    protected HeroStats heroStats; // Hero stats manage system
+    protected HeroWeaponSystem heroWeaponSystem; // Hero weapon manage system
+    protected HeroSpecialEffectSystem heroSpecialEffectSystem; // Hero special effect manage system
+    protected HeroBlessingSystem heroBlessingSystem; // Hero blessing manage system
+    protected int coin;
+
+    // Hero physics system
+    protected Rigidbody heroRigidBody;
+    protected CapsuleCollider heroCollider;
+
+    // Coroutine 
+    protected Coroutine regenCooldownCoroutine;
+    
+    // Hero events
+    public  event Action OnHeroDash; // Hero activate dash event
+    public  event Action OnHeroSpecial; // Hero activate special event
+    public  event Action OnHeroUltimate; // Hero activate ultimate event
+    public event Action OnLevelUp; // Hero level up event
+    public event Action OnHeroDead; // Hero dead event
+    public event EventHandler<WeaponEventArgs> OnReceiveWeapon; // Hero receive weapon event
+    public event EventHandler<WeaponDataEventArgs> OnWeaponMaxLevel; // Hero weapon reach max level event
+    public event EventHandler<WeaponListEventArgs> OnWeaponListFull; // Hero weapon list full event
+    public event EventHandler<BlessingEventArgs> OnReceiveBlessing; // Hero receive blessing event
+    public event EventHandler<BlessingDataEventArgs> OnBlessingMaxLevel; // Hero blessing reach max level event
+    public event EventHandler<BlessingListEventArgs> OnBlessingListFull; // Hero blessing list full event
+
+    // Checking flags
     protected bool canAmorRegen;
     protected bool canDash;  
     protected bool canSpecial;
     protected bool canUltimate;
-
-    // HERO STATS
-    protected HeroStats heroStats;
-
-    // HERO PHYSICS
-    protected Rigidbody heroRigidBody;
-    protected CapsuleCollider heroCollider;
-
-    // COROUTINE VALUE
-    protected Coroutine regenCooldownCoroutine;
-    
-    // HERO SKILL EVENTS
-    public  event Action OnHeroDash;
-    public  event Action OnHeroSpecial;
-    public  event Action OnHeroUltimate;
-
-    // LEVEL UP EVENTS
-    public event Action OnLevelUp;
-
-    // DEAD EVENTS
-    public event Action OnHeroDead;
-
-    // RECEIVE UPGRADE
-    public event EventHandler<WeaponEventArgs> OnReceiveWeapon;
-    public event EventHandler<BlessingEventArgs> OnReceiveBlessing;
-    public event EventHandler<WeaponDataEventArgs> OnWeaponMaxLevel;
-    public event EventHandler<BlessingDataEventArgs> OnBlessingMaxLevel;
-    public event EventHandler<WeaponListEventArgs> OnWeaponListFull;
-    public event EventHandler<BlessingListEventArgs> OnBlessingListFull;
-
-    // HERO INVENTORY SYSTEM
-    // Weapon system
-    protected HeroWeaponSystem heroWeaponSystem;
-    // Hero effect status
-    protected HeroSpecialEffectSystem heroSpecialEffectSystem; 
-    // Hero blessing status
-    protected HeroBlessingSystem heroBlessingSystem;
-
-    // Inventory
-    protected int coin;
 
     //
     // PROPERTIES
@@ -90,8 +78,9 @@ public abstract class HeroBaseController : MonoBehaviour
     // FUNCTIONS
     //
 
-    // INITIAL VALUES FOR HERO
-    //
+    // Initialize hero data
+
+    // 
     protected abstract void InitilizeValue();
 
     // Hero stats 
@@ -106,10 +95,15 @@ public abstract class HeroBaseController : MonoBehaviour
     // Hero weapon system
     protected abstract void InitializeWeaponSystem();
 
-    // Hero dash values
+    // Hero dash data
     public abstract void InitializeDash(float instantiateDashDistance, float instantiateDashSpeed,
                                              float instantiateSpecialEffectDuration);
 
+    // Hero special data
+    public abstract void InitializeSpecial();
+
+    // Hero ultimate data
+    public abstract void InitializeUltimate();
 
     // HANDLING HERO BEHAVIOR
     // Hero movement function
@@ -167,9 +161,9 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // Special effect handling
     // Receive special effect
-    public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect, SO_SpecialEffect specialEffectData)
+    public virtual void ReceiveSpecialEffect(SpecialEffectBase specialEffect)
     {
-        heroSpecialEffectSystem.ReceiveEffect(specialEffect, specialEffectData);
+        heroSpecialEffectSystem.ReceiveEffect(specialEffect);
     }
     // Update special effect
     public virtual void UpdateSpecialEffect()
@@ -216,32 +210,32 @@ public abstract class HeroBaseController : MonoBehaviour
                 Debug.LogError("The weapon prefab don't have WeaponBase component !");
             }
         }
-        OnReceiveWeapon?.Invoke(this, new WeaponEventArgs { weapon = heroWeaponSystem.GetWeapon(_weaponData), weaponData = _weaponData});
+        OnReceiveWeapon?.Invoke(this, new WeaponEventArgs { weapon = heroWeaponSystem.GetWeapon(_weaponData)});
     }
     protected void ReceiveBlessing(object sender, BlessingDataEventArgs blessingDataEventArgs)
     {
-        SO_Blessing _blessingData = blessingDataEventArgs.blessingData;
+        SO_Blessing blessingData = blessingDataEventArgs.blessingData;
 
-        if (heroBlessingSystem.IsBlessingExist(_blessingData))
+        if (heroBlessingSystem.IsBlessingExist(blessingData))
         {
             // Blessing level up
-            heroBlessingSystem.BlessingLevelUp(_blessingData, this);
+            heroBlessingSystem.BlessingLevelUp(blessingData, this);
 
             //
-            BlessingBase blessing = heroBlessingSystem.GetBlessing(_blessingData);
-            if (blessing.BlessingLevel == 5) OnBlessingMaxLevel?.Invoke(this, new BlessingDataEventArgs { blessingData = _blessingData });
+            BlessingBase blessing = heroBlessingSystem.GetBlessing(blessingData);
+            if (blessing.BlessingLevel == 5) OnBlessingMaxLevel?.Invoke(this, new BlessingDataEventArgs { blessingData = blessingData });
         }
         else
         {
-            BlessingBase blessing = UpgradeFactory.CreateBlessing(_blessingData);
-            heroBlessingSystem.ReceiveBlessing(_blessingData, blessing, this);
+            BlessingBase blessing = UpgradeFactory.CreateBlessing(blessingData);
+            heroBlessingSystem.ReceiveBlessing(blessingData, blessing, this);
 
             if (heroBlessingSystem.IsBlessingQuantityMax())
             {
                 OnBlessingListFull?.Invoke(this, new BlessingListEventArgs { blessingDataList = heroBlessingSystem.GetBLessingList() });
             }
         }
-        OnReceiveBlessing?.Invoke(this, new BlessingEventArgs { blessing = heroBlessingSystem.GetBlessing(_blessingData), blessingData = _blessingData });
+        OnReceiveBlessing?.Invoke(this, new BlessingEventArgs { blessing = heroBlessingSystem.GetBlessing(blessingData)});
     }
 
     // Reset dash skill

@@ -10,9 +10,12 @@ public abstract class WeaponBase : MonoBehaviour
 
     // Essential data
     protected string id;
+    protected string weaponName;
+    protected string weaponDescription;
     protected int weaponLevel;
     protected float weaponAttackDamage;
     protected float weaponAttackSpeed;
+    protected Sprite weaponSprite;
 
     //
     protected HeroBaseController heroBaseController;
@@ -21,21 +24,27 @@ public abstract class WeaponBase : MonoBehaviour
     // PROPERTIES
     //
     public string ID { get { return id; } }
+    public string WeaponName { get { return weaponName; }}
+    public string WeaponDescription { get { return weaponDescription; }}
     public int WeaponLevel { get { return weaponLevel; } }
     public float WeaponAttackDamage { get { return weaponAttackDamage; } }
     public float WeaponAttackSpeed { get { return weaponAttackSpeed; } }
+    public Sprite WeaponSprite { get { return weaponSprite; }}
 
     // 
     // FUNCTIONS
     //
 
-    // Initialize stats for weapon
+    // Initialize data for weapon
     public virtual void InitializeWeapon(SO_Weapon weaponData)
     {
         id = weaponData.id;
+        weaponName = weaponData.weaponName;
+        weaponDescription = weaponData.weaponDescription;
+        weaponLevel = weaponData.weaponLevel;
         weaponAttackSpeed = weaponData.weaponAttackSpeed;
         weaponAttackDamage = weaponData.weaponDamage;
-        weaponLevel = weaponData.weaponLevel;
+        weaponSprite = weaponData.weaponSprite;
     }
 
     // Weapon level up

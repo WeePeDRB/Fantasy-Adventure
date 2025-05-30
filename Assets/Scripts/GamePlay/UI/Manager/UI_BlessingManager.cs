@@ -31,15 +31,16 @@ public class UI_BlessingManager : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(blessingUI.BlessingID))
             {
-                if (blessingUI.BlessingID == blessingEventArgs.blessingData.id)
+                if (blessingUI.BlessingID == blessingEventArgs.blessing.ID)
                 {
-                    blessingUI.UpdataUIComponent(blessingEventArgs.blessing);
+                    blessingUI.UpdataUIComponent();
                     break;
                 }
             }
             else
             {
-                blessingUI.SetUIComponent(blessingEventArgs.blessingData);
+                blessingUI.GetBlessing(blessingEventArgs);
+                blessingUI.SetUIComponent();
                 break;
             }
         }

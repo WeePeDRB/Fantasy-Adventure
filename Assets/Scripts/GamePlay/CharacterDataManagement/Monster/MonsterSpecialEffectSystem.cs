@@ -13,7 +13,7 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
     // FUNCTION
     //
     
-    public override void ReceiveEffect(SpecialEffectBase effect, SO_SpecialEffect specialEffectData)
+    public override void ReceiveEffect(SpecialEffectBase effect)
     {
 
         // If an effect already exists in the dictionary, refresh its duration
@@ -25,7 +25,7 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
         else
         {
             activeEffects.Add(effect.ID, effect);
-            if (effect.EffectType == EffectType.Instant)
+            if (effect.SpEffectType == EffectType.Instant)
             {
                 effect.ApplyEffectOnMonster(monster);
             }
@@ -39,9 +39,9 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
 
         foreach (var effect in activeEffects.Values)
         {
-            if (effect.TimeRemaining <= 0)
+            if (effect.SpEffectTimeRemaining <= 0)
             {
-                effectsToRemove.Add(effect.EffectName);
+                effectsToRemove.Add(effect.SpEffectName);
                 effect.RemoveEffectOnMonster(monster);
             }
             else

@@ -24,10 +24,9 @@ public class PaladinUltimateSkill : SkillBase
     // FUNCTIONS
     //
 
-    // Instantiate skill
-    protected override void InitializeSkill()
+    protected override void InitializeSkillUniqueData()
     {
-        // Instantiate references
+        // Initialize references
         monsterListInHitBox = new List<MonsterBaseController>();
         heroListInRange = new List<HeroBaseController>();
         paladinController = GetComponentInParent<PaladinController>();
@@ -40,22 +39,21 @@ public class PaladinUltimateSkill : SkillBase
         paladinController.OnHeroUltimate += SkillActivate;
     }
 
-    // Activate skill
     public override void SkillActivate()
     {
-        // Refresh special effect
+        // Refresh special effect time remain
         resistanceBoost.Refresh();
         healthBoost.Refresh();
         
         // Apply special effect to other hero
         foreach (HeroBaseController character in heroListInRange)
         {
-            character.ReceiveSpecialEffect(healthBoost, healthBoostData);
+            character.ReceiveSpecialEffect(healthBoost);
         }
 
         // Apply special effect to paladin
-        paladinController.ReceiveSpecialEffect(resistanceBoost, resistanceBoostData);
-        paladinController.ReceiveSpecialEffect(healthBoost, healthBoostData);
+        paladinController.ReceiveSpecialEffect(resistanceBoost);
+        paladinController.ReceiveSpecialEffect(healthBoost);
     }
 
     //
@@ -76,8 +74,8 @@ public class PaladinUltimateSkill : SkillBase
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        InitializeSkill();
+        InitializeSkillUniqueData();
     }
 }

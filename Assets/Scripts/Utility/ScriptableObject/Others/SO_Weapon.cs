@@ -6,18 +6,14 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class SO_Weapon : ScriptableObject
 {
-    // Weapon private  id
+    // Weapon data
     public string id;
-
-    // Weapon projectile prefab for the instantiate
-    public GameObject weaponPrefab;
-
-    // Essential data
-    public Sprite weaponSprite;
     public string weaponName;
     public string weaponDescription;
     public int weaponLevel;
-    public float weaponAttackSpeed;
     public float weaponDamage;
+    public float weaponAttackSpeed;
+    public GameObject weaponPrefab;
+    public Sprite weaponSprite;
     
 }

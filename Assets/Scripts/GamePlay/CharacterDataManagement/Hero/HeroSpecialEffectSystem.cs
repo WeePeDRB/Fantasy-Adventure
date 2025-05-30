@@ -15,7 +15,7 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
     //
     // FUNCTION
     //
-    public override void ReceiveEffect(SpecialEffectBase effect, SO_SpecialEffect specialEffectData)
+    public override void ReceiveEffect(SpecialEffectBase effect)
     {
 
         // If an effect already exists in the dictionary, refresh its duration
@@ -27,13 +27,13 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
         else
         {
             activeEffects.Add(effect.ID, effect);
-            if (effect.EffectType == EffectType.Instant)
+            if (effect.SpEffectType == EffectType.Instant)
             {
                 effect.ApplyEffectOnHero(hero);
             }
         }
     
-        OnReceiveSpecialEffect?.Invoke(this, new OnReceiveSpecialEffectEventArgs { specialEffectData = specialEffectData });
+        OnReceiveSpecialEffect?.Invoke(this, new OnReceiveSpecialEffectEventArgs { specialEffect = effect });
     }
 
 
@@ -45,14 +45,14 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
         // 
         foreach (var effect in activeEffects.Values)
         {
-            if (effect.TimeRemaining <= 0)
+            if (effect.SpEffectTimeRemaining <= 0)
             {
                 effectsToRemove.Add(effect);
             }
             else
             {
                 effect.UpdateTime(deltaTime);
-                if (effect.EffectType == EffectType.Overtime)
+                if (effect.SpEffectType == EffectType.Overtime)
                 {
                     effect.ApplyEffectOnHero(hero);
                 }
@@ -62,7 +62,7 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
         //
         for (int i = effectsToRemove.Count - 1; i >= 0; i--)
         {
-            if (effectsToRemove[i].EffectType == EffectType.Instant)
+            if (effectsToRemove[i].SpEffectType == EffectType.Instant)
             {
                 Debug.Log("This is remove effect on hero");
                 effectsToRemove[i].RemoveEffectOnHero(hero);
