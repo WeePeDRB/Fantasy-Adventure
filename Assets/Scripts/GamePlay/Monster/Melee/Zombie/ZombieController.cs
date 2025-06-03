@@ -15,21 +15,8 @@ public class ZombieController : MeleeMonsterController
         base.InstantiateMonster();
 
         // Initial stats for zombie
-        monsterStats = new MonsterStats(100,1,1,10,0.5f,0,0);
+        monsterStats = new MonsterStats(monsterData);
     }
-
-    
-
-    // HANDLING ZOMBIE BEHAVIOR
-    // Zombie movement
-
-    // Zombie attack
-
-    // Zombie get hurt
-
-    // Zombie dead
-
-    // SUPPORT FUNCTION
 
     private void Awake()
     {
@@ -43,7 +30,7 @@ public class ZombieController : MeleeMonsterController
 
     private void Update()
     {
-
+        BehaviorController();
     }
     private void FixedUpdate()
     {

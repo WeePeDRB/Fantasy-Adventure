@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameUtility 
+public static class GameUtility
 {
-    // HERO 
+    // Manage hero
     // Initialize hero list
     public static List<HeroBaseController> InitializeHeroList()
     {
@@ -18,7 +18,7 @@ public static class GameUtility
             {
                 heroList.Add(hero);
             }
-        } 
+        }
         return heroList;
     }
     // Find closest hero
@@ -44,5 +44,17 @@ public static class GameUtility
         }
         return closestHero;
     }
-    
+
+    // Manager
+    public static void PauseGame()
+    {
+        Time.timeScale = 0;
+        Debug.Log("Pause game");
+    }
+
+    public static void UnpauseGame()
+    {
+        Time.timeScale = 1;
+        Debug.Log("Unpause game");
+    }
 }

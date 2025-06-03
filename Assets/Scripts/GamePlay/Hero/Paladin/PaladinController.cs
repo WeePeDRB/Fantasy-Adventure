@@ -40,8 +40,7 @@ public class PaladinController : HeroBaseController
     // 
     protected override void InitializeStats()
     {
-        heroStats = new HeroStats(  heroData.maxHealth, heroData.speed, heroData.level, heroData.maxAmor, 
-                                    heroData.resistance, heroData.damageAmplifier, heroData.abilityHaste    );
+        heroStats = new HeroStats(heroData);
     }
 
     //
@@ -272,6 +271,8 @@ public class PaladinController : HeroBaseController
         // Subscribe to upgrade manager
         UpgradeManager.Instance.OnSelectWeapon += ReceiveWeapon;
         UpgradeManager.Instance.OnSelectBlessing += ReceiveBlessing;
+
+        InitializePrimaryWeapon(heroData.primaryWeapon);
     }
 
     private void Update()

@@ -15,20 +15,18 @@ public class MonsterStats : CharacterStats
     //
     // CONSTRUCTOR
     //
-    public MonsterStats(float MaxHealth, float Speed, int Level, float Damage,
-                            float AttackSpeed, float ResistanceBase, float DamageAmplifierBase)
+    public MonsterStats(SO_Monster monsterData)
     {
         // Instantiate basic stats
-        maxHealth = MaxHealth;
+        maxHealth = monsterData.maxHealth;
         health = maxHealth;
-        speed = Speed;
-        level = Level;
-        damage = Damage;
-        attackSpeed = AttackSpeed;
+        speed = monsterData.speed;
+        level = monsterData.level;
+        damage = monsterData.damage;
+        attackSpeed = monsterData.attackSpeed;
 
         // Instantiate special stats
-        resistanceBase = ResistanceBase;
-        damageAmplifierBase = DamageAmplifierBase;
+        resistanceBase = monsterData.resistance;
     }
 
     //
@@ -52,9 +50,9 @@ public class MonsterStats : CharacterStats
     // FUNCTIONS
     //
 
-    public void LevelUp(int Level)
+    public void LevelUp(int level)
     {
-        level = Level;
+        this.level = level;
         damage = damage + level * 5;
         maxHealth = maxHealth + level * 50;
         health = maxHealth;

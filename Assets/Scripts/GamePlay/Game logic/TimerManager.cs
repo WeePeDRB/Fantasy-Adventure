@@ -12,66 +12,80 @@ public class TimerManager : MonoBehaviour
 
     public static TimerManager Instance;
 
-    // Timer value 
-    private float maxCombatTime;
-    private float currenCombatTime;
-    
-    // Level
-    private int roundLevel;
-
     // Combat timing event
     public static event Action OnStartCombat;
+    public static event Action OnLevelUp;
+    public static event Action OnBigWaveStart;
+    public static event Action OnBigWaveEnd;
     public static event Action OnEndCombat;
 
-    //
-    [SerializeField] TextMeshProUGUI timerText;
+    // Timer value
+    public int timer;
+    public int second;
+    public int minute;
 
-    //
-    // PROPERTIES
-    //
-    public int RoundLevel
-    {
-        get { return roundLevel; }
-    }
+    // UI Component
+    [SerializeField] TextMeshProUGUI timerText;
 
     //
     // FUNCTIONS
     //
 
-    // Initial time manager set up    
-    private void InstantiateTimer()
+    // Timer check 
+    private void MonsterLevelUp()
     {
-        maxCombatTime = 30f;
-        roundLevel = 1;
+        if (minute > 0)
+        {   
+            if (minute % 2 == 0 && second == 0)
+            {
+                Debug.Log("Monster level up");
+                OnLevelUp?.Invoke();
+            }
+        }
+    }
+    private void MonsterWave()
+    {
+        if (minute > 0)
+        {
+            if (minute % 4 == 0 && second == 0)
+            {
+                Debug.Log("Monster big wave");
+                OnBigWaveStart?.Invoke();
+                StartCoroutine(BigWaveCoroutine());
+            }
+        }
     }
 
-    // Coroutine countdown
-    private IEnumerator CountDownRoutine()
+    // Coroutine 
+    private IEnumerator TimerCoroutine()
     {
-        while (currenCombatTime > 0)
+        while (true)
         {
             yield return new WaitForSeconds(1f);
-            currenCombatTime --; 
+            // Checking monster level up
+            MonsterLevelUp();
+
+            // Checking for monster wave 
+            MonsterWave();
+
+            // Set timer
+            timer++;
+            minute = timer / 60;
+            second = timer % 60;
+            // Set timer UI
+            timerText.text = string.Format("{0:00}:{1:00}", minute, second);
         }
-        EndCombat();
     }
 
-    // Invoke event to control timer
-    private void StartCombat()
+    private IEnumerator BigWaveCoroutine()
     {
-        currenCombatTime = maxCombatTime;
-        OnStartCombat?.Invoke();
-        StartCoroutine(CountDownRoutine());
-    }
-    private void EndCombat()
-    {
-        OnEndCombat?.Invoke();
+        yield return new WaitForSeconds(30f);
+        OnBigWaveEnd?.Invoke();
     }
 
     //
     private void Awake()
     {
-        InstantiateTimer();
         if (Instance == null)
         {
             Instance = this;
@@ -84,15 +98,7 @@ public class TimerManager : MonoBehaviour
     
     private void Start()
     {
-
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCombat();
-        }
-        timerText.text = currenCombatTime.ToString();
+        OnStartCombat?.Invoke();
+        StartCoroutine(TimerCoroutine());
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class UI_WeaponManager : MonoBehaviour
 {
     //
@@ -46,7 +46,7 @@ public class UI_WeaponManager : MonoBehaviour
     }
 
     //
-    private void Start()
+    private void Awake()
     {
         InitializeWeaponManager();
         heroController.OnReceiveWeapon += SetWeaponUI;

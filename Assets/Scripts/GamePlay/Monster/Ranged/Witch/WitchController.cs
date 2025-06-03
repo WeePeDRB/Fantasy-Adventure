@@ -14,7 +14,7 @@ public class WitchController : RangedMonsterController
         base.InstantiateMonster();
     
         // Initial stats for witch
-        monsterStats = new MonsterStats(60,3,1,40,2f,0,0);
+        monsterStats = new MonsterStats(monsterData);
     }
 
     
@@ -59,7 +59,7 @@ public class WitchController : RangedMonsterController
     
     private void Update()
     {
-
+        BehaviorController();
     }
     private void FixedUpdate()
     {

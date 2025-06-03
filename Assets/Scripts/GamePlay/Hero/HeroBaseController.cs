@@ -94,6 +94,27 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // Hero weapon system
     protected abstract void InitializeWeaponSystem();
+    protected virtual void InitializePrimaryWeapon(SO_Weapon weaponData)
+    {
+        // Instantiate weapon game object
+        GameObject weapon = Instantiate(weaponData.weaponPrefab, transform.position, transform.rotation, transform);
+
+        if (weapon.TryGetComponent(out WeaponBase weaponBase))
+        {
+            weaponBase.InitializeWeapon(weaponData);
+            heroWeaponSystem.ReceiveWeapon(weaponData, weaponBase);
+            if (heroWeaponSystem.IsWeaponQuantityMax())
+            {
+                OnWeaponListFull?.Invoke(this, new WeaponListEventArgs { weaponDataList = heroWeaponSystem.GetWeaponList() });
+            }
+        }
+        else
+        {
+            Debug.LogError("The weapon prefab don't have WeaponBase component !");
+        }
+
+        OnReceiveWeapon?.Invoke(this, new WeaponEventArgs { weapon = heroWeaponSystem.GetWeapon(weaponData)});
+    }
 
     // Hero dash data
     public abstract void InitializeDash(float instantiateDashDistance, float instantiateDashSpeed,

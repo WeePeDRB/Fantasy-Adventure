@@ -16,6 +16,7 @@ public class UpgradeManager : MonoBehaviour
     public event EventHandler<OnRandomUpgradeEventArgs> OnRandomUpgrade;
     public event EventHandler<WeaponDataEventArgs> OnSelectWeapon;
     public event EventHandler<BlessingDataEventArgs> OnSelectBlessing;
+    public event EventHandler<string> OnReceiveUpgrade;
 
     //
     // FUNCTIONSs
@@ -68,6 +69,7 @@ public class UpgradeManager : MonoBehaviour
     {
         List<UpgradeData> randomUpgradeList = GetRamdomUpgrade(GetUpgradeQuantity());
         OnRandomUpgrade?.Invoke(this, new OnRandomUpgradeEventArgs { randomUpgradeList = randomUpgradeList });
+        GameUtility.PauseGame();
     }
 
     public void ReceiveSelectedUpgrade(UpgradeData upgradeData)
@@ -81,6 +83,7 @@ public class UpgradeManager : MonoBehaviour
                 OnSelectBlessing?.Invoke(this, new BlessingDataEventArgs { blessingData = upgradeData.blessingData });
                 break;
         }
+        OnReceiveUpgrade?.Invoke(this, new string(upgradeData.id));
     }
 
     // Weapon related events
@@ -187,10 +190,9 @@ public class UpgradeManager : MonoBehaviour
         }   
     }
 
-
     private void Awake()
     {
-        if (Instance == null)Instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(this);
     }
 

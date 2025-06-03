@@ -21,15 +21,13 @@ public abstract class MonsterBaseController : MonoBehaviour
     // CHECKING FLAGS
     protected bool isPlayerInsideAttackHitBox;
     protected bool isReadyToAttack;
+    protected bool isAttacking;
 
     // MONSTER STATS
     protected MonsterStats monsterStats;
 
     // MONSTER EFFECT STATUS
     protected MonsterSpecialEffectSystem monsterSpecialEffectSystem;
-
-    // COROUTINE VALUE
-    protected Coroutine attackCoroutine;
 
     // MONSTER BEHAVIOR EVENTS
     public event Action OnMonsterAttack;
@@ -113,6 +111,12 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
 
     // HANDLING MONSTER BEHAVIOR
+
+    // Monster behavior controller
+    protected abstract void InRange();
+    protected abstract void OutOfRange();
+    protected abstract void BehaviorController();
+
     // Monster movement
     protected virtual void HandleMovement()
     {
@@ -129,18 +133,13 @@ public abstract class MonsterBaseController : MonoBehaviour
             Vector3 targetPos = transform.position + moveDirVector * monsterStats.Speed * Time.deltaTime;
             monsterRigidbody.MovePosition(targetPos);
         }
+        
     }
 
     // Monster attack
-    // Checking hit box
-    protected abstract void InRange();
-    protected abstract void OutOfRange();
     // Attack process    
-    protected abstract IEnumerator AttackCoroutine();
     protected abstract void Attack();
     public abstract IEnumerator AttackRecover();
-
-    protected abstract void ReadyToAttack();
     public abstract void ApplyDamage(HeroBaseController heroHit);
 
     // Monster get hurt
@@ -167,7 +166,6 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Monster dead
     protected virtual void Dead()
     {
-
         // Disable collider
         monsterCollider.enabled = false;
 
@@ -255,7 +253,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     }
     public void ChangeToIdleState()
     {
-        monsterBehaviorState = MonsterBehaviorState.Idle;
+        monsterBehaviorState = MonsterBehaviorState.Standby;
     }
 
     //

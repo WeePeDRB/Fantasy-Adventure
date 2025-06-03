@@ -2,7 +2,7 @@
 public enum MonsterBehaviorState
 {
     Move,
-    Idle,
+    Standby,
     Attack
 }
 
