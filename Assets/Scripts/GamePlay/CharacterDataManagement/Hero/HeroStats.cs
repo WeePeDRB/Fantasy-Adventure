@@ -21,23 +21,21 @@ public class HeroStats : CharacterStats
     //
     // CONSTRUCTOR
     //
-    public HeroStats(   float MaxHealth,    float Speed,            int Level,          float MaxAmor,
-                        float ResistanceBase, float DamageAmplifierBase,  float AbilityHaste                  )
+    public HeroStats(SO_Hero heroData)
     {
         // Instantiate basic stats
-        maxHealth = MaxHealth;
+        maxHealth = heroData.maxHealth;
         health = maxHealth;
-        speed = Speed;
-        level = Level;
-        maxAmor = MaxAmor;
+        speed = heroData.speed;
+        level = heroData.level;
+        maxAmor = heroData.maxAmor;
         amor = maxAmor;
         expRequire = 100;
         exp = 0;
         // Instantiate special stats
-        resistanceBase = ResistanceBase;
-        damageAmplifierBase = DamageAmplifierBase;
-
-        abilityHaste = AbilityHaste;
+        resistanceBase = heroData.resistance;
+        damageAmplifierBase = heroData.damageAmplifier;
+        abilityHaste = heroData.abilityHaste;
     }
 
     //

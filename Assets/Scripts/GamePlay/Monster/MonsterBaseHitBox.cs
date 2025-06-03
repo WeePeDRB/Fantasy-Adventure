@@ -24,7 +24,6 @@ public abstract class MonsterBaseHitBox : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("trigger enter");
             OnPlayerEnterMonsterAttackRange?.Invoke();
         }
     }
@@ -34,7 +33,6 @@ public abstract class MonsterBaseHitBox : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("trigger exit");
             OnPlayerExitMonsterAttackRange?.Invoke();
         }
     }

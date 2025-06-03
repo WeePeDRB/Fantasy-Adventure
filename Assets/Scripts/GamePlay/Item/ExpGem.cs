@@ -12,10 +12,7 @@ public class ExpGem : ItemBase
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            LaunchItemRandomDirection();
-        }
+
     }
 
     // Collider check

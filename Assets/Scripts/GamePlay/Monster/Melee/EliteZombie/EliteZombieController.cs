@@ -14,7 +14,7 @@ public class EliteZombieController : MeleeMonsterController
         base.InstantiateMonster();
 
         // Initial stats for Elite zombie
-        monsterStats = new MonsterStats(200,4.4f,1,20,0.5f,0,0);
+        monsterStats = new MonsterStats(monsterData);
     }
 
     private void Awake()
@@ -29,7 +29,7 @@ public class EliteZombieController : MeleeMonsterController
 
     private void Update()
     {
-
+        BehaviorController();
     }
     private void FixedUpdate()
     {

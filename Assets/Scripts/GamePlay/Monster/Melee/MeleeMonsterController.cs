@@ -9,9 +9,8 @@ public class MeleeMonsterController : MonsterBaseController
     //
 
     // HANDLING MONSTER BEHAVIOR
-    // Monster attack 
 
-    // Checking hit box
+    // Monster behavior controller
     protected override void InRange()
     {
         isPlayerInsideAttackHitBox = true;
@@ -20,34 +19,40 @@ public class MeleeMonsterController : MonsterBaseController
     {
         isPlayerInsideAttackHitBox = false;
     }
-
-    protected override IEnumerator AttackCoroutine()
+    protected override void BehaviorController()
     {
-        while (monsterHealthState == MonsterHealthState.Alive)
+        if (monsterHealthState == MonsterHealthState.Alive)
         {
-            monsterBehaviorState = MonsterBehaviorState.Attack;
-            yield return new WaitForSeconds(.1f);
-            if (isReadyToAttack) Attack();
+            if (monsterBehaviorState == MonsterBehaviorState.Attack)
+                {
+                    if (isReadyToAttack)
+                    {
+                        Attack();
+                    }
+                }
+                else if (monsterBehaviorState == MonsterBehaviorState.Standby)
+                {
+                    if (isAttacking) return;
+                    else if (!isAttacking)
+                    {
+                        monsterBehaviorState = MonsterBehaviorState.Move;
+                    }
+                }
         }
     }
+
     protected override void Attack()
     {
         HandleOnMonsterAttack();
+        isAttacking = true;
         isReadyToAttack = false;
     }
 
     public override IEnumerator AttackRecover()
     {
-        monsterBehaviorState = MonsterBehaviorState.Idle;
+        isAttacking = false;
         yield return new WaitForSeconds(monsterStats.AttackSpeed);
-        ReadyToAttack();
-    }
-
-    protected override void ReadyToAttack()
-    {
         isReadyToAttack = true;
-        if (isPlayerInsideAttackHitBox) monsterBehaviorState = MonsterBehaviorState.Idle;
-        else monsterBehaviorState = MonsterBehaviorState.Move;
     }
 
     public override void ApplyDamage(HeroBaseController heroHit)
@@ -62,10 +67,7 @@ public class MeleeMonsterController : MonsterBaseController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (attackCoroutine == null)
-            {
-                attackCoroutine = StartCoroutine(AttackCoroutine());
-            }
+            monsterBehaviorState = MonsterBehaviorState.Attack;
         }
     }
 
@@ -73,8 +75,7 @@ public class MeleeMonsterController : MonsterBaseController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
+            monsterBehaviorState = MonsterBehaviorState.Standby;
         }
     }
 

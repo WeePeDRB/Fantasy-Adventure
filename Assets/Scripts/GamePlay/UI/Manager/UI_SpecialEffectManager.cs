@@ -39,7 +39,6 @@ public class UI_SpecialEffectManager : MonoBehaviour
         //
         if (specialEffect != null)
         {
-            Debug.Log("Effect data not null !");
             //
             UI_SpecialEffectComponent specialEffectUI = Instantiate(UIComponentPrefab, transform).GetComponent<UI_SpecialEffectComponent>();
 

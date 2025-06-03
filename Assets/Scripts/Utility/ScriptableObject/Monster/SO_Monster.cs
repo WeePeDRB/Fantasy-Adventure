@@ -13,9 +13,9 @@ public class SO_Monster : ScriptableObject
 
     // Monster basic stats
     public float damage;
+    public float attackSpeed;
     public float maxHealth;
     public float speed;
-    public float attackSpeed;
     public int level;
     public int expDrop;
 

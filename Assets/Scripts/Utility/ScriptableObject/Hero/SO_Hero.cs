@@ -29,7 +29,7 @@ public class SO_Hero : ScriptableObject
     public float damageAmplifier;
 
     // Hero weapon data
-    public WeaponBase primaryWeapon;
+    public SO_Weapon primaryWeapon;
     public int maxWeapon;
     public int maxItem;
 

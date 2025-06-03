@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,15 +13,20 @@ public class MonsterSpawnManager : MonoBehaviour
 
     // Initialize hero list
     private List<HeroBaseController> heroList;
+    private HeroBaseController heroBaseController;
 
     // Spawning monster logic
-    private HeroBaseController heroBaseController;
-    private bool isInCombat;
     private int monsterMaxQuantity;
     private int monsterQuantity;
     private Coroutine spawnCoroutine;
     [SerializeField] private LayerMask groundLayer;
 
+    // Round level
+    private int roundLevel;
+
+    // Monster kill count
+    private int killCount;
+    [SerializeField] private TextMeshProUGUI killCountText;
 
     //
     // FUNCTIONS
@@ -29,7 +35,6 @@ public class MonsterSpawnManager : MonoBehaviour
     // CONTROL COMBAT DURATION
     private void StartCombat()
     {
-        isInCombat = true;
         if (spawnCoroutine == null)
         {
             spawnCoroutine = StartCoroutine(SpawnMonsterCoroutine());
@@ -37,7 +42,6 @@ public class MonsterSpawnManager : MonoBehaviour
     }
     private void EndCombat()
     {
-        isInCombat = false;
         if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);
@@ -45,13 +49,30 @@ public class MonsterSpawnManager : MonoBehaviour
         }
     }
 
+    // TEMPO CONTROL
+    private void OnLevelUp()
+    {
+        roundLevel++;
+        if (roundLevel % 2 == 0) monsterQuantity += 5;
+    }
+
+    private void OnBigWaveStart()
+    {
+        monsterMaxQuantity *= 2;
+    }
+
+    private void OnBigWaveEnd()
+    {
+        monsterMaxQuantity /= 2;
+    }
+
     // CONTROL MONSTER SPAWN
     // Spawn logic
     private IEnumerator SpawnMonsterCoroutine()
     {
-        while (isInCombat)
+        while (true)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             if (monsterQuantity < monsterMaxQuantity)
             {
                 SpawnMonster();
@@ -65,7 +86,7 @@ public class MonsterSpawnManager : MonoBehaviour
         monster.transform.position = GetRandomOffscreenPosition();
         GameObject monsterGameObj = null;
 
-        int monsterType = 2;//Random.Range(0, 2); // 0 - Default, 1 - Elite, 2 - Witch
+        int monsterType = Random.Range(0,3); // 0 - Default, 1 - Elite, 2 - Witch
 
         switch (monsterType)
         {
@@ -84,16 +105,23 @@ public class MonsterSpawnManager : MonoBehaviour
 
         if (monsterGameObj != null)
         {
+            // Reset monster data and state
             MonsterBaseController monsterBaseController = monsterGameObj.GetComponent<MonsterBaseController>();
+            // Get hero list (in multiplayer mode)
             monsterBaseController.GetHeroList(heroList);
+            // Subscribe to monster dead event
             monsterBaseController.OnMonsterDead += OnMonsterDead;
+            // Reset monster state 
             monsterBaseController.ResetMonsterState();
+            // Check monster level
+            if (monsterBaseController.MonsterStats.Level < roundLevel) monsterBaseController.MonsterStats.LevelUp(roundLevel);
         }
 
         monsterQuantity++;
     }
 
     // RETURN MONSTER
+    // Get data from dead monster
     private void OnMonsterDead(object sender, OnMonsterDeadEventArgs monsterDeadEventArgs)
     {
         // Take variable
@@ -103,9 +131,12 @@ public class MonsterSpawnManager : MonoBehaviour
         // Return the object to pool
         StartCoroutine(ReturnMonsterCoroutine(monsterBaseController));
         // Adjust the quantity
-        monsterQuantity --;
+        monsterQuantity--;
+
+        //
+        MonsterKillCount();
     }
-    //
+    // Return monster to object pool
     private IEnumerator ReturnMonsterCoroutine(MonsterBaseController monsterBaseController)
     {
         yield return new WaitForSeconds(3.5f);
@@ -123,6 +154,13 @@ public class MonsterSpawnManager : MonoBehaviour
         }
     }
 
+    // KILL COUNT
+    private void MonsterKillCount()
+    {
+        killCount++;
+        killCountText.text = killCount.ToString();
+    }
+
     // SUPPORT FUNCTIONS
     // Get random position to spawn
     private Vector3 GetRandomOffscreenPosition()
@@ -135,29 +173,29 @@ public class MonsterSpawnManager : MonoBehaviour
         Vector3 heroPos = heroBaseController.transform.position;
 
         // Get random edge
-        int edge = Random.Range(0,4);
+        int edge = Random.Range(0, 4);
 
         float xOffset = Random.Range(-18f, 18f);
         float zOffset = Random.Range(-6f, 15f);
 
         switch (edge)
         {
-            case 0: 
-                    // Up
-                    spawnPos = heroPos + new Vector3(xOffset, 0f, 15f);
-                    break;
-            case 1: 
-                    // Down
-                    spawnPos = heroPos + new Vector3(xOffset, 0f, -6f);
-                    break;            
-            case 2: 
-                    // Left
-                    spawnPos = heroPos + new Vector3(-18f, 0f, zOffset);
-                    break;            
-            case 3: 
-                    // Right
-                    spawnPos = heroPos + new Vector3(18f, 0f, zOffset);
-                    break;
+            case 0:
+                // Up
+                spawnPos = heroPos + new Vector3(xOffset, 0f, 15f);
+                break;
+            case 1:
+                // Down
+                spawnPos = heroPos + new Vector3(xOffset, 0f, -6f);
+                break;
+            case 2:
+                // Left
+                spawnPos = heroPos + new Vector3(-18f, 0f, zOffset);
+                break;
+            case 3:
+                // Right
+                spawnPos = heroPos + new Vector3(18f, 0f, zOffset);
+                break;
         }
         if (!CheckGround(spawnPos)) GetRandomOffscreenPosition();
 
@@ -174,7 +212,6 @@ public class MonsterSpawnManager : MonoBehaviour
         }
         return false;
     }
-
     // Get random hero
     private void GetHero()
     {
@@ -188,7 +225,10 @@ public class MonsterSpawnManager : MonoBehaviour
         //
         TimerManager.OnStartCombat += StartCombat;
         TimerManager.OnEndCombat += EndCombat;
+        TimerManager.OnLevelUp += OnLevelUp;
+        TimerManager.OnBigWaveStart += OnBigWaveStart;
+        TimerManager.OnBigWaveEnd += OnBigWaveEnd;
 
-        monsterMaxQuantity = 1;
+        monsterMaxQuantity = 5;
     }
 }

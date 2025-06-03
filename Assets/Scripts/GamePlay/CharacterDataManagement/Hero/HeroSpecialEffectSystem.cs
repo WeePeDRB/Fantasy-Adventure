@@ -64,7 +64,6 @@ public class HeroSpecialEffectSystem : CharacterSpecialEffectSystem
         {
             if (effectsToRemove[i].SpEffectType == EffectType.Instant)
             {
-                Debug.Log("This is remove effect on hero");
                 effectsToRemove[i].RemoveEffectOnHero(hero);
             }
             RemoveEffect(effectsToRemove[i].ID);
