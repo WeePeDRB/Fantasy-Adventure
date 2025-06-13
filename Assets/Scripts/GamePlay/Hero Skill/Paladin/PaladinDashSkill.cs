@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class PaladinDashSkill : SkillBase
 {
@@ -10,7 +11,9 @@ public class PaladinDashSkill : SkillBase
     private PaladinController paladinController;
     private float dashDistance; // How far is the dash
     private float dashSpeed; // How fast is the dash
+    [SerializeField]private ParticleSystem dashParticle;
 
+    private Material testMaterial;
     [SerializeField] private SO_SpecialEffect resistanceBoostData;
     private ResistanceBoost resistanceBoost;
 
@@ -33,10 +36,15 @@ public class PaladinDashSkill : SkillBase
     {
         paladinController = GetComponentInParent<PaladinController>();
         resistanceBoost = new ResistanceBoost(resistanceBoostData);
+
+        paladinController.OnHeroDash += SkillActivate;
+        
     }
 
     public override void SkillActivate()
     {
+        dashParticle.Play();
+
         // Refresh special effect time remain
         resistanceBoost.Refresh();
 

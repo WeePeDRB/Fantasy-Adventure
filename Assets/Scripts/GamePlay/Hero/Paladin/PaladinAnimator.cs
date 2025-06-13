@@ -14,7 +14,7 @@ public class PaladinAnimator : HeroBaseAnimator
     private PaladinController paladinController;
 
     private PaladinSpecialSkill paladinSpecialSkill;
-    private PaladinDashSkill paladinDashSkill;
+    private PaladinUltimateSkill paladinUltimateSkill;
 
     // Animator parameters
     private const string IS_MOVING = "Move"; 
@@ -33,7 +33,7 @@ public class PaladinAnimator : HeroBaseAnimator
         paladinController = GetComponentInParent<PaladinController>();
 
         paladinSpecialSkill = paladinController.GetComponentInChildren<PaladinSpecialSkill>();
-        paladinDashSkill = paladinController.GetComponentInChildren<PaladinDashSkill>();
+        paladinUltimateSkill = paladinController.GetComponentInChildren<PaladinUltimateSkill>();
     }
 
     // HANDLING PALADIN ANIMATION
@@ -56,10 +56,6 @@ public class PaladinAnimator : HeroBaseAnimator
     {
         animator.SetTrigger(DASH);
     }
-    protected void DashSkillActivate()
-    {
-        paladinDashSkill.SkillActivate();
-    }
 
     // Paladin special
     // This function will handle the animation
@@ -77,6 +73,11 @@ public class PaladinAnimator : HeroBaseAnimator
     protected override void UltimateSkillAnimate()
     {
         animator.SetTrigger(ULTIMATE);
+    }
+
+    protected void UltimateSkillActivate()
+    {
+        paladinUltimateSkill.SkillActivate();
     }
 
     // SUPPORT FUNCTION

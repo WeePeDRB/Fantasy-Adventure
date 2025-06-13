@@ -26,6 +26,10 @@ public class MonsterSpawnManager : MonoBehaviour
 
     // Monster kill count
     private int killCount;
+    public int KillCount
+    {
+        get { return killCount; }
+    }
     [SerializeField] private TextMeshProUGUI killCountText;
 
     //
@@ -118,6 +122,7 @@ public class MonsterSpawnManager : MonoBehaviour
         }
 
         monsterQuantity++;
+        Destroy(monster);
     }
 
     // RETURN MONSTER
@@ -223,12 +228,12 @@ public class MonsterSpawnManager : MonoBehaviour
     {
         heroList = GameUtility.InitializeHeroList();
         //
-        TimerManager.OnStartCombat += StartCombat;
         TimerManager.OnEndCombat += EndCombat;
         TimerManager.OnLevelUp += OnLevelUp;
         TimerManager.OnBigWaveStart += OnBigWaveStart;
         TimerManager.OnBigWaveEnd += OnBigWaveEnd;
 
+        StartCombat();
         monsterMaxQuantity = 5;
     }
 }

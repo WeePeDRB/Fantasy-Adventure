@@ -159,12 +159,18 @@ public abstract class HeroBaseController : MonoBehaviour
     protected abstract void HandleUltimateSkill();
 
     // LEVEL UP
+    public void GainExp(int expValue)
+    {
+        heroStats.Exp += expValue;
+        LevelUp();
+    }
+
     protected virtual void LevelUp()
     {
         if (heroStats.Exp == heroStats.ExpRequire)
         {
             // Update exp status
-            heroStats.Level ++;
+            heroStats.Level++;
             heroStats.ExpRequire += heroStats.Level * 100;
             heroStats.Exp = 0;
 

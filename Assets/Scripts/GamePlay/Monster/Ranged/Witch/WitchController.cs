@@ -56,10 +56,11 @@ public class WitchController : RangedMonsterController
     {
         InvokeRepeating(nameof(UpdateHeroTarget), Random.Range(0f, 0.2f), 0.5f);
     }
-    
+
     private void Update()
     {
         BehaviorController();
+        StandbyStateBreak();
     }
     private void FixedUpdate()
     {

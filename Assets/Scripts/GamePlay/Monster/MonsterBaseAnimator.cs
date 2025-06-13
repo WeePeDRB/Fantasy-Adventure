@@ -65,7 +65,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     protected virtual void DropItem()
     {
         // Drop item when monster dead
-        monsterBaseController.DropCoin();
+        //monsterBaseController.DropCoin();
         monsterBaseController.DropExp();
     }
 }

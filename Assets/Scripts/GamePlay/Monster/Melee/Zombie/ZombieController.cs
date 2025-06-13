@@ -31,6 +31,7 @@ public class ZombieController : MeleeMonsterController
     private void Update()
     {
         BehaviorController();
+        StandbyStateBreak();
     }
     private void FixedUpdate()
     {

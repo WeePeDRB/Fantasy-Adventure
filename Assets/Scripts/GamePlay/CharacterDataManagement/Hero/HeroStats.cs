@@ -30,7 +30,7 @@ public class HeroStats : CharacterStats
         level = heroData.level;
         maxAmor = heroData.maxAmor;
         amor = maxAmor;
-        expRequire = 100;
+        expRequire = 50;
         exp = 0;
         // Instantiate special stats
         resistanceBase = heroData.resistance;

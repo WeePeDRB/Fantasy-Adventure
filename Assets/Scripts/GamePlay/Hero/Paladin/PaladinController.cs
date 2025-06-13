@@ -111,33 +111,36 @@ public class PaladinController : HeroBaseController
     // Paladin hurt function
     public override void Hurt(float damageTaken)
     {
-        float damageAfterResistance = 0;
-        float damageLeft = damageTaken;
+        if (heroHealthState == HeroHealthState.Alive)
+        {
+            float damageAfterResistance = 0;
+            float damageLeft = damageTaken;
 
-        // Take damage 
-        if (heroStats.Amor >= damageTaken)
-        {
-            heroStats.Amor -= damageTaken;
-        }
-        else 
-        {
-            if (heroStats.Amor > 0)
+            // Take damage 
+            if (heroStats.Amor >= damageTaken)
             {
-                damageLeft -= heroStats.Amor;
-                heroStats.Amor = 0;
+                heroStats.Amor -= damageTaken;
+            }
+            else 
+            {
+                if (heroStats.Amor > 0)
+                {
+                    damageLeft -= heroStats.Amor;
+                    heroStats.Amor = 0;
+                }
+
+                damageAfterResistance = damageLeft - (damageLeft * heroStats.Resistance / 100f);
+                heroStats.Health -= damageAfterResistance;
+                if (heroStats.Health == 0) Dead();
             }
 
-            damageAfterResistance = damageLeft - (damageLeft * heroStats.Resistance / 100f);
-            heroStats.Health -= damageAfterResistance;
-            if (heroStats.Health == 0) Dead();
+            
+            //
+            canAmorRegen = false;
+            // Check if there is already a coroutine
+            if (regenCooldownCoroutine != null) StopCoroutine(regenCooldownCoroutine);
+            regenCooldownCoroutine = StartCoroutine(AmorRegenCountDown());
         }
-
-        
-        //
-        canAmorRegen = false;
-        // Check if there is already a coroutine
-        if (regenCooldownCoroutine != null) StopCoroutine(regenCooldownCoroutine);
-        regenCooldownCoroutine = StartCoroutine(AmorRegenCountDown());
     }
 
     // Paladin dead function
@@ -225,17 +228,6 @@ public class PaladinController : HeroBaseController
                 MonsterBaseController monsterBaseController = collision.gameObject.GetComponent<MonsterBaseController>();
                 monsterBaseController.Hurt(20f);
             }
-        }
-        
-        if (collision.gameObject.CompareTag("Coin"))
-        {
-            coin ++ ;
-        }
-
-        if (collision.gameObject.CompareTag("ExpGem"))
-        {
-            heroStats.Exp += 10;
-            LevelUp();
         }
     }
 

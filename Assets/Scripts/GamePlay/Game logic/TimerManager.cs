@@ -35,7 +35,7 @@ public class TimerManager : MonoBehaviour
     private void MonsterLevelUp()
     {
         if (minute > 0)
-        {   
+        {
             if (minute % 2 == 0 && second == 0)
             {
                 Debug.Log("Monster level up");
@@ -95,10 +95,9 @@ public class TimerManager : MonoBehaviour
             Destroy(this);
         }
     }
-    
+
     private void Start()
     {
-        OnStartCombat?.Invoke();
         StartCoroutine(TimerCoroutine());
     }
 }

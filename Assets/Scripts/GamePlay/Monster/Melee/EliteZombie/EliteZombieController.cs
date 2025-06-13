@@ -30,6 +30,7 @@ public class EliteZombieController : MeleeMonsterController
     private void Update()
     {
         BehaviorController();
+        StandbyStateBreak();
     }
     private void FixedUpdate()
     {

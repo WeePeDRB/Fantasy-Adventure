@@ -42,7 +42,7 @@ public class RangedMonsterController : MonsterBaseController
             else if (monsterBehaviorState == MonsterBehaviorState.Standby)
             {
                 if (isAttacking) return;
-                else if (!isAttacking)
+                else 
                 {
                     monsterBehaviorState = MonsterBehaviorState.Move;
                 }

@@ -12,7 +12,7 @@ public class PaladinUltimateSkill : SkillBase
     private List<MonsterBaseController> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
     private PaladinController paladinController;
-
+    [SerializeField]private ParticleSystem ultimateParticle;
 
     // Special effect
     [SerializeField] private SO_SpecialEffect resistanceBoostData;
@@ -35,12 +35,12 @@ public class PaladinUltimateSkill : SkillBase
         resistanceBoost = new ResistanceBoost(resistanceBoostData);
         healthBoost = new HealthBoost(healthBoostData);
 
-        //
-        paladinController.OnHeroUltimate += SkillActivate;
     }
 
     public override void SkillActivate()
     {
+        ultimateParticle.Play();
+
         // Refresh special effect time remain
         resistanceBoost.Refresh();
         healthBoost.Refresh();

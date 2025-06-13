@@ -30,6 +30,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected MonsterSpecialEffectSystem monsterSpecialEffectSystem;
 
     // MONSTER BEHAVIOR EVENTS
+    public event Action OnMonsterVFXReset;
     public event Action OnMonsterAttack;
     public event Action OnMonsterHurt;
     public event EventHandler<OnMonsterDeadEventArgs> OnMonsterDead;
@@ -42,7 +43,9 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected MonsterBaseHitBox monsterBaseHitBox;
     protected HeroBaseController heroTarget;
     protected List<HeroBaseController> heroList;
-    
+
+    protected float standbyCountdown;
+
     //
     // PROPERTIES
     //
@@ -91,7 +94,7 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // Reset after get monster out from pool
     public virtual void ResetMonsterState()
-    {  
+    {
         // Enable the collider
         monsterCollider.enabled = true;
 
@@ -101,13 +104,16 @@ public abstract class MonsterBaseController : MonoBehaviour
         // Subscribe HitBox events
         monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += InRange;
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
-            
+
         // Set monster state
         monsterBehaviorState = MonsterBehaviorState.Move;
         monsterHealthState = MonsterHealthState.Alive;
 
         // Set health
         monsterStats.Health = monsterStats.MaxHealth;
+
+        // Reset VFX state
+        OnMonsterVFXReset?.Invoke();
     }
 
     // HANDLING MONSTER BEHAVIOR
@@ -186,15 +192,11 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         // Initial values
         int dropAmount = Random.Range(1,2);
-        GameObject expGemGameObject;
-        ExpGem expGem;
 
         // Drop item
         for (int i = 0; i < dropAmount; i++)
         {
-            expGemGameObject = ExpGemObjectPool.Instance.GetObject(this.transform );
-            expGem = expGemGameObject.GetComponentInChildren<ExpGem>();
-            expGem.LaunchItemRandomDirection();
+            ExpGemObjectPool.Instance.GetObject(this.transform );
         }
     }
     public virtual void DropCoin()
@@ -209,7 +211,26 @@ public abstract class MonsterBaseController : MonoBehaviour
         {
             coinGameObject = CoinObjectPool.Instance.GetObject(this.transform);
             coin = coinGameObject.GetComponentInChildren<Coin>();
-            coin.LaunchItemRandomDirection();
+            
+        }
+    }
+
+    //
+    protected void StandbyStateBreak()
+    {
+        if (monsterBehaviorState == MonsterBehaviorState.Standby)
+        {
+            standbyCountdown += Time.deltaTime;
+            if (standbyCountdown >= 2)
+            {
+                Debug.Log("Break stand by state");
+                monsterBehaviorState = MonsterBehaviorState.Move;
+                standbyCountdown = 0f;
+            }
+        }
+        else
+        {
+            standbyCountdown = 0f;
         }
     }
 
