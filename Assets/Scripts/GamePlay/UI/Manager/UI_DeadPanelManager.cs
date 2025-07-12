@@ -9,8 +9,8 @@ using UnityEngine.SceneManagement;
 public class UI_DeadPanelManager : MonoBehaviour
 {
     // Reference
-    [SerializeField] private TimerManager timerManager;
-    [SerializeField] private MonsterSpawnManager monsterSpawnManager;
+    [SerializeField] private TimerController timerManager;
+    [SerializeField] private MonsterSpawnController monsterSpawnManager;
     private HeroBaseController heroBaseController;
 
     // UI Component
@@ -59,7 +59,6 @@ public class UI_DeadPanelManager : MonoBehaviour
     private void Start()
     {
         heroBaseController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
-
         heroBaseController.OnHeroDead += SetUIComponent;
     }
 }

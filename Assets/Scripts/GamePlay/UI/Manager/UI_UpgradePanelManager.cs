@@ -90,7 +90,7 @@ public class UI_UpgradePanelManager : MonoBehaviour
     //
     private void Start()
     {
-        UpgradeManager.Instance.OnRandomUpgrade += GetUpgradeData;
-        UpgradeManager.Instance.OnReceiveUpgrade += ReceiveUpgrade;
+        UpgradeController.Instance.OnRandomUpgrade += GetUpgradeData;
+        UpgradeController.Instance.OnReceiveUpgrade += ReceiveUpgrade;
     }
 }

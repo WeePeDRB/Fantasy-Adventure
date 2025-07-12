@@ -26,7 +26,7 @@ public class HeroStats : CharacterStats
         // Instantiate basic stats
         maxHealth = heroData.maxHealth;
         health = maxHealth;
-        speed = heroData.speed;
+        speedBase = heroData.speed;
         level = heroData.level;
         maxAmor = heroData.maxAmor;
         amor = maxAmor;

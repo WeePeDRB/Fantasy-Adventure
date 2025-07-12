@@ -30,7 +30,6 @@ public class ArrowController :  WeaponBase
         if (heroBaseController.HeroStats.DamageAmplifier != 0)
         {
             bonusDamage = weaponAttackDamage * heroBaseController.HeroStats.DamageAmplifier / 100;
-            Debug.Log("Bonus damage : " + bonusDamage);
         }
         monsterBaseController.Hurt(weaponAttackDamage + bonusDamage);
     }
