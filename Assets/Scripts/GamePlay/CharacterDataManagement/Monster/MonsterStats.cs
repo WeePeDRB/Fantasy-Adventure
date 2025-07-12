@@ -20,7 +20,7 @@ public class MonsterStats : CharacterStats
         // Instantiate basic stats
         maxHealth = monsterData.maxHealth;
         health = maxHealth;
-        speed = monsterData.speed;
+        speedBase = monsterData.speed;
         level = monsterData.level;
         damage = monsterData.damage;
         attackSpeed = monsterData.attackSpeed;

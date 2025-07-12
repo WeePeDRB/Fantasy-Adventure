@@ -44,12 +44,18 @@ public abstract class ObjectPool : MonoBehaviour
         if (objectPool.Count > 0)
         {
             GameObject obj = objectPool.Dequeue();
-            obj.transform.position = objectTransform.position + new Vector3(0,0.1f,0);
+            obj.transform.position = objectTransform.position + new Vector3(0, 0.1f, 0);
             obj.SetActive(true);
             return obj;
         }
-        Debug.Log("No more object to get !");
-        return null;
+        else
+        {
+            Debug.Log("Create more object !");
+            GameObject obj = Instantiate(objectPrefab);
+            objectPool.Enqueue(obj);
+            obj.transform.position = objectTransform.position + new Vector3(0, 0.1f, 0);
+            return obj;
+        }
     }
 
     // Return object to pool;

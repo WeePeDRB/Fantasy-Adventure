@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 [Serializable]
@@ -11,8 +12,9 @@ public abstract class CharacterStats
     // Basic stats
     protected float maxHealth; // Maximum health 
     protected float health; // Current health
-    protected float speed; // Movement speed
     protected int level; // Character level
+    protected float speedBase; // Movement speed
+    protected float speedAddition;
 
     // Special stats
     // This stat will block a percentage of the damage received from monster, with a value ranging from 1 to 100.
@@ -33,20 +35,36 @@ public abstract class CharacterStats
         get { return health; }
         set { health = Mathf.Clamp(value, 0f, maxHealth); } // Ensure health is within the range [0, maxHealth]
     }
-    public float Speed
-    {
-        get { return speed; }
-        set { speed = Mathf.Max(0f, value); } // Ensure speed can't be negative
-    }
+    
     public int Level
     {
         get { return level; }
         set { level = Mathf.Max(1, value); } // Ensure level is at least 1
     }
+
     public float MaxHealth
     {
         get { return maxHealth; }
         set { maxHealth = Mathf.Max(value, 50f); }
+    }
+
+    public float Speed
+    {
+        get
+        {
+            float value = speedBase + speedAddition;
+            return Mathf.Max(1, value);
+        }
+    }
+    public float SpeedBase
+    {
+        get { return speedBase; }
+        set { speedBase = Mathf.Max(1, value); }
+    }
+    public float SpeedAddition
+    {
+        get { return speedAddition; }
+        set { speedAddition = Mathf.Max(0,value); }
     }
 
     // Special stats
@@ -55,7 +73,7 @@ public abstract class CharacterStats
         get
         {
             float value = resistanceBase + resistanceAddition;
-            return Mathf.Clamp(value, 0f, 100f);
+            return value;
         }
     }
     public float ResistanceBase

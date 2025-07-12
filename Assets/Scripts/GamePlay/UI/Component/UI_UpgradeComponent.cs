@@ -51,7 +51,7 @@ public class UI_UpgradeComponent : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnBtnClick()
     {
-        UpgradeManager.Instance.ReceiveSelectedUpgrade(upgradeData);
+        UpgradeController.Instance.ReceiveSelectedUpgrade(upgradeData);
     }
 
     public void DisableUIComponent()

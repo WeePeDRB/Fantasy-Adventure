@@ -38,8 +38,6 @@ public class UI_UpgradePanelManager : MonoBehaviour
         // Tweening
         upgradePanelBackGround.DOFade(0.7f, 0.3f).SetUpdate(true);
 
-
-
         for (int i = 0; i < upgradeData.Count; i++)
         {
             upgradeUIList[i].GetUpgradeData(upgradeData[i]);
@@ -92,7 +90,7 @@ public class UI_UpgradePanelManager : MonoBehaviour
     //
     private void Start()
     {
-        UpgradeManager.Instance.OnRandomUpgrade += GetUpgradeData;
-        UpgradeManager.Instance.OnReceiveUpgrade += ReceiveUpgrade;
+        UpgradeController.Instance.OnRandomUpgrade += GetUpgradeData;
+        UpgradeController.Instance.OnReceiveUpgrade += ReceiveUpgrade;
     }
 }

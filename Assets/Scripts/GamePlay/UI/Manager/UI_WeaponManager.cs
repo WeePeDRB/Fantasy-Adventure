@@ -46,7 +46,7 @@ public class UI_WeaponManager : MonoBehaviour
     }
 
     //
-    private void Awake()
+    private void Start()
     {
         InitializeWeaponManager();
         heroController.OnReceiveWeapon += SetWeaponUI;
