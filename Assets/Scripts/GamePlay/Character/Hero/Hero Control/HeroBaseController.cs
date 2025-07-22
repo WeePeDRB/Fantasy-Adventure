@@ -68,10 +68,15 @@ public abstract class HeroBaseController : MonoBehaviour
     {
         get { return heroMovementState; }
     }
+    
+    public HeroHealthState HeroHealthState
+    {
+        get { return heroHealthState; }
+    }
 
     public HeroSpecialEffectSystem HeroSpecialEffectSystem
     {
-        get { return heroSpecialEffectSystem;  }
+        get { return heroSpecialEffectSystem; }
     }
 
     //

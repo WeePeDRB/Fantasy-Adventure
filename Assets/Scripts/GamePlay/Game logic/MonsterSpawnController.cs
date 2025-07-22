@@ -57,7 +57,7 @@ public class MonsterSpawnController : MonoBehaviour
     private void OnLevelUp()
     {
         roundLevel++;
-        if (roundLevel % 2 == 0) monsterQuantity += 5;
+        if (roundLevel % 2 == 0) monsterMaxQuantity += 5;
     }
 
     private void OnBigWaveStart()

@@ -49,12 +49,10 @@ public static class GameUtility
     public static void PauseGame()
     {
         Time.timeScale = 0;
-        Debug.Log("Pause game");
     }
 
     public static void UnpauseGame()
     {
         Time.timeScale = 1;
-        Debug.Log("Unpause game");
     }
 }

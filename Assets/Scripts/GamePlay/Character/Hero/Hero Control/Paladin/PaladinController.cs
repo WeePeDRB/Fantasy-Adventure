@@ -221,6 +221,7 @@ public class PaladinController : HeroBaseController
 
     private void Awake()
     {
+        Debug.Log("Paladin awake");
         // Initialize hero data
         InitilizeValue();
         InitializeStats();
@@ -234,7 +235,7 @@ public class PaladinController : HeroBaseController
 
     private void Start()
     {
-
+        Debug.Log("Paladin start");
         //Subscribe to game input
         GameInput.OnDashAction += HandleDashSkill;
         GameInput.OnSpecialAction += HandleSpecialSkill;

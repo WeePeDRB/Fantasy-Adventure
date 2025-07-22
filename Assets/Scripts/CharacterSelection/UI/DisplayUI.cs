@@ -35,8 +35,9 @@ public class DisplayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI characterSpeed;
     [SerializeField] private TextMeshProUGUI characterAmor;
 
+
     // Color
-    private Color unselectedColor = new Color(73,73,73);
+    private Color unselectedColor = new Color(73, 73, 73);
     private Color selectedColor = new Color(212, 174, 0);
     
     // Display suitable UI when change character 

@@ -21,13 +21,6 @@ public class UI_HeroPanel : MonoBehaviour
     // FUNCTIONS
     //
 
-    private void InstantiateHeroPanelData()
-    {
-        // Take hero controller reference
-        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
-
-    }
-
     private void InstantiateHeroPanel()
     {
         heroPortrait.sprite = heroController.HeroData.heroPortrait;
@@ -42,7 +35,7 @@ public class UI_HeroPanel : MonoBehaviour
     private void Start()
     {
         // Instantiate
-        InstantiateHeroPanelData();
+        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         InstantiateHeroPanel();
 
         // Event subscribe

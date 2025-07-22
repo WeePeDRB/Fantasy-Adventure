@@ -13,7 +13,6 @@ public class GameInput : MonoBehaviour
         public string weaponMovementEventArgs;
     }
 
-
     // Refernce to the input actions assets
     private static InputManager inputManager;   // Input actions reference
 
@@ -21,6 +20,9 @@ public class GameInput : MonoBehaviour
     public static event Action OnDashAction;     //For the dash skill
     public static event Action OnSpecialAction;  //For the speacial skill
     public static event Action OnUltimateAction; //For the ultimate skill
+
+    //
+    public static event Action OnPauseGame;
 
     // Read, normalized and return the  value from player input  
     public static Vector2 GetMovementVectorNormalized()
@@ -30,13 +32,11 @@ public class GameInput : MonoBehaviour
         return inputVector;
     }
 
-
     // Handle the performed event in the input actions
     private void DashSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnDashAction?.Invoke();
     }
-
 
     // Handle the performed event in the input actions
     private void SpecialSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -44,11 +44,16 @@ public class GameInput : MonoBehaviour
         OnSpecialAction?.Invoke();
     }
 
-
     // Handle the performed event in the input actions
     private void UltimateSkill_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnUltimateAction?.Invoke();
+    }
+
+    //
+    private void PauseGame_Performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnPauseGame?.Invoke();
     }
 
     //
@@ -60,8 +65,10 @@ public class GameInput : MonoBehaviour
         inputManager.Player.Enable();
 
         // Assign function for event
-        inputManager.Player.DashSkill.performed +=  DashSkill_Performed;        
-        inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;   
+        inputManager.Player.DashSkill.performed += DashSkill_Performed;
+        inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;
         inputManager.Player.UltimateSkill.performed += UltimateSkill_Performed;
+
+        inputManager.Player.PauseGame.performed += PauseGame_Performed;
     }
 }

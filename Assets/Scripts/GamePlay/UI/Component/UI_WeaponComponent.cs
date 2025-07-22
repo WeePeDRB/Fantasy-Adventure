@@ -37,6 +37,7 @@ public class UI_WeaponComponent : MonoBehaviour, IPointerEnterHandler, IPointerE
             return;
         }
         weaponId = weapon.ID;
+        weaponIcon.gameObject.SetActive(true);
         weaponIcon.sprite = weapon.WeaponSprite;
         weaponLevel.text = weapon.WeaponLevel.ToString();
     }

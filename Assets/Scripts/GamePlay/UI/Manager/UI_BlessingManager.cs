@@ -20,11 +20,6 @@ public class UI_BlessingManager : MonoBehaviour
     // FUNCTIONS
     //
 
-    private void InitializeBlessingManager()
-    {
-        heroBaseController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
-    }
-
     private void SetBlessingUI(object sender, BlessingEventArgs blessingEventArgs)
     {
         foreach (UI_BlessingComponent blessingUI in blessingUIList)
@@ -49,7 +44,7 @@ public class UI_BlessingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitializeBlessingManager();
+        heroBaseController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
         heroBaseController.OnReceiveBlessing += SetBlessingUI;
     }
 }

@@ -53,7 +53,7 @@ public class UI_DeadPanelManager : MonoBehaviour
 
     public void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("HeroSelectionScene");
     }
 
     private void Start()

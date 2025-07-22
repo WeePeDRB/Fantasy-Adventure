@@ -29,7 +29,6 @@ public class GameStartHandler : MonoBehaviour
     public void OnStartGame()
     {
         PlayerPrefs.SetInt("CharacterID", characterId);
-        Debug.Log("This is player id :" + PlayerPrefs.GetInt("CharacterID"));
         PlayerPrefs.SetInt("GameDifficulty", gameDifficulty);
         background.DOFade(1, 1f);
         StartCoroutine(LoadingCoroutine());   

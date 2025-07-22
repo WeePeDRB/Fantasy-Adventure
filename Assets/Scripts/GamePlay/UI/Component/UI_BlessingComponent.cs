@@ -37,6 +37,7 @@ public class UI_BlessingComponent : MonoBehaviour, IPointerEnterHandler, IPointe
             return;
         }
         blessingId = blessing.ID;
+        blessingIcon.gameObject.SetActive(true);
         blessingIcon.sprite = blessing.BlessingSprite;
         blessingLevel.text = blessing.BlessingLevel.ToString();
     }

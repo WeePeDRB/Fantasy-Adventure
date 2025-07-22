@@ -109,6 +109,10 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBehaviorState = MonsterBehaviorState.Move;
         monsterHealthState = MonsterHealthState.Alive;
 
+        // 
+        isReadyToAttack = true;
+        isAttacking = false;
+
         // Set health
         monsterStats.Health = monsterStats.MaxHealth;
 
