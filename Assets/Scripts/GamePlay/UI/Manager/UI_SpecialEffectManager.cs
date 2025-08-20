@@ -35,7 +35,7 @@ public class UI_SpecialEffectManager : MonoBehaviour
     private void GetSpEffectData(object sender, OnReceiveSpecialEffectEventArgs spEffect)
     {
         //
-        SpecialEffectBase specialEffect = spEffect.specialEffect;
+        SpecialEffectBaseOld specialEffect = spEffect.specialEffect;
         //
         if (specialEffect != null)
         {

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class UI_WeaponComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // UI Data
-    private WeaponBase weapon;
+    private WeaponBaseOld weapon;
     [SerializeField] private string weaponId;
     [SerializeField] private Image weaponIcon;
     [SerializeField] private TextMeshProUGUI weaponLevel;

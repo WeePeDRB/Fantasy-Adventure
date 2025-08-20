@@ -9,7 +9,7 @@ public class UI_SpecialEffectComponent : MonoBehaviour, IPointerEnterHandler, IP
 {
 
     // UI data
-    private SpecialEffectBase spEffect;
+    private SpecialEffectBaseOld spEffect;
     [SerializeField] private string specialEffectID;
     [SerializeField] private Image specialEffectIcon;
     [SerializeField] private Image specialEffectIconCover;
@@ -24,7 +24,7 @@ public class UI_SpecialEffectComponent : MonoBehaviour, IPointerEnterHandler, IP
         get { return specialEffectID; }
     }
 
-    public void GetSpecialEffect(SpecialEffectBase specialEffect)
+    public void GetSpecialEffect(SpecialEffectBaseOld specialEffect)
     {
         if (specialEffect == null)
         {

@@ -20,11 +20,11 @@ public class BlessingDataEventArgs : EventArgs
 // These event args send the actual weapon reference that store in the hero weapon system
 public class WeaponEventArgs : EventArgs
 {
-    public WeaponBase weapon;
+    public WeaponBaseOld weapon;
 }
 public class BlessingEventArgs : EventArgs
 {
-    public BlessingBase blessing;
+    public BlessingBaseOld blessing;
 }
 
 // These event args use to store weapon list when reach max quantity

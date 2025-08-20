@@ -1,12 +1,12 @@
 // This will show the curren behavior of character
 public enum HeroMovementState
 {
-    Normal,
+    Moving,
     Casting,
     Dashing
 }
 
-public enum HeroHealthState
+public enum HeroHealthStateOld
 {
     Alive,
     Dead

@@ -10,7 +10,7 @@ public class UI_StatsManager : MonoBehaviour
 
     // Reference
     private HeroBaseController heroBaseController;
-    private HeroStats heroStats;
+    private HeroStatsOld heroStats;
 
     // UI COMPONENTS
     [SerializeField] private List<UI_StatComponent> statUIList;

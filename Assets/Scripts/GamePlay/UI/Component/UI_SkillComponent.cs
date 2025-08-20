@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class UI_SkillComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // UI Data
-    private SO_HeroSkill heroSkillData;
+    private SO_HeroSkillOld heroSkillData;
     [SerializeField] private Image skillIcon;
     [SerializeField] private Image skillIconCover;
     [SerializeField] private TextMeshProUGUI skillCoolDownCount;
 
     // UI Component logic
-    public void GetHeroSkillData(SO_HeroSkill heroSkillData)
+    public void GetHeroSkillData(SO_HeroSkillOld heroSkillData)
     {
         if (heroSkillData == null)
         {

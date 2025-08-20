@@ -34,7 +34,7 @@ public class SO_Hero : ScriptableObject
     public int maxItem;
 
     // Skill information
-    public SO_HeroSkill dashSkill;
-    public SO_HeroSkill specialSkill;
-    public SO_HeroSkill ultimateSkill;
+    public SO_HeroSkillOld dashSkill;
+    public SO_HeroSkillOld specialSkill;
+    public SO_HeroSkillOld ultimateSkill;
 }

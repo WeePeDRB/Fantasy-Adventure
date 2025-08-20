@@ -67,20 +67,15 @@ public class SceneController : MonoBehaviour
     // Initialize virtual cam with new hero
     private IEnumerator InitalVirtualCam()
     {
-        Debug.Log("Start coroutine");
         yield return new WaitForSeconds(0.1f);
         virtualCamera.Follow = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log("End coroutine");
     }
 
     private void Start()
     {
-        Debug.Log("Scene controller start");
-        Debug.Log("Game object active : " + gameObject.activeInHierarchy);
         //
         InitialHero();
         StartCoroutine(InitalVirtualCam());
         StartCoroutine(StartGame());
-
     }
 }

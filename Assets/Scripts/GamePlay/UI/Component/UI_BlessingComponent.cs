@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class UI_BlessingComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // UI Data
-    private BlessingBase blessing;
+    private BlessingBaseOld blessing;
     [SerializeField] private string blessingId;
     [SerializeField] private Image blessingIcon;
     [SerializeField] private TextMeshProUGUI blessingLevel;

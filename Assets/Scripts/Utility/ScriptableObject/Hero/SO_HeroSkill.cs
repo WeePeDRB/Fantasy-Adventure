@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class SO_HeroSkill : ScriptableObject
+public class SO_HeroSkillOld : ScriptableObject
 {
     // Skill data
     public string skillKeyword;
