@@ -75,6 +75,9 @@ crashlytics-build.properties
 
 # Ignore asset files
 /Assets/ImportAssets/
-/Assets/Animation/
+/Assets/Animation/Hero/
 /Assets/Material/
 /Assets/Model/
+/Assets/ScriptableObject/
+/Assets/Prefabs/
+/Assets/Plugins/
