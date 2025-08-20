@@ -74,7 +74,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Ignore asset files
-/[Aa]ssets/[Ii]mportAssets/
+/Assets/ImportAssets/
 /Assets/Animation/
-/[Aa]ssets/[Mm]aterial/
+/Assets/Material/
 /Assets/Model/
