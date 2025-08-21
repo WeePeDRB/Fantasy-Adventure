@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class CharacterVFXController : MonoBehaviour
+public abstract class HeroVFXController : MonoBehaviour
 {
     // Controller reference
     protected CharacterController characterController;

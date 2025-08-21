@@ -5,40 +5,154 @@ using UnityEngine;
 
 public class PaladinController : HeroController
 {
-    protected override void Dead()
+    // Hero skill management
+    // Skill 1
+    public event Action OnUseSkill1;
+    // Skill 2
+    public event Action OnUseSkill2;
+    // Skill 3
+    public event Action OnUseSkill3;
+
+    // Initialize data
+    protected override void InitializeData()
     {
-        throw new NotImplementedException();
+        // Initialize hero stats controller
+        statsController = new HeroStatsController(statsData);
+
+        // Initialize hero weapon controller
+        weaponController = new HeroWeaponController();
+
+        // Initialize hero blessing controller
+        blessingController = new HeroBlessingController();
+
+        // Initialize hero special effect controller
+        specialEffectController = new HeroSpecialEffectController(this);
+
+        // Hero health state
+        healthState = HeroHealthState.Alive;
+
+        // Physics value
+        rigidBody = GetComponent<Rigidbody>();
+        bodyCollider = GetComponent<CapsuleCollider>();
+
+        // Skill flags
+        canUseSkill1 = true;
+        canUseSkill2 = true;
+        canUseSkill3 = true;
     }
 
+    // Paladin movement handle
     protected override void HandleMovement()
     {
-        throw new NotImplementedException();
+        // Hero moving
+        base.HandleMovement();
+
+        // Hero dashing
+        if (behaviorState == HeroBehaviorState.Dashing)
+        {
+            // Dash speed
+            float speed = 18f;
+            // Dash distance
+            float distance = 5f;
+            // Calculate destination
+            Vector3 destination = transform.position + transform.forward * distance;
+
+            // Dashing to destination 
+            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+        }
     }
 
+    // Paladin skills handle
     protected override void HandleSkill1()
     {
-        throw new NotImplementedException();
+        // Check if can use skill
+        if (canUseSkill1)
+        {
+            // Check for hero behavior state
+            if (behaviorState == HeroBehaviorState.Moving)
+            {
+                // Change the behavior state
+                behaviorState = HeroBehaviorState.Dashing;
+
+                // Invoke the dash event
+                OnUseSkill1?.Invoke();
+
+                //Set the dashing flag
+                canUseSkill1 = false;
+
+                //Reset the skill and special effect
+                StartCoroutine(ResetSkill(skill1.SkillCooldown, 1));
+            }
+        }
     }
 
     protected override void HandleSkill2()
     {
-        throw new NotImplementedException();
+        // Check if can use skill
+        if (canUseSkill2)
+        {
+            // Check for hero behavior state
+            if (behaviorState == HeroBehaviorState.Moving)
+            {
+                // Change the behavior state
+                behaviorState = HeroBehaviorState.Casting;
+
+                // Invoke the dash event
+                OnUseSkill2?.Invoke();
+
+                //Set the dashing flag
+                canUseSkill2 = false;
+
+                //Reset the skill and special effect
+                StartCoroutine(ResetSkill(skill2.SkillCooldown, 2));
+            }
+        }
     }
 
     protected override void HandleSkill3()
     {
-        throw new NotImplementedException();
+        // Check if can use skill
+        if (canUseSkill3)
+        {
+            // Check for hero behavior state
+            if (behaviorState == HeroBehaviorState.Moving)
+            {
+                // Change the behavior state
+                behaviorState = HeroBehaviorState.Casting;
+
+                // Invoke the dash event
+                OnUseSkill3?.Invoke();
+
+                //Set the dashing flag
+                canUseSkill3 = false;
+
+                //Reset the skill and special effect
+                StartCoroutine(ResetSkill(skill3.SkillCooldown, 3));
+            }
+        }
     }
 
-    protected override void Hurt()
+    //
+    private void Start()
     {
-        throw new NotImplementedException();
+        // Initialize data
+        InitializeData();
+
+        // Events subscription
+        GameInput.OnDashAction += HandleSkill1;
+        GameInput.OnSpecialAction += HandleSkill2;
+        GameInput.OnUltimateAction += HandleSkill3;
+        
     }
 
-    protected override void InitializeData()
+    private void Update()
     {
-        throw new NotImplementedException();
+        if (healthState == HeroHealthState.Alive)
+        {
+            HandleMovement();
+            UpdateSpecialEffect();
+            AmorRegeneration();
+        }
     }
-
 
 }

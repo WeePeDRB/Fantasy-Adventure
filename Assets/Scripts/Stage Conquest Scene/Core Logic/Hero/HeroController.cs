@@ -62,15 +62,12 @@ public abstract class HeroController : MonoBehaviour
     // Skill 1 
     [SerializeField] protected HeroSkill skill1;
     protected bool canUseSkill1;
-    public event Action OnUseSkill1;
     // Skill 2
     [SerializeField] protected HeroSkill skill2;
     protected bool canUseSkill2;
-    public event Action OnUseSkill2;
     // Skill 3
     [SerializeField] protected HeroSkill skill3;
     protected bool canUseSkill3;
-    public event Action OnUseSkill3;
 
     // Hero level up
     public event Action OnLevelUp;
@@ -135,11 +132,83 @@ public abstract class HeroController : MonoBehaviour
     }
 
     // Hero movement
-    protected abstract void HandleMovement();
+    protected virtual void HandleMovement()
+    {
+        // Hero moving
+        if (behaviorState == HeroBehaviorState.Moving)
+        {
+            // Get value from input system
+            Vector2 inputVector = GameInput.GetMovementVectorNormalized();
+            Vector3 moveDirVector = new Vector3(inputVector.x, 0, inputVector.y);
 
-    // Hero damage handle
-    protected abstract void Hurt();
-    protected abstract void Dead();
+            // Hero movement
+            transform.position += moveDirVector * statsController.Speed * Time.deltaTime;
+
+            // Hero rotate
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
+        }
+    }
+
+    // Hero damage-taking logic
+    protected virtual void Hurt(float damageTaken)
+    {
+        // Check if hero still alive
+        if (healthState == HeroHealthState.Alive)
+        {
+            float damageAfterResistance = 0;
+            float damageLeft = damageTaken;
+
+            // Calculate damange taken  
+            // Take damage when current amor > incomming damange 
+            if (statsController.CurrentAmor >= damageTaken)
+            {
+                statsController.CurrentAmor -= damageTaken;
+            }
+            else
+            {
+                // If current amor < incomming damange 
+                if (statsController.CurrentAmor > 0)
+                {
+                    // Calculate the final damage dealt after deducting the Hero's armor.
+                    damageLeft -= statsController.CurrentAmor;
+                    statsController.CurrentAmor = 0;
+                }
+
+                // Calculate the remaining damage after applying the Hero's resistance stat.
+                damageAfterResistance = damageLeft - (damageLeft * statsController.Resistance / 100f);
+
+                // Apply damange
+                statsController.CurrentHealth -= damageAfterResistance;
+
+                // Check if hero's health reach 0 -> Dead
+                if (statsController.CurrentHealth == 0) Dead();
+            }
+
+            // Set amor regen to false
+            canAmorRegen = false;
+
+            // Check if there is already a coroutine
+            // -> Stop the count down coroutine to reset it
+            if (regenCooldownCoroutine != null) StopCoroutine(regenCooldownCoroutine);
+
+            // Reset the amor regen countdown coroutine
+            regenCooldownCoroutine = StartCoroutine(AmorRegenCountDown());
+        }
+    }
+
+    protected virtual void Dead()
+    {
+        // Set health state to "Dead"
+        healthState = HeroHealthState.Dead;
+
+        // Invoke death event to execute related logic
+        OnDead?.Invoke();
+
+        // Disable physics system
+        rigidBody.useGravity = false;
+        bodyCollider.enabled = false;
+    }
 
     // Hero amor regenertation
     protected virtual void AmorRegeneration()
@@ -149,7 +218,11 @@ public abstract class HeroController : MonoBehaviour
             if (statsController.CurrentAmor < statsController.MaxAmor)
             {
                 statsController.CurrentAmor += 5f * Time.deltaTime;
-                if (statsController.CurrentAmor >= statsController.MaxAmor) canAmorRegen = false;
+                if (statsController.CurrentAmor > statsController.MaxAmor)
+                {
+                    canAmorRegen = false;
+                    statsController.CurrentAmor = statsController.MaxAmor;
+                }
             }
         }
     }
@@ -191,7 +264,13 @@ public abstract class HeroController : MonoBehaviour
                 break;
         }
     }
-
+    public void ReturnToNormalState()
+    {
+        // Reset behavior state
+        behaviorState = HeroBehaviorState.Moving;
+        Debug.Log("return moving");
+    }
+    
     // Hero level handle    
     protected void GainExp(int expValue)
     {

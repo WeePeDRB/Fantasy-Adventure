@@ -112,6 +112,7 @@ public class AcherControllerold : HeroBaseController
             float damageAfterResistance = 0;
             float damageLeft = damageTaken;
 
+            // Calculate damange taken
             // Take damage 
             if (heroStats.Amor >= damageTaken)
             {

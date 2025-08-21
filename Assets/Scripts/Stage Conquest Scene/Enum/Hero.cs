@@ -2,8 +2,7 @@ public enum HeroBehaviorState
 {
     Moving,
     Casting,
-    Dashing,
-    Idling
+    Dashing
 }
 
 public enum HeroHealthState

@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public abstract class HeroStatsController
+public class HeroStatsController
 {
     // Hero health: the hero health point 
     protected float maxHealth; // Maximum health
