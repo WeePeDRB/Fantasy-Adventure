@@ -46,8 +46,9 @@ public abstract class SpecialEffectBase
 
     // Effect on Hero 
     public abstract void ApplyEffectOnHero(HeroController heroController);
-    public abstract void RemoveEffectOnHero(HeroController heroController);
+    public abstract void RemoveEffectFromHero(HeroController heroController);
 
     // Effect on Monster
-    
+    public abstract void ApplyEffectOnMonster(MonsterController monsterController);
+    public abstract void RemoveEffectFromMonster(MonsterController monsterController);
 }

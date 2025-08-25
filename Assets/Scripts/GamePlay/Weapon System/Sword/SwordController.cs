@@ -10,7 +10,7 @@ public class SwordController : WeaponBaseOld
     //
     
     // List contain monsters that get hit
-    private List<MonsterBaseController> monsterListInHitBox;
+    private List<MonsterBaseControllerOld> monsterListInHitBox;
 
     // Events
     public event Action OnWeaponAttack;
@@ -55,7 +55,7 @@ public class SwordController : WeaponBaseOld
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             
             // Add monster to hit box list
             monsterListInHitBox.Add(monsterBaseController);
@@ -68,7 +68,7 @@ public class SwordController : WeaponBaseOld
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
 
             // Remove monster from hit box list
             monsterListInHitBox.Remove(monsterBaseController);
@@ -93,7 +93,7 @@ public class SwordController : WeaponBaseOld
 
     private void Start()
     {
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<MonsterBaseControllerOld>();
         heroBaseController = GetComponentInParent<HeroBaseController>();
         StartCoroutine(AttackCoroutine());
         Debug.Log("Weapon start");

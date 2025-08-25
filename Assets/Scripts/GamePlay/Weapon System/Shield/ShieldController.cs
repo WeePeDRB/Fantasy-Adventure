@@ -10,7 +10,7 @@ public class ShieldController : WeaponBaseOld
     //
 
     // List contain monsters that get hit
-    private List<MonsterBaseController> monsterListInHitBox;
+    private List<MonsterBaseControllerOld> monsterListInHitBox;
 
     //
     // FUNCTIONS
@@ -51,7 +51,7 @@ public class ShieldController : WeaponBaseOld
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             
             // Add monster to hit box list
             monsterListInHitBox.Add(monsterBaseController);
@@ -64,7 +64,7 @@ public class ShieldController : WeaponBaseOld
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
 
             // Remove monster from hit box list
             monsterListInHitBox.Remove(monsterBaseController);
@@ -89,7 +89,7 @@ public class ShieldController : WeaponBaseOld
 
     private void Start()
     {
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<MonsterBaseControllerOld>();
         heroBaseController = GetComponentInParent<HeroBaseController>();
         StartCoroutine(AttackCoroutine());
     }

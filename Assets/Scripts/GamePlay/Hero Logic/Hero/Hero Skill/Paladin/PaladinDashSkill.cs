@@ -13,7 +13,7 @@ public class PaladinDashSkill : SkillBase
     [SerializeField]private ParticleSystem dashParticle;
 
     [SerializeField] private SO_SpecialEffect resistanceBoostData;
-    private ResistanceBoost resistanceBoost;
+    //private ResistanceBoost resistanceBoost;
 
     public float DashDistance
     {
@@ -33,7 +33,7 @@ public class PaladinDashSkill : SkillBase
     protected override void InitializeSkillUniqueData()
     {
         paladinController = GetComponentInParent<PaladinControllerOld>();
-        resistanceBoost = new ResistanceBoost(resistanceBoostData);
+        //resistanceBoost = new ResistanceBoost(resistanceBoostData);
 
         paladinController.OnHeroDash += SkillActivate;
         
@@ -44,10 +44,10 @@ public class PaladinDashSkill : SkillBase
         dashParticle.Play();
 
         // Refresh special effect time remain
-        resistanceBoost.Refresh();
+        // resistanceBoost.Refresh();
 
-        // Apply effect on paladin
-        paladinController.ReceiveSpecialEffect(resistanceBoost);
+        // // Apply effect on paladin
+        // paladinController.ReceiveSpecialEffect(resistanceBoost);
     }
 
     private void Start()

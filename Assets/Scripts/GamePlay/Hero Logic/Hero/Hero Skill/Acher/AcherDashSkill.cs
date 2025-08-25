@@ -15,9 +15,9 @@ public class AcherDashSkill : SkillBase
 
     // Special effect
     [SerializeField] private SO_SpecialEffect damageBoostData;
-    private DamageBoost damageBoost;
+    //private DamageBoost damageBoost;
     [SerializeField] private SO_SpecialEffect damageBoostUltData;
-    private DamageBoost damageBoostUlt;
+    //private DamageBoost damageBoostUlt;
 
     public float DashDistance
     {
@@ -37,21 +37,21 @@ public class AcherDashSkill : SkillBase
     protected override void InitializeSkillUniqueData()
     {
         acherController = GetComponentInParent<AcherControllerold>();
-        damageBoost = new DamageBoost(damageBoostData);
-        damageBoostUlt = new DamageBoost(damageBoostUltData);
+       // damageBoost = new DamageBoost(damageBoostData);
+       // damageBoostUlt = new DamageBoost(damageBoostUltData);
         acherController.OnHeroDash += SkillActivate;
     }
     public override void SkillActivate()
     {
         if (acherController.HyperInstict)
         {
-            damageBoostUlt.Refresh();
-            acherController.ReceiveSpecialEffect(damageBoostUlt);
+            // damageBoostUlt.Refresh();
+            // acherController.ReceiveSpecialEffect(damageBoostUlt);
         }
         else
         {
-            damageBoost.Refresh();
-            acherController.ReceiveSpecialEffect(damageBoost);
+            // damageBoost.Refresh();
+            // acherController.ReceiveSpecialEffect(damageBoost);
         }
     }
 

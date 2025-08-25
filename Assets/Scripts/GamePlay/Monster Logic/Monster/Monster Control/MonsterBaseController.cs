@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public abstract class MonsterBaseController : MonoBehaviour
+public abstract class MonsterBaseControllerOld : MonoBehaviour
 { 
     //
     // FIELDS
@@ -15,8 +15,8 @@ public abstract class MonsterBaseController : MonoBehaviour
     [SerializeField] protected SO_Monster monsterData;
 
     // MONSTER STATE
-    protected MonsterBehaviorState monsterBehaviorState;
-    protected MonsterHealthState monsterHealthState;
+    protected MonsterBehaviorStateOld monsterBehaviorState;
+    protected MonsterHealthStateOld monsterHealthState;
 
     // CHECKING FLAGS
     protected bool isPlayerInsideAttackHitBox;
@@ -32,7 +32,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     // MONSTER BEHAVIOR EVENTS
     public event Action OnMonsterVFXReset;
     public event Action OnMonsterAttack;
-    public event Action OnMonsterHurt;
+
     public event EventHandler<OnMonsterDeadEventArgs> OnMonsterDead;
 
     // MONSTER PHYSICS 
@@ -61,11 +61,11 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         get { return monsterStats; }
     }
-    public MonsterBehaviorState MonsterBehaviorState 
+    public MonsterBehaviorStateOld MonsterBehaviorState 
     { 
         get { return monsterBehaviorState; } 
     }
-    public MonsterHealthState MonsterHealthState
+    public MonsterHealthStateOld MonsterHealthState
     {
         get { return monsterHealthState; }
     }
@@ -80,8 +80,8 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBaseHitBox = GetComponentInChildren<MonsterBaseHitBox>();
 
         // Set monster state
-        monsterBehaviorState = MonsterBehaviorState.Move;
-        monsterHealthState = MonsterHealthState.Alive;
+        monsterBehaviorState = MonsterBehaviorStateOld.Move;
+        monsterHealthState = MonsterHealthStateOld.Alive;
 
         // Listen to HitBox events
         monsterBaseHitBox.OnPlayerEnterMonsterAttackRange += InRange;
@@ -106,8 +106,8 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange += OutOfRange;
 
         // Set monster state
-        monsterBehaviorState = MonsterBehaviorState.Move;
-        monsterHealthState = MonsterHealthState.Alive;
+        monsterBehaviorState = MonsterBehaviorStateOld.Move;
+        monsterHealthState = MonsterHealthStateOld.Alive;
 
         // 
         isReadyToAttack = true;
@@ -131,19 +131,18 @@ public abstract class MonsterBaseController : MonoBehaviour
     protected virtual void HandleMovement()
     {
         //Specify direction
-        Vector3 direction = (heroTarget.transform.position - this.transform.position).normalized;
+        Vector3 direction = (heroTarget.transform.position - transform.position).normalized;
         Vector3 moveDirVector = new Vector3(direction.x, 0, direction.z);
         //Rotation
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
 
-        if (monsterBehaviorState == MonsterBehaviorState.Move)
+        if (monsterBehaviorState == MonsterBehaviorStateOld.Move)
         {
             //Movement
             Vector3 targetPos = transform.position + moveDirVector * monsterStats.Speed * Time.deltaTime;
             monsterRigidbody.MovePosition(targetPos);
         }
-        
     }
 
     // Monster attack
@@ -155,7 +154,7 @@ public abstract class MonsterBaseController : MonoBehaviour
     // Monster get hurt
     public virtual void Hurt(float damageTaken)
     {
-        if (monsterHealthState == MonsterHealthState.Alive)
+        if (monsterHealthState == MonsterHealthStateOld.Alive)
         {
             // Pop up text
             GameObject text = TextPopUpObjectPool.Instance.GetObject(this.transform);
@@ -190,7 +189,7 @@ public abstract class MonsterBaseController : MonoBehaviour
         monsterBaseHitBox.OnPlayerExitMonsterAttackRange -= OutOfRange;
             
         // Set behavior state
-        monsterHealthState = MonsterHealthState.Dead;
+        monsterHealthState = MonsterHealthStateOld.Dead;
     }
     public virtual void DropExp()
     {
@@ -222,12 +221,12 @@ public abstract class MonsterBaseController : MonoBehaviour
     //
     protected void StandbyStateBreak()
     {
-        if (monsterBehaviorState == MonsterBehaviorState.Standby)
+        if (monsterBehaviorState == MonsterBehaviorStateOld.Standby)
         {
             standbyCountdown += Time.deltaTime;
             if (standbyCountdown >= 2)
             {
-                monsterBehaviorState = MonsterBehaviorState.Move;
+                monsterBehaviorState = MonsterBehaviorStateOld.Move;
                 standbyCountdown = 0f;
             }
         }
@@ -239,10 +238,10 @@ public abstract class MonsterBaseController : MonoBehaviour
 
     // SUPPORT FUNCTIONS
     // Special effect handling
-    public virtual void ReceiveSpecialEffect(SpecialEffectBaseOld specialEffect)
-    {
+    // public virtual void ReceiveSpecialEffect(SpecialEffectBaseOld specialEffect)
+    // {
 
-    }
+    // }
     public virtual void UpdateSpecialEffect()
     {
         if (monsterSpecialEffectSystem.IsDictionaryEmpty())
@@ -257,27 +256,9 @@ public abstract class MonsterBaseController : MonoBehaviour
     {
         OnMonsterAttack?.Invoke();
     }
-    protected void HandleOnMonsterHurt()
-    {
-        OnMonsterHurt?.Invoke();
-    }
     protected void HandleOnMonsterDead()
     {
         OnMonsterDead?.Invoke(this, new OnMonsterDeadEventArgs{ monsterBaseController = this});
-    }
-
-    // Control behavior state
-    public void ChangeToMoveState()
-    {
-        monsterBehaviorState = MonsterBehaviorState.Move;
-    }
-    public void ChangeToAttackState()
-    {
-        monsterBehaviorState = MonsterBehaviorState.Attack;
-    }
-    public void ChangeToIdleState()
-    {
-        monsterBehaviorState = MonsterBehaviorState.Standby;
     }
 
     //

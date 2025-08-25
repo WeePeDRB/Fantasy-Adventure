@@ -13,7 +13,7 @@ public class AcherUltimateSkill : SkillBase
 
     // Special effect
     [SerializeField] private SO_SpecialEffect speedBoostData;
-    private SpeedBoost speedBoost;
+    //private SpeedBoost speedBoost;
 
     [SerializeField] private ParticleSystem ultimateParticle;
 
@@ -24,16 +24,16 @@ public class AcherUltimateSkill : SkillBase
     protected override void InitializeSkillUniqueData()
     {
         acherController = GetComponentInParent<AcherControllerold>();
-        speedBoost = new SpeedBoost(speedBoostData);
+        //speedBoost = new SpeedBoost(speedBoostData);
         acherController.OnHeroUltimate += SkillActivate;
     }
     public override void SkillActivate()
     {
         // Refresh special effect time remain
-        speedBoost.Refresh();
+        // speedBoost.Refresh();
 
-        // Apply special effect to acher
-        acherController.ReceiveSpecialEffect(speedBoost);
+        // // Apply special effect to acher
+        // acherController.ReceiveSpecialEffect(speedBoost);
 
         //
         StartCoroutine(ParticleControl());

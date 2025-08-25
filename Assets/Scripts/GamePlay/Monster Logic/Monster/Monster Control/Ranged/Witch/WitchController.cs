@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WitchController : RangedMonsterController
+public class WitchController : RangedMonsterControllerOld
 {
     //
     // FUNCTIONS
@@ -64,7 +64,7 @@ public class WitchController : RangedMonsterController
     }
     private void FixedUpdate()
     {
-        if (monsterHealthState == MonsterHealthState.Alive) 
+        if (monsterHealthState == MonsterHealthStateOld.Alive) 
         {
             if (heroTarget != null)
             {

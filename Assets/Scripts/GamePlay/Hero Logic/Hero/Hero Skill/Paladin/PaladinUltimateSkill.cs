@@ -8,7 +8,7 @@ public class PaladinUltimateSkill : SkillBase
     //
 
     // Reference
-    private List<MonsterBaseController> monsterListInHitBox;
+    private List<MonsterBaseControllerOld> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
     private PaladinControllerOld paladinController;
     
@@ -18,8 +18,8 @@ public class PaladinUltimateSkill : SkillBase
     // Special effect
     [SerializeField] private SO_SpecialEffect resistanceBoostData;
     [SerializeField] private SO_SpecialEffect healthBoostData;
-    private ResistanceBoost resistanceBoost;
-    private HealthBoost healthBoost;
+   // private ResistanceBoost resistanceBoost;
+   // private HealthBoost healthBoost;
 
     //
     // FUNCTIONS
@@ -28,13 +28,13 @@ public class PaladinUltimateSkill : SkillBase
     protected override void InitializeSkillUniqueData()
     {
         // Initialize references
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<MonsterBaseControllerOld>();
         heroListInRange = new List<HeroBaseController>();
         paladinController = GetComponentInParent<PaladinControllerOld>();
 
         // Initialize special effect
-        resistanceBoost = new ResistanceBoost(resistanceBoostData);
-        healthBoost = new HealthBoost(healthBoostData);
+       // resistanceBoost = new ResistanceBoost(resistanceBoostData);
+       // healthBoost = new HealthBoost(healthBoostData);
 
     }
 
@@ -43,18 +43,18 @@ public class PaladinUltimateSkill : SkillBase
         ultimateParticle.Play();
 
         // Refresh special effect time remain
-        resistanceBoost.Refresh();
-        healthBoost.Refresh();
+        // resistanceBoost.Refresh();
+        // healthBoost.Refresh();
         
-        // Apply special effect to other hero
-        foreach (HeroBaseController character in heroListInRange)
-        {
-            character.ReceiveSpecialEffect(healthBoost);
-        }
+        // // Apply special effect to other hero
+        // foreach (HeroBaseController character in heroListInRange)
+        // {
+        //     character.ReceiveSpecialEffect(healthBoost);
+        // }
 
-        // Apply special effect to paladin
-        paladinController.ReceiveSpecialEffect(resistanceBoost);
-        paladinController.ReceiveSpecialEffect(healthBoost);
+        // // Apply special effect to paladin
+        // paladinController.ReceiveSpecialEffect(resistanceBoost);
+        // paladinController.ReceiveSpecialEffect(healthBoost);
     }
 
     //
@@ -62,7 +62,7 @@ public class PaladinUltimateSkill : SkillBase
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            monsterListInHitBox.Add(collider.gameObject.GetComponent<MonsterBaseController>());
+            monsterListInHitBox.Add(collider.gameObject.GetComponent<MonsterBaseControllerOld>());
         }
     }
 
@@ -70,7 +70,7 @@ public class PaladinUltimateSkill : SkillBase
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monster = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monster = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             monsterListInHitBox.Remove(monster);
         }  
     }

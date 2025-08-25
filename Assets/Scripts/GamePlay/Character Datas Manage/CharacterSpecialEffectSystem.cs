@@ -8,7 +8,7 @@ public abstract class CharacterSpecialEffectSystem
     // FIELDS
     //
 
-    protected Dictionary<string, SpecialEffectBaseOld> activeEffects = new Dictionary<string, SpecialEffectBaseOld>();
+    protected Dictionary<string, SpecialEffectBase> activeEffects = new Dictionary<string, SpecialEffectBase>();
 
     //
     // FUNCTIONS
@@ -16,7 +16,7 @@ public abstract class CharacterSpecialEffectSystem
 
     // CONTROL EFFECTS   
     // Receive effect function
-    public abstract void ReceiveEffect(SpecialEffectBaseOld effect);
+    public abstract void ReceiveEffect(SpecialEffectBase effect);
 
     // Update effect function
     public abstract void UpdateEffectsTime(float deltaTime);

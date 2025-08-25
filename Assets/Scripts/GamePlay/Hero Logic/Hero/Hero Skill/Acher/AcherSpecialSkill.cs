@@ -10,7 +10,7 @@ public class AcherSpecialSkill : SkillBase
     //
 
     // Reference
-    private List<MonsterBaseController> monsterListInHitBox;
+    private List<MonsterBaseControllerOld> monsterListInHitBox;
     private AcherControllerold acherController;
     private GameObject acherGameObject;
     private Vector3 worldPos;
@@ -26,7 +26,7 @@ public class AcherSpecialSkill : SkillBase
     protected override void InitializeSkillUniqueData()
     {
         //
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<MonsterBaseControllerOld>();
         acherController = GetComponentInParent<AcherControllerold>();
 
         //
@@ -47,7 +47,7 @@ public class AcherSpecialSkill : SkillBase
         float time = 0f;
         while (time <= 3)
         {
-            foreach (MonsterBaseController monster in monsterListInHitBox.ToList())
+            foreach (MonsterBaseControllerOld monster in monsterListInHitBox.ToList())
             {
                 if (monster != null)
                 {
@@ -101,7 +101,7 @@ public class AcherSpecialSkill : SkillBase
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             monsterListInHitBox.Add(monsterBaseController);
             monsterBaseController.OnMonsterDead += CheckIfMonsterDead;
         }
@@ -110,7 +110,7 @@ public class AcherSpecialSkill : SkillBase
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             monsterListInHitBox.Remove(monsterBaseController);
             monsterBaseController.OnMonsterDead -= CheckIfMonsterDead;
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // Monster state event args
 public class OnMonsterDeadEventArgs : EventArgs
 {
-    public MonsterBaseController monsterBaseController;
+    public MonsterBaseControllerOld monsterBaseController;
 }
 
 // Monster projectile event args

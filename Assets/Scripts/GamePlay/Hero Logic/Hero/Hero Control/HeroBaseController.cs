@@ -193,10 +193,10 @@ public abstract class HeroBaseController : MonoBehaviour
 
     // Special effect handling
     // Receive special effect
-    public virtual void ReceiveSpecialEffect(SpecialEffectBaseOld specialEffect)
-    {
-        heroSpecialEffectSystem.ReceiveEffect(specialEffect);
-    }
+    // public virtual void ReceiveSpecialEffect(SpecialEffectBaseOld specialEffect)
+    // {
+    //     heroSpecialEffectSystem.ReceiveEffect(specialEffect);
+    // }
     // Update special effect
     public virtual void UpdateSpecialEffect()
     {

@@ -89,6 +89,15 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""123d6d7e-4096-4e97-9f8b-01e74406235a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -223,6 +232,28 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""action"": ""UseItem3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57efbaaa-ff58-4fd3-902b-c8d8c552f868"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92ae27a7-d026-4fcd-a1e5-2f439067c763"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -238,6 +269,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         m_Player_UseItem1 = m_Player.FindAction("UseItem1", throwIfNotFound: true);
         m_Player_UseItem2 = m_Player.FindAction("UseItem2", throwIfNotFound: true);
         m_Player_UseItem3 = m_Player.FindAction("UseItem3", throwIfNotFound: true);
+        m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +338,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_UseItem1;
     private readonly InputAction m_Player_UseItem2;
     private readonly InputAction m_Player_UseItem3;
+    private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -317,6 +350,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         public InputAction @UseItem1 => m_Wrapper.m_Player_UseItem1;
         public InputAction @UseItem2 => m_Wrapper.m_Player_UseItem2;
         public InputAction @UseItem3 => m_Wrapper.m_Player_UseItem3;
+        public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -347,6 +381,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @UseItem3.started += instance.OnUseItem3;
             @UseItem3.performed += instance.OnUseItem3;
             @UseItem3.canceled += instance.OnUseItem3;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -372,6 +409,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @UseItem3.started -= instance.OnUseItem3;
             @UseItem3.performed -= instance.OnUseItem3;
             @UseItem3.canceled -= instance.OnUseItem3;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -398,5 +438,6 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         void OnUseItem1(InputAction.CallbackContext context);
         void OnUseItem2(InputAction.CallbackContext context);
         void OnUseItem3(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }

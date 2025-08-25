@@ -110,7 +110,7 @@ public class MonsterSpawnController : MonoBehaviour
         if (monsterGameObj != null)
         {
             // Reset monster data and state
-            MonsterBaseController monsterBaseController = monsterGameObj.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = monsterGameObj.GetComponent<MonsterBaseControllerOld>();
             // Get hero list (in multiplayer mode)
             monsterBaseController.GetHeroList(heroList);
             // Subscribe to monster dead event
@@ -130,7 +130,7 @@ public class MonsterSpawnController : MonoBehaviour
     private void OnMonsterDead(object sender, OnMonsterDeadEventArgs monsterDeadEventArgs)
     {
         // Take variable
-        MonsterBaseController monsterBaseController = monsterDeadEventArgs.monsterBaseController;
+        MonsterBaseControllerOld monsterBaseController = monsterDeadEventArgs.monsterBaseController;
         // Unsub the event
         monsterBaseController.OnMonsterDead -= OnMonsterDead;
         // Return the object to pool
@@ -142,7 +142,7 @@ public class MonsterSpawnController : MonoBehaviour
         MonsterKillCount();
     }
     // Return monster to object pool
-    private IEnumerator ReturnMonsterCoroutine(MonsterBaseController monsterBaseController)
+    private IEnumerator ReturnMonsterCoroutine(MonsterBaseControllerOld monsterBaseController)
     {
         yield return new WaitForSeconds(3.5f);
         if (monsterBaseController is ZombieController)

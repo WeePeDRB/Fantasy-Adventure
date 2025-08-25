@@ -205,7 +205,7 @@ public class PaladinControllerOld : HeroBaseController
             if (collision.gameObject.CompareTag("Wall")) heroMovementState = HeroMovementState.Moving;
             else if (collision.gameObject.CompareTag("Monster"))
             {
-                MonsterBaseController monsterBaseController = collision.gameObject.GetComponent<MonsterBaseController>();
+                MonsterBaseControllerOld monsterBaseController = collision.gameObject.GetComponent<MonsterBaseControllerOld>();
                 monsterBaseController.Hurt(20f);
             }
         }

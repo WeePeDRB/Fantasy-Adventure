@@ -6,11 +6,11 @@ using UnityEngine;
 public class HeroSpecialEffectController
 {
     // Dictionary containing special effects with the key as the ID and the value as the effect.
-    protected Dictionary<string, SpecialEffectBase> activeEffects;
-    protected List<SpecialEffectBase> effectToRemove;
+    private Dictionary<string, SpecialEffectBase> activeEffects;
+    private List<SpecialEffectBase> effectToRemove;
 
     // Hero controller reference
-    protected HeroController heroController;
+    private HeroController heroController;
 
     // Reeceive special effect event
     public event Action<SpecialEffect> OnReceiveSpecialEffect;
@@ -54,7 +54,7 @@ public class HeroSpecialEffectController
     public void UpdateEffect(float deltaTime)
     {
         // Effect to remove list: A list used to store effects that have expired and will be removed.  
-        // This prevents logic errors that may occur when removing effects directly from the dictionary.
+        // This prevents logic error that occurs when removing effects directly from the dictionary.
         effectToRemove.Clear();
 
         // Check current special effect
@@ -81,6 +81,12 @@ public class HeroSpecialEffectController
         // Remove the expired effect from dictionary
         foreach (SpecialEffectBase effect in effectToRemove)
         {
+            // Check if effect type is "Instant"
+            if (effect.SpEffectType == EffectType.Instant)
+            {
+                // If yes -> Remove the effect from hero
+                effect.RemoveEffectFromHero(heroController);
+            }
             RemoveEffect(effect.ID);
         }
     }

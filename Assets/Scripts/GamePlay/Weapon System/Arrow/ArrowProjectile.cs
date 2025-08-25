@@ -13,7 +13,7 @@ public class ArrowProjectile : Projectile
     // Custom class for event args
     public class OnProjectileHitEventArgs : EventArgs
     {
-        public MonsterBaseController monsterBaseController;
+        public MonsterBaseControllerOld monsterBaseController;
         public ArrowProjectile arrowProjectile;
     }
 
@@ -47,7 +47,7 @@ public class ArrowProjectile : Projectile
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            OnProjectileHit?.Invoke(this, new OnProjectileHitEventArgs { monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>(), arrowProjectile = this});
+            OnProjectileHit?.Invoke(this, new OnProjectileHitEventArgs { monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>(), arrowProjectile = this});
         }
     }
 

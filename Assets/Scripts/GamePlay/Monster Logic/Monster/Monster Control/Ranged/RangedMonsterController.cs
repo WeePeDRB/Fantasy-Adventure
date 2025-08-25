@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedMonsterController : MonsterBaseController
+public class RangedMonsterControllerOld : MonsterBaseControllerOld
 {
     //
     // FIELDS
@@ -21,30 +21,30 @@ public class RangedMonsterController : MonsterBaseController
     protected override void InRange()
     {
         isPlayerInsideAttackHitBox = true;
-        monsterBehaviorState = MonsterBehaviorState.Attack;
+        monsterBehaviorState = MonsterBehaviorStateOld.Attack;
     }
     protected override void OutOfRange()
     {
         isPlayerInsideAttackHitBox = false;
-        monsterBehaviorState = MonsterBehaviorState.Standby;
+        monsterBehaviorState = MonsterBehaviorStateOld.Standby;
     }
     protected override void BehaviorController()
     {
-        if (monsterHealthState == MonsterHealthState.Alive)
+        if (monsterHealthState == MonsterHealthStateOld.Alive)
         {
-            if (monsterBehaviorState == MonsterBehaviorState.Attack)
+            if (monsterBehaviorState == MonsterBehaviorStateOld.Attack)
             {
                 if (isReadyToAttack)
                 {
                     Attack();
                 }
             }
-            else if (monsterBehaviorState == MonsterBehaviorState.Standby)
+            else if (monsterBehaviorState == MonsterBehaviorStateOld.Standby)
             {
                 if (isAttacking) return;
                 else 
                 {
-                    monsterBehaviorState = MonsterBehaviorState.Move;
+                    monsterBehaviorState = MonsterBehaviorStateOld.Move;
                 }
             }
         }

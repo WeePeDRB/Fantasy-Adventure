@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EliteZombieController : MeleeMonsterController
+public class EliteZombieController : MeleeMonsterControllerOld
 {
     //
     // FUNCTIONS
@@ -34,7 +34,7 @@ public class EliteZombieController : MeleeMonsterController
     }
     private void FixedUpdate()
     {
-        if (monsterHealthState == MonsterHealthState.Alive) 
+        if (monsterHealthState == MonsterHealthStateOld.Alive) 
         {
             if (heroTarget != null)
             {

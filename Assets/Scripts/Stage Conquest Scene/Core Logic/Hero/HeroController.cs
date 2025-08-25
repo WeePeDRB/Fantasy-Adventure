@@ -39,7 +39,7 @@ public abstract class HeroController : MonoBehaviour
     }
 
     // Hero physics management
-    protected Rigidbody rigidBody;
+    protected Rigidbody rb;
     protected CapsuleCollider bodyCollider;
 
     // Hero state management
@@ -76,7 +76,32 @@ public abstract class HeroController : MonoBehaviour
     public event Action OnDead;
 
     // Initialize data
-    protected abstract void InitializeData();
+    protected void InitializeData()
+    {    
+        // Initialize stats controller
+        statsController = new HeroStatsController(statsData);
+
+        // Initialize weapon controller
+        weaponController = new HeroWeaponController();
+
+        // Initialize blessing controller
+        blessingController = new HeroBlessingController();
+
+        // Initialize special effect controller
+        specialEffectController = new HeroSpecialEffectController(this);
+
+        // Health state
+        healthState = HeroHealthState.Alive;
+
+        // Physics value
+        rb = GetComponent<Rigidbody>();
+        bodyCollider = GetComponent<CapsuleCollider>();
+
+        // Skill flags
+        canUseSkill1 = true;
+        canUseSkill2 = true;
+        canUseSkill3 = true;
+    }
 
     // Handle logic
 
@@ -100,7 +125,7 @@ public abstract class HeroController : MonoBehaviour
         else
         {
             GameObject weaponGO = Instantiate(weaponData.weaponPrefab, transform.position, transform.rotation, transform);
-            weaponController.ReceiveWeapon(weaponData,false, weaponGO);
+            weaponController.ReceiveWeapon(weaponData, false, weaponGO);
         }
     }
 
@@ -121,10 +146,6 @@ public abstract class HeroController : MonoBehaviour
     }
 
     // Hero special effect
-    protected void ReceiveSpecialEffect(SpecialEffectBase effect)
-    {
-        specialEffectController.ReceiveEffect(effect);
-    }
     protected void UpdateSpecialEffect()
     {
         if (specialEffectController.IsDictionaryEmpty()) return;
@@ -151,12 +172,12 @@ public abstract class HeroController : MonoBehaviour
     }
 
     // Hero damage-taking logic
-    protected virtual void Hurt(float damageTaken)
+    public virtual void Hurt(float damageTaken)
     {
         // Check if hero still alive
         if (healthState == HeroHealthState.Alive)
         {
-            float damageAfterResistance = 0;
+            float damageAfterResistance;
             float damageLeft = damageTaken;
 
             // Calculate damange taken  
@@ -206,7 +227,7 @@ public abstract class HeroController : MonoBehaviour
         OnDead?.Invoke();
 
         // Disable physics system
-        rigidBody.useGravity = false;
+        rb.useGravity = false;
         bodyCollider.enabled = false;
     }
 

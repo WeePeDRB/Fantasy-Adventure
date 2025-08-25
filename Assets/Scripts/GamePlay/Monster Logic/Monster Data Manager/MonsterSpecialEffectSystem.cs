@@ -7,19 +7,19 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
     //
     // FIELD
     //
-    public MonsterBaseController monster;
+    public MonsterBaseControllerOld monster;
 
     //
     // FUNCTION
     //
     
-    public override void ReceiveEffect(SpecialEffectBaseOld effect)
+    public override void ReceiveEffect(SpecialEffectBase effect)
     {
 
         // If an effect already exists in the dictionary, refresh its duration
         if (activeEffects.ContainsKey(effect.ID))
         {
-            activeEffects[effect.ID].Refresh();
+           // activeEffects[effect.ID].Refresh();
         }
         // Else add it to dictionary
         else
@@ -27,7 +27,7 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
             activeEffects.Add(effect.ID, effect);
             if (effect.SpEffectType == EffectType.Instant)
             {
-                effect.ApplyEffectOnMonster(monster);
+               // effect.ApplyEffectOnMonster(monster);
             }
         }
     }
@@ -42,12 +42,12 @@ public class MonsterSpecialEffectSystem : CharacterSpecialEffectSystem
             if (effect.SpEffectTimeRemaining <= 0)
             {
                 effectsToRemove.Add(effect.SpEffectName);
-                effect.RemoveEffectOnMonster(monster);
+               // effect.RemoveEffectOnMonster(monster);
             }
             else
             {
                 effect.UpdateTime(deltaTime);
-                effect.ApplyEffectOnMonster(monster);
+               // effect.ApplyEffectOnMonster(monster);
             }
         }
 

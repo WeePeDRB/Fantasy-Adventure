@@ -22,7 +22,7 @@ public static class GameUtility
         return heroList;
     }
     // Find closest hero
-    public static HeroBaseController FindClosestHero(List<HeroBaseController> heroList, MonsterBaseController monsterBaseController)
+    public static HeroBaseController FindClosestHero(List<HeroBaseController> heroList, MonsterBaseControllerOld monsterBaseController)
     {
         if (heroList == null || heroList.Count == 0) return null;
 

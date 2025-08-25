@@ -44,11 +44,19 @@ public class PaladinAnimator : HeroAnimator
         // Set animation
         animator.SetTrigger(SKILL1);
     }
+    protected void Skill1Activate()
+    {
+        skill1.SkillActivate();
+    }
 
     protected override void Skill2Animate()
     {
         // Set animation
         animator.SetTrigger(SKILL2);
+    }
+    protected void Skill2Activate()
+    {
+        skill2.SkillActivate();
     }
 
     protected override void Skill3Animate()
@@ -56,6 +64,11 @@ public class PaladinAnimator : HeroAnimator
         // Set animation
         animator.SetTrigger(SKILL3);
     }
+    protected void Skill3Activate()
+    {
+        skill3.SkillActivate();
+    }
+
     // Hero dead
     protected override void DeadAnimate()
     {

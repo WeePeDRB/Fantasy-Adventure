@@ -6,8 +6,8 @@ using UnityEngine;
 public class HeroStatsController
 {
     // Hero health: the hero health point 
-    protected float maxHealth; // Maximum health
-    protected float currentHealth; // Current health
+    private float maxHealth; // Maximum health
+    private float currentHealth; // Current health
     public float MaxHealth
     {
         get { return currentHealth; }
@@ -21,8 +21,8 @@ public class HeroStatsController
 
     // Hero amor: Armor absorbs incoming damage instead of Health.  
     // Once Armor reaches 0, any further damage will be deducted from Health.
-    protected float maxAmor;
-    protected float currentAmor;
+    private float maxAmor;
+    private float currentAmor;
     public float CurrentAmor
     {
         get { return currentAmor; }
@@ -37,8 +37,8 @@ public class HeroStatsController
 
 
     // Hero speed:determines how fast the hero can move across the map
-    protected float speedBase; // Hero base speed
-    protected float speedAddition; // This stat will be directly affected by external factors such as buffs, debuffs, blessings, etc.
+    private float speedBase; // Hero base speed
+    private float speedAddition; // This stat will be directly affected by external factors such as buffs, debuffs, blessings, etc.
     public float SpeedBase
     {
         get { return speedBase; }
@@ -60,8 +60,8 @@ public class HeroStatsController
     }
 
     // Hero resistance: reflects the amount of incoming damage that will be reduced when the Hero takes damage.
-    protected float resistanceBase;
-    protected float resistanceAddition;
+    private float resistanceBase;
+    private float resistanceAddition;
     public float ResistanceBase
     {
         get { return resistanceBase; }
@@ -82,8 +82,8 @@ public class HeroStatsController
     }
 
     // Hero damage amplifier: the amount of additional damage applied when the Hero lands a critical hit.
-    protected float damageAmplifierBase;
-    protected float damageAmplifierAddition;
+    private float damageAmplifierBase;
+    private float damageAmplifierAddition;
     public float DamageAmplifierBase
     {
         get { return damageAmplifierBase; }
@@ -104,8 +104,8 @@ public class HeroStatsController
     }
 
     // Hero cooldown reduction: this stat reflects the amount of time reduced from the Hero's skill cooldowns.
-    protected float cooldownReductionBase;
-    protected float cooldownReductionAddition;
+    private float cooldownReductionBase;
+    private float cooldownReductionAddition;
     public float CooldownReductionBase
     {
         get { return cooldownReductionBase; }
@@ -125,8 +125,8 @@ public class HeroStatsController
 
     // Hero attack speed: determines how quickly the Hero can perform attacks with their weapons. 
     // A higher value reduces the delay between consecutive attacks.
-    protected float attackSpeedBase;
-    protected float attackSpeedAddition;
+    private float attackSpeedBase;
+    private float attackSpeedAddition;
     public float AttackSpeedBase
     {
         get { return attackSpeedBase; }
@@ -147,8 +147,8 @@ public class HeroStatsController
     }
 
     // Hero critical chance: the probability that the Hero's attack will deal critical damage.
-    protected float criticalChanceBase;
-    protected float criticalChanceAddition;
+    private float criticalChanceBase;
+    private float criticalChanceAddition;
     public float CriticalChanceBase
     {
         get { return criticalChanceBase; }
@@ -169,15 +169,15 @@ public class HeroStatsController
     }
 
     // Hero level
-    protected int level;
+    private int level;
     public int Level
     {
         get { return level; }
         set { level = Math.Max(1, value); }
     }
 
-    protected int exp;
-    protected int expRequire;
+    private int exp;
+    private int expRequire;
     public int Exp
     {
         get { return exp; }

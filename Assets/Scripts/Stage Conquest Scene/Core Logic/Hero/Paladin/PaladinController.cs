@@ -13,34 +13,6 @@ public class PaladinController : HeroController
     // Skill 3
     public event Action OnUseSkill3;
 
-    // Initialize data
-    protected override void InitializeData()
-    {
-        // Initialize hero stats controller
-        statsController = new HeroStatsController(statsData);
-
-        // Initialize hero weapon controller
-        weaponController = new HeroWeaponController();
-
-        // Initialize hero blessing controller
-        blessingController = new HeroBlessingController();
-
-        // Initialize hero special effect controller
-        specialEffectController = new HeroSpecialEffectController(this);
-
-        // Hero health state
-        healthState = HeroHealthState.Alive;
-
-        // Physics value
-        rigidBody = GetComponent<Rigidbody>();
-        bodyCollider = GetComponent<CapsuleCollider>();
-
-        // Skill flags
-        canUseSkill1 = true;
-        canUseSkill2 = true;
-        canUseSkill3 = true;
-    }
-
     // Paladin movement handle
     protected override void HandleMovement()
     {

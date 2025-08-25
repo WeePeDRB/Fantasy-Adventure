@@ -9,8 +9,8 @@ public class ArrowController :  WeaponBaseOld
     //
 
     // List contain monsters that get hit
-    private List<MonsterBaseController> monsterListInHitBox;
-    private MonsterBaseController closestMonster;
+    private List<MonsterBaseControllerOld> monsterListInHitBox;
+    private MonsterBaseControllerOld closestMonster;
 
     [SerializeField] private Transform spawnPosition;
     //
@@ -24,7 +24,7 @@ public class ArrowController :  WeaponBaseOld
 
     // WEAPON ATTACK LOGIC
     // Deal damage to monster
-    public void ApplyDamage(MonsterBaseController monsterBaseController)
+    public void ApplyDamage(MonsterBaseControllerOld monsterBaseController)
     {
         float bonusDamage = 0f;
         if (heroBaseController.HeroStats.DamageAmplifier != 0)
@@ -73,7 +73,7 @@ public class ArrowController :  WeaponBaseOld
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             
             // Add monster to hit box list
             monsterListInHitBox.Add(monsterBaseController);
@@ -86,7 +86,7 @@ public class ArrowController :  WeaponBaseOld
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
 
             // Remove monster from hit box list
             monsterListInHitBox.Remove(monsterBaseController);
@@ -110,14 +110,14 @@ public class ArrowController :  WeaponBaseOld
     }
 
     // Find closest monster
-    public MonsterBaseController FindClosestMonster(List<MonsterBaseController> monsterList)
+    public MonsterBaseControllerOld FindClosestMonster(List<MonsterBaseControllerOld> monsterList)
     {
         if (monsterList == null || monsterList.Count == 0)
         {
             return null;
         }
 
-        MonsterBaseController closestMonster = null;
+        MonsterBaseControllerOld closestMonster = null;
         float closestDistance = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
 
@@ -138,7 +138,7 @@ public class ArrowController :  WeaponBaseOld
 
     private void Start()
     {
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<MonsterBaseControllerOld>();
         heroBaseController = GetComponentInParent<HeroBaseController>();
         StartCoroutine(AttackCoroutine());
                 Debug.Log("Weapon start");

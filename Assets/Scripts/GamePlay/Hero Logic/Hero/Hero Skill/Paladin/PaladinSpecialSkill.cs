@@ -8,7 +8,7 @@ public class PaladinSpecialSkill : SkillBase
     //
 
     // Reference
-    private List<MonsterBaseController> monsterListInHitBox;
+    private List<MonsterBaseControllerOld> monsterListInHitBox;
     private List<HeroBaseController> heroListInRange;
     private PaladinControllerOld paladinController;
 
@@ -17,7 +17,7 @@ public class PaladinSpecialSkill : SkillBase
 
     // Special effect
     [SerializeField] private SO_SpecialEffect damageBoostData;
-    private DamageBoost damageBoost;
+    //private DamageBoost damageBoost;
 
     //
     // FUNCTIONS
@@ -26,29 +26,29 @@ public class PaladinSpecialSkill : SkillBase
     protected override void InitializeSkillUniqueData()
     {
         // Initialize references
-        monsterListInHitBox = new List<MonsterBaseController>();
+        monsterListInHitBox = new List<MonsterBaseControllerOld>();
         heroListInRange = new List<HeroBaseController>();
         paladinController = GetComponentInParent<PaladinControllerOld>();
 
         // Initialize special effect
-        damageBoost = new DamageBoost(damageBoostData);
+       // damageBoost = new DamageBoost(damageBoostData);
     }
 
     public override void SkillActivate()
     {
         // Refresh special effect time remain
-        damageBoost.Refresh();
+       // damageBoost.Refesh();
 
         //
-        foreach (MonsterBaseController monster in monsterListInHitBox)
+        foreach (MonsterBaseControllerOld monster in monsterListInHitBox)
         {
             monster.Hurt(monster.MonsterStats.Health * 30 / 100);
         }
         foreach (HeroBaseController hero in heroListInRange)
         {
-            hero.ReceiveSpecialEffect(damageBoost);
+            //hero.ReceiveSpecialEffect(damageBoost);
         }
-        paladinController.ReceiveSpecialEffect(damageBoost);
+        //paladinController.ReceiveSpecialEffect(damageBoost);
         skillParticle.Play();
     }
 
@@ -69,7 +69,7 @@ public class PaladinSpecialSkill : SkillBase
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             monsterListInHitBox.Add(monsterBaseController);
             monsterBaseController.OnMonsterDead += CheckIfMonsterDead;
         }
@@ -78,7 +78,7 @@ public class PaladinSpecialSkill : SkillBase
     {
         if (collider.gameObject.CompareTag("Monster"))
         {
-            MonsterBaseController monsterBaseController = collider.gameObject.GetComponent<MonsterBaseController>();
+            MonsterBaseControllerOld monsterBaseController = collider.gameObject.GetComponent<MonsterBaseControllerOld>();
             monsterListInHitBox.Remove(monsterBaseController);
             monsterBaseController.OnMonsterDead -= CheckIfMonsterDead;
         }  

@@ -10,7 +10,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
 
     // References
     protected Animator animator;
-    protected MonsterBaseController monsterBaseController;
+    protected MonsterBaseControllerOld monsterBaseController;
 
     // Animator parameters
     protected const string IS_MOVING = "IsMoving";
@@ -19,7 +19,7 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
 
     
     // Behavior state
-    protected MonsterBehaviorState monsterBehaviorState;
+    protected MonsterBehaviorStateOld monsterBehaviorState;
 
     //
     // FUNCTIONS
@@ -29,14 +29,14 @@ public abstract class MonsterBaseAnimator : MonoBehaviour
     protected virtual void InstantiateAnimator()
     {
         animator = GetComponent<Animator>();
-        monsterBaseController = GetComponentInParent<MonsterBaseController>();
+        monsterBaseController = GetComponentInParent<MonsterBaseControllerOld>();
     }
 
     // HANDLING MONSTER ANIMATION
     // Monster movement
     protected virtual void Move()
     {
-        if ( monsterBehaviorState == MonsterBehaviorState.Move )
+        if ( monsterBehaviorState == MonsterBehaviorStateOld.Move )
         {
             animator.SetBool(IS_MOVING, true);
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeMonsterController : MonsterBaseController
+public class MeleeMonsterControllerOld : MonsterBaseControllerOld
 {
     //
     // FUNCTIONS
@@ -21,21 +21,21 @@ public class MeleeMonsterController : MonsterBaseController
     }
     protected override void BehaviorController()
     {
-        if (monsterHealthState == MonsterHealthState.Alive)
+        if (monsterHealthState == MonsterHealthStateOld.Alive)
         {
-            if (monsterBehaviorState == MonsterBehaviorState.Attack)
+            if (monsterBehaviorState == MonsterBehaviorStateOld.Attack)
                 {
                     if (isReadyToAttack)
                     {
                         Attack();
                     }
                 }
-                else if (monsterBehaviorState == MonsterBehaviorState.Standby)
+                else if (monsterBehaviorState == MonsterBehaviorStateOld.Standby)
                 {
                     if (isAttacking) return;
                     else 
                     {
-                        monsterBehaviorState = MonsterBehaviorState.Move;
+                        monsterBehaviorState = MonsterBehaviorStateOld.Move;
                     }
                 }
         }
@@ -67,7 +67,7 @@ public class MeleeMonsterController : MonsterBaseController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            monsterBehaviorState = MonsterBehaviorState.Attack;
+            monsterBehaviorState = MonsterBehaviorStateOld.Attack;
         }
     }
 
@@ -75,7 +75,7 @@ public class MeleeMonsterController : MonsterBaseController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            monsterBehaviorState = MonsterBehaviorState.Standby;
+            monsterBehaviorState = MonsterBehaviorStateOld.Standby;
         }
     }
 

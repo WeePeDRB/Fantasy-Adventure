@@ -7,7 +7,7 @@ using UnityEngine.VFX;
 public class MonsterBaseVFXController : MonoBehaviour
 {
     // State checking 
-    protected MonsterBaseController controller;
+    protected MonsterBaseControllerOld controller;
 
     // Dissolve VFX 
     protected float dissolveTime;
@@ -17,7 +17,7 @@ public class MonsterBaseVFXController : MonoBehaviour
 
     protected void GetData()
     {
-        controller = GetComponentInParent<MonsterBaseController>();
+        controller = GetComponentInParent<MonsterBaseControllerOld>();
         skinMesh = GetComponentInChildren<SkinnedMeshRenderer>();
         materials = skinMesh.materials;
         dissolveTime = 4f;
