@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WitchController : RangedMonsterControllerOld
+public class WitchControllerOld : RangedMonsterControllerOld
 {
     //
     // FUNCTIONS
@@ -24,7 +24,7 @@ public class WitchController : RangedMonsterControllerOld
     // Witch attack
     public void GetDataFromPorjectile(object sender, OnWitchProjectileHitEventArgs onProjectileHitEventArgs)
     {
-        WitchProjectile witchProjectile = onProjectileHitEventArgs.witchProjectile;
+        WitchProjectileOld witchProjectile = onProjectileHitEventArgs.witchProjectile;
         witchProjectile.OnProjectileHit -= GetDataFromPorjectile;
         witchProjectile.OnProjectileReturn -= GetDataFromPorjectile;
         if (onProjectileHitEventArgs.heroBaseController != null) ApplyDamage(onProjectileHitEventArgs.heroBaseController);
@@ -33,7 +33,7 @@ public class WitchController : RangedMonsterControllerOld
     {
         // Get projectile from pool
         GameObject projectileObject = WitchProjectileObjectPool.Instance.GetObject(projectileSpawn);
-        WitchProjectile witchProjectile = projectileObject.GetComponent<WitchProjectile>();
+        WitchProjectileOld witchProjectile = projectileObject.GetComponent<WitchProjectileOld>();
         
         // Initialize for projectile
         witchProjectile.InitializeProjectile(9, heroTarget.transform.position,7);

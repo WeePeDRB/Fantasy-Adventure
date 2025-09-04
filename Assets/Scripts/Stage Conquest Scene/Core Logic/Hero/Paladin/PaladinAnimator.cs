@@ -70,7 +70,7 @@ public class PaladinAnimator : HeroAnimator
     }
 
     // Hero dead
-    protected override void DeadAnimate()
+    protected override void DeadAnimate(HeroDead heroDead)
     {
         // Set animation
         animator.SetTrigger(IS_DEAD);

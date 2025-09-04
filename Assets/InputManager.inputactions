@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "DashSkill",
+                    "name": "Skill1",
                     "type": "Button",
                     "id": "8366ec1c-2c07-4fbc-a1c6-1a27ccd2efce",
                     "expectedControlType": "Button",
@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SpecialSkill",
+                    "name": "Skill2",
                     "type": "Button",
                     "id": "c0638e24-44f4-448e-907c-8575ca380f3c",
                     "expectedControlType": "Button",
@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UltimateSkill",
+                    "name": "Skill3",
                     "type": "Button",
                     "id": "168c7323-2c1b-4366-8043-61e09bcec3b4",
                     "expectedControlType": "Button",
@@ -152,7 +152,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "DashSkill",
+                    "action": "Skill1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -163,7 +163,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpecialSkill",
+                    "action": "Skill2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -174,7 +174,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UltimateSkill",
+                    "action": "Skill3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

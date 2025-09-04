@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,8 +29,12 @@ public abstract class HeroSkill : MonoBehaviour
     protected List<SkillCategory> skillCategory;
     public List<SkillCategory> SkillCategory { get { return skillCategory; } }
 
+    // VFX event
+    public event Action playSkillVFX;
+    public event Action stopSkillVFX;
+
     // Initialize data
-    public void InitializeData(SO_HeroSkill heroSkill)
+    protected virtual void InitializeData(SO_HeroSkill heroSkill)
     {
         if (heroSkill == null)
         {
@@ -49,4 +53,14 @@ public abstract class HeroSkill : MonoBehaviour
 
     // Activate skill
     public abstract void SkillActivate();
+
+    //
+    public void PlaySkillVFX()
+    {
+        playSkillVFX?.Invoke();
+    }
+    public void StopSkillVFX()
+    {
+        stopSkillVFX?.Invoke();
+    }
 }

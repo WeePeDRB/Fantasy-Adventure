@@ -7,7 +7,7 @@ public class WitchAnimator : MonsterBaseAnimator
     //
     // FIELDS
     //
-    private WitchController witchController;
+    private WitchControllerOld witchController;
 
     //
     // FUNCTIONS
@@ -22,7 +22,7 @@ public class WitchAnimator : MonsterBaseAnimator
     private void Start()
     {
         //
-        witchController = GetComponentInParent<WitchController>();
+        witchController = GetComponentInParent<WitchControllerOld>();
 
         // 
         InstantiateAnimator();

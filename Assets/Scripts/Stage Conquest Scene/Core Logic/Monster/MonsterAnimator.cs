@@ -14,4 +14,14 @@ public abstract class MonsterAnimator : MonoBehaviour
 
     // Initialize data
     protected abstract void InitializeData();
+
+    // Animation handle
+    // Monster movement
+    protected abstract void MoveAnimate();
+    // Monster attack
+    protected abstract void AttackAnimate();
+    protected abstract void AttackRecover();
+    // Monster dead
+    protected abstract void DeadAnimate(MonsterDead monsterDead);
+    protected abstract void DropItem();
 }

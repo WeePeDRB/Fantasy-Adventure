@@ -176,6 +176,17 @@ public abstract class MonsterController : MonoBehaviour
     }
 
     // Monster hurt & dead
+
+    // This function is to check if the damage source (hero) is still alive (or in normal condition)
+    // and if so, applies its effect on the monster.
+    public void TakeDamage(float damageTake, HeroController heroController)
+    {
+        if (heroController.HealthState == HeroHealthState.Alive)
+        {
+            Hurt(damageTake);
+        }
+    }
+
     protected void Hurt(float damageTaken)
     {
         if (healthState == MonsterHealthState.Alive)

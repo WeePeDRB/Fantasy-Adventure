@@ -11,7 +11,7 @@ public class UI_HealthBar : MonoBehaviour
     //
 
     // Reference
-    private HeroBaseController heroController;
+    private HeroController heroController;
 
     // UI COMPONENTS
     [SerializeField] private Slider slider;
@@ -26,27 +26,27 @@ public class UI_HealthBar : MonoBehaviour
     private void InstantiateHealthBar()
     {
         // Take hero controller reference
-        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
+        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroController>();
 
         // Set value to slider
-        slider.maxValue = heroController.HeroStats.MaxHealth;
-        slider.value = heroController.HeroStats.Health;
+        slider.maxValue = heroController.StatsController.MaxHealth;
+        slider.value = heroController.StatsController.CurrentHealth;
 
         // Set value to text
-        maxHealthText.text = ((int)heroController.HeroStats.MaxHealth).ToString();
-        currentHealthText.text = ((int)heroController.HeroStats.Health).ToString();
+        maxHealthText.text = ((int)heroController.StatsController.MaxHealth).ToString();
+        currentHealthText.text = ((int)heroController.StatsController.CurrentHealth).ToString();
     }
 
     // Update health
     private void SetHealth()
     {
         // Set value to slider
-        slider.maxValue = heroController.HeroStats.MaxHealth;
-        slider.value = heroController.HeroStats.Health;
+        slider.maxValue = heroController.StatsController.MaxHealth;
+        slider.value = heroController.StatsController.CurrentHealth;
 
         // Set value to text
-        maxHealthText.text = ((int)heroController.HeroStats.MaxHealth).ToString();
-        currentHealthText.text = ((int)heroController.HeroStats.Health).ToString();
+        maxHealthText.text = ((int)heroController.StatsController.MaxHealth).ToString();
+        currentHealthText.text = ((int)heroController.StatsController.CurrentHealth).ToString();
     }
 
     private void Start()

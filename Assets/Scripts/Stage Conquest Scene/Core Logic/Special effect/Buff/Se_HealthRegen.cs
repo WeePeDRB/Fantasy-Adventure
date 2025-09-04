@@ -1,9 +1,6 @@
 [System.Serializable]
 public class Se_HealthRegen : SpecialEffectBase
 {
-    //
-    // CONSTRUCTOR
-    //
     public Se_HealthRegen(SO_SpecialEffect specialEffectData)
     {
         id = specialEffectData.id;
@@ -17,9 +14,24 @@ public class Se_HealthRegen : SpecialEffectBase
         spEffectTarget = specialEffectData.spEffectTarget;
     }
 
-    //
-    // FUNCTIONS
-    //
+    public Se_HealthRegen(SpecialEffectBase specialEffect)
+    {
+        id = specialEffect.ID;
+        spEffectName = specialEffect.SpEffectName;
+        spEffectDescription = specialEffect.SpEffectDescription;
+        spEffectDuration = specialEffect.SpEffectDuration;
+        spEffectTimeRemaining = specialEffect.SpEffectTimeRemaining;
+        spEffectValue = specialEffect.SpEffectValue;
+        spEffectSprite = specialEffect.SpEffectSprite;
+        spEffectType = specialEffect.SpEffectType;
+        spEffectTarget = specialEffect.SpEffectTarget;
+    }
+
+    // Clone
+    public override SpecialEffectBase Clone(SpecialEffectBase specialEffect)
+    {
+        return new Se_HealthRegen(specialEffect);
+    }
 
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroController heroController)

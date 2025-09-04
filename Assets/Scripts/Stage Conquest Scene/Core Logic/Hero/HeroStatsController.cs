@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class HeroStatsController
 {
     // Hero health: the hero health point 
@@ -55,7 +56,7 @@ public class HeroStatsController
         get
         {
             float value = speedBase + speedAddition;
-            return Mathf.Max(value, 1f, 10f);
+            return Mathf.Clamp(value, 1f, 10f);
         }
     }
 
@@ -92,7 +93,7 @@ public class HeroStatsController
     public float DamageAmplifierAddition
     {
         get { return damageAmplifierAddition; }
-        set { damageAmplifierAddition = Mathf.Max(value, -100f, 100f); }
+        set { damageAmplifierAddition = Mathf.Clamp(value, -100f, 100f); }
     }
     public float DamageAmplifier
     {

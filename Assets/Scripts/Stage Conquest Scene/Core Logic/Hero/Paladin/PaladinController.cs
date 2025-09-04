@@ -114,7 +114,7 @@ public class PaladinController : HeroController
         GameInput.OnDashAction += HandleSkill1;
         GameInput.OnSpecialAction += HandleSkill2;
         GameInput.OnUltimateAction += HandleSkill3;
-        
+
     }
 
     private void Update()

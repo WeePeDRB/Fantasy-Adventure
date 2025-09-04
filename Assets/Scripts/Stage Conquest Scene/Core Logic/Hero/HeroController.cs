@@ -73,7 +73,7 @@ public abstract class HeroController : MonoBehaviour
     public event Action OnLevelUp;
 
     // Hero dead
-    public event Action OnDead;
+    public event Action<HeroDead> OnDead;
 
     // Initialize data
     protected void InitializeData()
@@ -164,7 +164,7 @@ public abstract class HeroController : MonoBehaviour
 
             // Hero movement
             transform.position += moveDirVector * statsController.Speed * Time.deltaTime;
-
+            
             // Hero rotate
             float rotateSpeed = 10f;
             transform.forward = Vector3.Slerp(transform.forward, moveDirVector, Time.deltaTime * rotateSpeed);
@@ -224,7 +224,7 @@ public abstract class HeroController : MonoBehaviour
         healthState = HeroHealthState.Dead;
 
         // Invoke death event to execute related logic
-        OnDead?.Invoke();
+        OnDead?.Invoke(new HeroDead { heroController = this });
 
         // Disable physics system
         rb.useGravity = false;
@@ -289,7 +289,6 @@ public abstract class HeroController : MonoBehaviour
     {
         // Reset behavior state
         behaviorState = HeroBehaviorState.Moving;
-        Debug.Log("return moving");
     }
     
     // Hero level handle    

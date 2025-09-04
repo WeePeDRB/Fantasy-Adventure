@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameInput : MonoBehaviour
     {
         public string weaponMovementEventArgs;
     }
+
+
 
     // Refernce to the input actions assets
     private static InputManager inputManager;   // Input actions reference
@@ -65,9 +68,9 @@ public class GameInput : MonoBehaviour
         inputManager.Player.Enable();
 
         // Assign function for event
-        inputManager.Player.DashSkill.performed += DashSkill_Performed;
-        inputManager.Player.SpecialSkill.performed += SpecialSkill_Performed;
-        inputManager.Player.UltimateSkill.performed += UltimateSkill_Performed;
+        inputManager.Player.Skill1.performed += DashSkill_Performed;
+        inputManager.Player.Skill2.performed += SpecialSkill_Performed;
+        inputManager.Player.Skill3.performed += UltimateSkill_Performed;
 
         inputManager.Player.PauseGame.performed += PauseGame_Performed;
     }

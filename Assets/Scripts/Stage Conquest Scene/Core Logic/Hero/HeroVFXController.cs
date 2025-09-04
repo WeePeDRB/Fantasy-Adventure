@@ -6,18 +6,37 @@ using UnityEngine;
 public abstract class HeroVFXController : MonoBehaviour
 {
     // Controller reference
-    protected CharacterController characterController;
+    protected HeroController heroController;
 
     // Dissolve VFX
-    protected float dissolveTime;
     protected SkinnedMeshRenderer skinnedMesh;
     protected Material[] materials;
+    protected float dissolveTime;
 
     // Initialize data
-    protected abstract void InitializeVFXController();
+    protected virtual void InitializeData()
+    {
+        // Hero controller 
+        heroController = GetComponentInParent<HeroController>();
 
-    // Dissolve VFX control
-    protected abstract void StartDissolveVFX();
+        // Skin meshes
+        skinnedMesh = GetComponentInChildren<SkinnedMeshRenderer>();
+
+        // Mesh material
+        materials = skinnedMesh.materials;
+
+        // Dissolve time
+        dissolveTime = 6f;
+        
+        // Event subscribe
+        heroController.OnDead += HeroDead;
+    }
+
+    // Dead VFX 
+    protected void HeroDead(HeroDead heroDead)
+    {
+        StartCoroutine(DissolveVFXCoroutine());
+    }
     protected IEnumerator DissolveVFXCoroutine()
     {
         float elapsedTime = 0;

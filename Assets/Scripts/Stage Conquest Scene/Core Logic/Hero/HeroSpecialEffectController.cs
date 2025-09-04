@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
+[Serializable]
 public class HeroSpecialEffectController
 {
     // Dictionary containing special effects with the key as the ID and the value as the effect.
@@ -26,27 +28,30 @@ public class HeroSpecialEffectController
     // Receive special effect
     public void ReceiveEffect(SpecialEffectBase effect)
     {
+        Debug.Log("Receive special effect : " + effect.SpEffectName);
         // Check if special effect exist in dictionary
         // If yes -> Refresh special effect duration
         if (IsSpecialEffectExist(effect))
         {
             activeEffects[effect.ID].Refesh();
         }
-        // If no -> Add effect to dictionary 
+        // If no -> Create a new effect instance and add to dictionary
         else
         {
+            SpecialEffectBase effectInstance = effect.Clone(effect);
+
             // Adding special effect
-            activeEffects.Add(effect.ID, effect);
+            activeEffects.Add(effectInstance.ID, effectInstance);
 
             // Check the type of special effect and apply it to the Hero.
             // If it is an Instant effect, it will be applied immediately (triggered at the moment it is received).
-            if (effect.SpEffectType == EffectType.Instant)
+            if (effectInstance.SpEffectType == EffectType.Instant)
             {
-                effect.ApplyEffectOnHero(heroController);
+                effectInstance.ApplyEffectOnHero(heroController);
             }
 
             // Trigger the receive special effect event 
-            OnReceiveSpecialEffect?.Invoke(new SpecialEffect { specialEffect = effect });
+            OnReceiveSpecialEffect?.Invoke(new SpecialEffect { specialEffect = effectInstance });
         }
     }
 

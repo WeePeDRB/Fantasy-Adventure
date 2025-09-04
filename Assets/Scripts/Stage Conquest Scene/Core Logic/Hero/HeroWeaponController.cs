@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroWeaponController 
+[Serializable]
+public class HeroWeaponController
 {
     // Dictionary containing weapon with the key as the ID and the value as the weapon.
     private Dictionary<string, WeaponBase> activeWeapons;
@@ -28,7 +29,7 @@ public class HeroWeaponController
     }
 
     // Receive weapon
-    public void ReceiveWeapon(SO_Weapon weaponData, bool checkingWeapon ,GameObject weaponPre = null)
+    public void ReceiveWeapon(SO_Weapon weaponData, bool checkingWeapon, GameObject weaponPre = null)
     {
         // Check if the weapon exists in the dictionary.
         // If yes -> Run the logic to level up a weapon.

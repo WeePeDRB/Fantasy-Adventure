@@ -25,8 +25,8 @@ public class ArrowProjectile : Projectile
         // Set variables
         this.returnTime = returnTime;
         projectileSpeed = speed;
-        heroPosition = new Vector3 (position.x, 1f, position.z);
-        moveDirection = (heroPosition - transform.position).normalized;
+        targetPosition = new Vector3 (position.x, 1f, position.z);
+        moveDirection = (targetPosition - transform.position).normalized;
 
         // 
         transform.rotation = Quaternion.LookRotation(-moveDirection);      // 

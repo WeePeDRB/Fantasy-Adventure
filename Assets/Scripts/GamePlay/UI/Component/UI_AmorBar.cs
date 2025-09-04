@@ -11,7 +11,7 @@ public class UI_AmorBar : MonoBehaviour
     //
 
     // Reference
-    private HeroBaseController heroController;
+    private HeroController heroController;
 
     // UI COMPONENTS
     [SerializeField] private Slider slider;
@@ -25,27 +25,27 @@ public class UI_AmorBar : MonoBehaviour
     private void InstantiateAmorBar()
     {
         // Take hero controller reference
-        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
+        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroController>();
 
         // Set value to slider
-        slider.maxValue = heroController.HeroStats.MaxAmor;
-        slider.value = heroController.HeroStats.Amor;
+        slider.maxValue = heroController.StatsController.MaxAmor;
+        slider.value = heroController.StatsController.CurrentAmor;
 
         // Set value to text
-        maxAmorText.text = ((int)heroController.HeroStats.MaxAmor).ToString();
-        currentAmorText.text = ((int)heroController.HeroStats.Amor).ToString();
+        maxAmorText.text = ((int)heroController.StatsController.MaxAmor).ToString();
+        currentAmorText.text = ((int)heroController.StatsController.CurrentAmor).ToString();
     }
 
     // Update amor
     private void SetAmor()
     {
         // Set value to slider
-        slider.maxValue = heroController.HeroStats.MaxAmor;
-        slider.value = heroController.HeroStats.Amor;
+        slider.maxValue = heroController.StatsController.MaxAmor;
+        slider.value = heroController.StatsController.CurrentAmor;
 
         // Set value to text
-        maxAmorText.text = ((int)heroController.HeroStats.MaxAmor).ToString();
-        currentAmorText.text = ((int)heroController.HeroStats.Amor).ToString();
+        maxAmorText.text = ((int)heroController.StatsController.MaxAmor).ToString();
+        currentAmorText.text = ((int)heroController.StatsController.CurrentAmor).ToString();
     }
 
     private void Start()

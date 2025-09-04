@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Se_SpeedBoost : SpecialEffectBase
 {
-    //
-    // CONSTRUCTOR
-    //
-
     public Se_SpeedBoost(SO_SpecialEffect specialEffectData)
     {
         id = specialEffectData.id;
@@ -21,16 +17,32 @@ public class Se_SpeedBoost : SpecialEffectBase
         spEffectTarget = specialEffectData.spEffectTarget;
     }
 
-    //
-    // FUNCTIONS
-    //
+    public Se_SpeedBoost(SpecialEffectBase specialEffect)
+    {
+        id = specialEffect.ID;
+        spEffectName = specialEffect.SpEffectName;
+        spEffectDescription = specialEffect.SpEffectDescription;
+        spEffectDuration = specialEffect.SpEffectDuration;
+        spEffectTimeRemaining = specialEffect.SpEffectTimeRemaining;
+        spEffectValue = specialEffect.SpEffectValue;
+        spEffectSprite = specialEffect.SpEffectSprite;
+        spEffectType = specialEffect.SpEffectType;
+        spEffectTarget = specialEffect.SpEffectTarget;
+    }
 
-    // 
+    // Clone
+    public override SpecialEffectBase Clone(SpecialEffectBase specialEffect)
+    {
+        return new Se_SpeedBoost(specialEffect);
+    }
+
+    // Apply effect to hero
     public override void ApplyEffectOnHero(HeroController heroController)
     {
         float speedBoost = heroController.StatsController.Speed * spEffectValue / 100;
         heroController.StatsController.SpeedAddition += speedBoost;
     }
+    // Remove effect to hero
     public override void RemoveEffectFromHero(HeroController heroController)
     {
         float speedBoost = heroController.StatsController.Speed * spEffectValue / 100;

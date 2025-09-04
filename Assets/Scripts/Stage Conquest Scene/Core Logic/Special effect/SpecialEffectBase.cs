@@ -32,6 +32,9 @@ public abstract class SpecialEffectBase
     protected EffectTarget spEffectTarget;
     public EffectTarget SpEffectTarget { get { return spEffectTarget; } }
 
+    // Clone 
+    public abstract SpecialEffectBase Clone(SpecialEffectBase specialEffect);
+
     // Time update
     public void UpdateTime(float deltaTime)
     {

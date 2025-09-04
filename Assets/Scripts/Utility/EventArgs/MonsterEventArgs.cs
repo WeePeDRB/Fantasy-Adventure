@@ -11,6 +11,6 @@ public class OnMonsterDeadEventArgs : EventArgs
 public class OnWitchProjectileHitEventArgs : EventArgs
 {
     public HeroBaseController heroBaseController;
-    public WitchProjectile witchProjectile;
+    public WitchProjectileOld witchProjectile;
 }
 

@@ -37,7 +37,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""DashSkill"",
+                    ""name"": ""Skill1"",
                     ""type"": ""Button"",
                     ""id"": ""8366ec1c-2c07-4fbc-a1c6-1a27ccd2efce"",
                     ""expectedControlType"": ""Button"",
@@ -46,7 +46,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SpecialSkill"",
+                    ""name"": ""Skill2"",
                     ""type"": ""Button"",
                     ""id"": ""c0638e24-44f4-448e-907c-8575ca380f3c"",
                     ""expectedControlType"": ""Button"",
@@ -55,7 +55,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""UltimateSkill"",
+                    ""name"": ""Skill3"",
                     ""type"": ""Button"",
                     ""id"": ""168c7323-2c1b-4366-8043-61e09bcec3b4"",
                     ""expectedControlType"": ""Button"",
@@ -174,7 +174,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""DashSkill"",
+                    ""action"": ""Skill1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -185,7 +185,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SpecialSkill"",
+                    ""action"": ""Skill2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -196,7 +196,7 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""UltimateSkill"",
+                    ""action"": ""Skill3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -263,9 +263,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_DashSkill = m_Player.FindAction("DashSkill", throwIfNotFound: true);
-        m_Player_SpecialSkill = m_Player.FindAction("SpecialSkill", throwIfNotFound: true);
-        m_Player_UltimateSkill = m_Player.FindAction("UltimateSkill", throwIfNotFound: true);
+        m_Player_Skill1 = m_Player.FindAction("Skill1", throwIfNotFound: true);
+        m_Player_Skill2 = m_Player.FindAction("Skill2", throwIfNotFound: true);
+        m_Player_Skill3 = m_Player.FindAction("Skill3", throwIfNotFound: true);
         m_Player_UseItem1 = m_Player.FindAction("UseItem1", throwIfNotFound: true);
         m_Player_UseItem2 = m_Player.FindAction("UseItem2", throwIfNotFound: true);
         m_Player_UseItem3 = m_Player.FindAction("UseItem3", throwIfNotFound: true);
@@ -332,9 +332,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_DashSkill;
-    private readonly InputAction m_Player_SpecialSkill;
-    private readonly InputAction m_Player_UltimateSkill;
+    private readonly InputAction m_Player_Skill1;
+    private readonly InputAction m_Player_Skill2;
+    private readonly InputAction m_Player_Skill3;
     private readonly InputAction m_Player_UseItem1;
     private readonly InputAction m_Player_UseItem2;
     private readonly InputAction m_Player_UseItem3;
@@ -344,9 +344,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
         private @InputManager m_Wrapper;
         public PlayerActions(@InputManager wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @DashSkill => m_Wrapper.m_Player_DashSkill;
-        public InputAction @SpecialSkill => m_Wrapper.m_Player_SpecialSkill;
-        public InputAction @UltimateSkill => m_Wrapper.m_Player_UltimateSkill;
+        public InputAction @Skill1 => m_Wrapper.m_Player_Skill1;
+        public InputAction @Skill2 => m_Wrapper.m_Player_Skill2;
+        public InputAction @Skill3 => m_Wrapper.m_Player_Skill3;
         public InputAction @UseItem1 => m_Wrapper.m_Player_UseItem1;
         public InputAction @UseItem2 => m_Wrapper.m_Player_UseItem2;
         public InputAction @UseItem3 => m_Wrapper.m_Player_UseItem3;
@@ -363,15 +363,15 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @DashSkill.started += instance.OnDashSkill;
-            @DashSkill.performed += instance.OnDashSkill;
-            @DashSkill.canceled += instance.OnDashSkill;
-            @SpecialSkill.started += instance.OnSpecialSkill;
-            @SpecialSkill.performed += instance.OnSpecialSkill;
-            @SpecialSkill.canceled += instance.OnSpecialSkill;
-            @UltimateSkill.started += instance.OnUltimateSkill;
-            @UltimateSkill.performed += instance.OnUltimateSkill;
-            @UltimateSkill.canceled += instance.OnUltimateSkill;
+            @Skill1.started += instance.OnSkill1;
+            @Skill1.performed += instance.OnSkill1;
+            @Skill1.canceled += instance.OnSkill1;
+            @Skill2.started += instance.OnSkill2;
+            @Skill2.performed += instance.OnSkill2;
+            @Skill2.canceled += instance.OnSkill2;
+            @Skill3.started += instance.OnSkill3;
+            @Skill3.performed += instance.OnSkill3;
+            @Skill3.canceled += instance.OnSkill3;
             @UseItem1.started += instance.OnUseItem1;
             @UseItem1.performed += instance.OnUseItem1;
             @UseItem1.canceled += instance.OnUseItem1;
@@ -391,15 +391,15 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @DashSkill.started -= instance.OnDashSkill;
-            @DashSkill.performed -= instance.OnDashSkill;
-            @DashSkill.canceled -= instance.OnDashSkill;
-            @SpecialSkill.started -= instance.OnSpecialSkill;
-            @SpecialSkill.performed -= instance.OnSpecialSkill;
-            @SpecialSkill.canceled -= instance.OnSpecialSkill;
-            @UltimateSkill.started -= instance.OnUltimateSkill;
-            @UltimateSkill.performed -= instance.OnUltimateSkill;
-            @UltimateSkill.canceled -= instance.OnUltimateSkill;
+            @Skill1.started -= instance.OnSkill1;
+            @Skill1.performed -= instance.OnSkill1;
+            @Skill1.canceled -= instance.OnSkill1;
+            @Skill2.started -= instance.OnSkill2;
+            @Skill2.performed -= instance.OnSkill2;
+            @Skill2.canceled -= instance.OnSkill2;
+            @Skill3.started -= instance.OnSkill3;
+            @Skill3.performed -= instance.OnSkill3;
+            @Skill3.canceled -= instance.OnSkill3;
             @UseItem1.started -= instance.OnUseItem1;
             @UseItem1.performed -= instance.OnUseItem1;
             @UseItem1.canceled -= instance.OnUseItem1;
@@ -432,9 +432,9 @@ public partial class @InputManager: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnDashSkill(InputAction.CallbackContext context);
-        void OnSpecialSkill(InputAction.CallbackContext context);
-        void OnUltimateSkill(InputAction.CallbackContext context);
+        void OnSkill1(InputAction.CallbackContext context);
+        void OnSkill2(InputAction.CallbackContext context);
+        void OnSkill3(InputAction.CallbackContext context);
         void OnUseItem1(InputAction.CallbackContext context);
         void OnUseItem2(InputAction.CallbackContext context);
         void OnUseItem3(InputAction.CallbackContext context);

@@ -10,7 +10,7 @@ public class MeleeMonsterController : MonsterController
         // Check if hero is still in hit box incase hero escapse in last moment
         if (isHeroInHitBox)
         {
-            heroController.Hurt(statsController.AttackDamage);
+            heroTarget.Hurt(statsController.AttackDamage);
         }
     }
 

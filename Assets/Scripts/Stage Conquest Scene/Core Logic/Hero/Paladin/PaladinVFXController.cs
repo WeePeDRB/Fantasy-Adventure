@@ -4,30 +4,49 @@ using UnityEngine;
 
 public class PaladinVFXController : HeroVFXController
 {
-    protected override void InitializeVFXController()
+    // Skill particles
+    // Skill 1
+    [SerializeField] private ParticleSystem skill1Particle;
+    [SerializeField] private HeroSkill skill1;
+    // Skill 2
+    [SerializeField] private ParticleSystem skill2Particle;
+    [SerializeField] private HeroSkill skill2;
+    // Skill 3
+    [SerializeField] private ParticleSystem skill3Particle;
+    [SerializeField] private HeroSkill skill3;
+
+    // Initialize data
+    protected override void InitializeData()
     {
-        throw new System.NotImplementedException();
+        base.InitializeData();
+
+        // Event subscribe
+        skill1.playSkillVFX += PlaySkill1Particle;
+        skill2.playSkillVFX += PlaySkill2Particle;
+        skill3.playSkillVFX += PlaySkill3Particle;
     }
 
+    // VFX control
+    private void PlaySkill1Particle()
+    {
+        skill1Particle.Play();
+    }
+    private void PlaySkill2Particle()
+    {
+        skill2Particle.Play();
+    }
+    private void PlaySkill3Particle()
+    {
+        skill3Particle.Play();
+    }
     protected override void ResetDissolveVFXValue()
     {
         throw new System.NotImplementedException();
     }
 
-    protected override void StartDissolveVFX()
+    // 
+    private void Start()
     {
-        throw new System.NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        InitializeData();
     }
 }

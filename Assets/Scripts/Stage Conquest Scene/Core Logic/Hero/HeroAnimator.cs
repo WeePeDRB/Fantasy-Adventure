@@ -25,7 +25,7 @@ public abstract class HeroAnimator : MonoBehaviour
     protected abstract void Skill2Animate();
     protected abstract void Skill3Animate();
     // Hero dead
-    protected abstract void DeadAnimate();
+    protected abstract void DeadAnimate(HeroDead heroDead);
     protected abstract void ReturnNormalState();
 
 }

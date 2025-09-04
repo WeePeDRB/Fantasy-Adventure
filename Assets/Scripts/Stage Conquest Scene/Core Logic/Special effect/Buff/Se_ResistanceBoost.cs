@@ -1,9 +1,9 @@
+using System;
+using UnityEngine;
+
 [System.Serializable]
 public class Se_ResistanceBoost : SpecialEffectBase
 {
-    //
-    // CONTRUCTOR
-    //
     public Se_ResistanceBoost(SO_SpecialEffect specialEffectData)
     {
         id = specialEffectData.id;
@@ -17,9 +17,24 @@ public class Se_ResistanceBoost : SpecialEffectBase
         spEffectTarget = specialEffectData.spEffectTarget;
     }
 
-    //
-    // FUNCTIONS
-    // 
+    public Se_ResistanceBoost(SpecialEffectBase specialEffect)
+    {
+        id = specialEffect.ID;
+        spEffectName = specialEffect.SpEffectName;
+        spEffectDescription = specialEffect.SpEffectDescription;
+        spEffectDuration = specialEffect.SpEffectDuration;
+        spEffectTimeRemaining = specialEffect.SpEffectTimeRemaining;
+        spEffectValue = specialEffect.SpEffectValue;
+        spEffectSprite = specialEffect.SpEffectSprite;
+        spEffectType = specialEffect.SpEffectType;
+        spEffectTarget = specialEffect.SpEffectTarget;
+    }
+
+    // Clone
+    public override SpecialEffectBase Clone(SpecialEffectBase specialEffect)
+    {
+        return new Se_ResistanceBoost(specialEffect);
+    }
 
     // Apply effect to hero
     public override void ApplyEffectOnHero(HeroController heroController)

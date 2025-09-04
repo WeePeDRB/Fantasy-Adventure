@@ -11,7 +11,7 @@ public class UI_LevelBar : MonoBehaviour
     //
 
     // Reference
-    private HeroBaseController heroController;
+    private HeroController heroController;
 
     // UI COMPONENTS
     [SerializeField] private Slider slider;
@@ -24,7 +24,7 @@ public class UI_LevelBar : MonoBehaviour
     private void InstantiateLevelBar()
     {
         // Take hero controller reference
-        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroBaseController>();
+        heroController = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroController>();
         
         // Set value to slider
         UpdateExpStatus();
@@ -32,14 +32,14 @@ public class UI_LevelBar : MonoBehaviour
 
     private void UpdateExpStatus()
     {
-        slider.maxValue = heroController.HeroStats.ExpRequire;
-        slider.value = heroController.HeroStats.Exp;
+        slider.maxValue = heroController.StatsController.ExpRequire;
+        slider.value = heroController.StatsController.Exp;
     }
 
     // Update health
     private void SetExp()
     {
-        slider.value = heroController.HeroStats.Exp;
+        slider.value = heroController.StatsController.Exp;
     }
 
     private void Start()

@@ -153,7 +153,7 @@ public class MonsterSpawnController : MonoBehaviour
         {
             EliteZombieObjectPool.Instance.ReturnObject(monsterBaseController.gameObject);
         }
-        else if (monsterBaseController is WitchController)
+        else if (monsterBaseController is WitchControllerOld)
         {
             WitchObjectPool.Instance.ReturnObject(monsterBaseController.gameObject);
         }

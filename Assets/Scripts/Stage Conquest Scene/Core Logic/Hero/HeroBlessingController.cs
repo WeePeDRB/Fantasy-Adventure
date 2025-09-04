@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class HeroBlessingController
 {
     // Dictionary containing blessing with the key as the ID and the value as the blessing.

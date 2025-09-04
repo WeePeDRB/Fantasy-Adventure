@@ -34,6 +34,14 @@ public class SpecialEffect : EventArgs
 }
 
 //
+// Hero controller event args
+//
+public class HeroDead : EventArgs
+{
+    public HeroController heroController;
+}
+
+//
 // Monster controller event args
 //
 public class MonsterDead : EventArgs
@@ -47,4 +55,13 @@ public class MonsterDead : EventArgs
 public class HerosInRange : EventArgs
 {
     public List<HeroController> herosInRange;
+}
+
+//
+// Range monster projectile 
+//
+public class MonsterProjectile : EventArgs
+{
+    public HeroController heroController;
+    public Projectile monsterProjectile;
 }
